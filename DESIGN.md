@@ -14,13 +14,15 @@ Deploy a static personal site to GitHub Pages so it is publicly accessible via U
 
 ## Current State
 
-- Single `index.html` file containing all markup, inline CSS, and base64-encoded images
+- Multi-page static site served directly by GitHub Pages
+- Shared stylesheet at `css/style.css`
+- Shared image assets in `img/`
 - Git repo on GitHub, branch `main`
-- No deployment pipeline exists
+- No framework, build step, backend, or deployment pipeline
 
 ## Target State
 
-- Site live at `https://<username>.github.io/hung-blog/`
+- Site live at `https://hungngdoan.github.io/hung-blog/`
 - Any push to `main` auto-deploys within 2 minutes
 - Zero ongoing cost
 
@@ -38,7 +40,7 @@ GitHub Pages (static file serving)
 Public URL --> index.html
 ```
 
-There is no build step. GitHub Pages serves files directly from the repo root.
+There is no build step. GitHub Pages serves HTML, CSS, and image files directly from the repo root.
 
 ---
 
@@ -50,11 +52,16 @@ Ensure repo root contains:
 
 ```
 hung-blog/
-  index.html    <-- the site
+  index.html        <-- home/posts page
+  about.html        <-- bio, stats, quests, personal context
+  links.html        <-- links and blogroll
+  guestbook.html    <-- decorative guestbook
+  css/style.css     <-- shared stylesheet
+  img/              <-- shared image assets
   README.md     <-- project description
 ```
 
-No other files are required.
+No build config is required.
 
 ### Step 2: Push to main
 
@@ -72,7 +79,7 @@ Merge `daily-updates` branch into `main` (or push directly to `main`).
 ### Step 4: Verify deployment
 
 - Wait 1-2 minutes
-- Visit `https://<username>.github.io/hung-blog/`
+- Visit `https://hungngdoan.github.io/hung-blog/`
 - Confirm the page renders correctly
 
 ---
@@ -81,11 +88,12 @@ Merge `daily-updates` branch into `main` (or push directly to `main`).
 
 To update the site:
 
-1. Edit `index.html` locally (add posts, images, new sections)
-2. Push to `main`
-3. Site updates automatically in ~60 seconds
+1. Edit the relevant HTML page
+2. Edit `css/style.css` for shared visual changes
+3. Push to `main`
+4. Site updates automatically in ~60 seconds
 
-No build step. No CI. No templating. Just edit HTML and push.
+No build step. No CI. No templating. Just edit static files and push.
 
 ---
 
@@ -96,7 +104,7 @@ No build step. No CI. No templating. Just edit HTML and push.
 | Writing 3+ posts/week gets tedious | Migrate to Hugo or 11ty |
 | Want a custom domain (e.g. hung.dev) | Buy domain, configure CNAME in repo settings |
 | Want comments/guestbook to work | Add Giscus (GitHub-backed comments) |
-| Site grows beyond one file | Split into multiple HTML pages, link between them |
+| Shared page shell gets tedious | Consider Hugo, 11ty, or a tiny static include workflow |
 
 ---
 
