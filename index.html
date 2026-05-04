@@ -1,168 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>~*~ Hung's Journal ~*~</title>
-<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-<div class="marquee-bar">
-  <div class="marquee-content">
-    ★ ★ ★ Welcome to my little corner of the internet ~ feel free to look around ~ sign the guestbook before you leave! ★ ★ ★ updated 02.24.2026 ★ ★ ★ best viewed at 1024x768 ★ ★ ★
-  </div>
-</div>
-
-<div class="page-wrapper">
-  <header class="site-header">
-    <h1 class="site-title">~*~ Hung's Journal ~*~</h1>
-    <p class="site-subtitle">thoughts ・ code ・ life</p>
-    <div class="banner-wrap">
-      <img src="img/banner.jpg" alt="banner">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>~*~ Hung's Journal ~*~</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div class="marquee-bar">
+      <div class="marquee-content">
+        ★ ★ ★ Welcome to my little corner of the internet ~ feel free to look
+        around ~ sign the guestbook before you leave! ★ ★ ★ updated 05.03.2026 ★
+        ★ ★ best viewed at 1024x768 ★ ★ ★
+      </div>
     </div>
-  </header>
 
-  <nav class="nav-bar">
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#entries">Entries</a>
-    <a href="#links">Links</a>
-    <a href="#guestbook">Guestbook</a>
-  </nav>
+    <div class="page-wrapper">
+      <header class="site-header">
+        <h1 class="site-title">~*~ Hung's Journal ~*~</h1>
+        <p class="site-subtitle">thoughts &#12539; code &#12539; life</p>
+        <div class="banner-wrap">
+          <img src="img/banner.jpg" alt="Pixel art banner with characters sitting in grass">
+        </div>
+      </header>
 
-  <div class="content-grid">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-box avatar-box">
-        <img src="img/avatar.jpg" alt="avatar">
-        <div class="avatar-name">Hung</div>
-        <div class="avatar-status">● online</div>
+      <nav class="nav-bar">
+        <a href="index.html" class="active">Home</a>
+        <a href="about.html">About</a>
+        <a href="entries.html">Entries</a>
+        <a href="links.html">Links</a>
+        <a href="guestbook.html">Guestbook</a>
+      </nav>
+
+      <div class="content-grid">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <div class="sidebar-box avatar-box">
+            <img src="img/avatar-zero-final.png" alt="Zero sword-down sprite avatar of Hung on a black background">
+            <div class="avatar-name">Hung</div>
+            <div class="avatar-status"><span class="status-dot">&#9679;</span>online</div>
+          </div>
+
+          <div class="sidebar-box music-box">
+            <h3><span class="blink">&#9835;</span> Now Playing</h3>
+            <div class="music-title-wrap">
+              <div class="music-title-scroll">Unravel - TK from Ling Tosite Sigure</div>
+            </div>
+            <div class="music-controls">
+              <button class="music-btn" id="musicPlayBtn" aria-label="Play" title="Play">&#9654;</button>
+              <div class="music-progress-wrap" id="musicProgressWrap">
+                <div class="music-progress-bar" id="musicProgressBar"></div>
+              </div>
+              <span class="music-time" id="musicTime">0:00</span>
+            </div>
+            <div class="music-volume">
+              <span class="music-vol-icon" id="musicVolIcon" title="Mute">&#9834;</span>
+              <input type="range" class="music-vol-slider" id="musicVolSlider" min="0" max="100" value="70" aria-label="Volume">
+            </div>
+            <audio id="musicAudio" preload="metadata" src="music/song-of-the-day.mp3"></audio>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Stats</h3>
+            <div class="stat-line">Posts: <span>42</span></div>
+            <div class="stat-line">Mood: <span>&#9749; Caffeinated</span></div>
+            <div class="stat-line">Listening: <span>Lo-fi beats</span></div>
+            <div class="stat-line">Reading: <span>CLRS</span></div>
+          </div>
+
+          <div class="sidebar-box sidebar-links-box">
+            <h3>Hangouts</h3>
+            <ul class="links-list">
+              <li><a href="https://github.com/hungngdoan" class="sidebar-ext-link" data-icon="git">GitHub</a></li>
+              <li><a href="https://world.gomobi.vn/" class="sidebar-ext-link" data-icon="game">Teamobi World</a></li>
+              <li><a href="https://pro54qh1.forumvi.com/forum" class="sidebar-ext-link" data-icon="forum">Inspired Forum</a></li>
+            </ul>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Quests</h3>
+            <div class="stat-line">&#9989; 225lb Bench</div>
+            <div class="stat-line">&#9989; 245lb Deadlift</div>
+            <div class="stat-line">&#9989; MSAI UT Austin</div>
+            <div class="stat-line">&#11036; Build AI system</div>
+            <div class="stat-line">&#11036; <a href="https://www.learnpytorch.io/">Finish Learn PyTorch</a></div>
+          </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-content">
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">April 2026 Update</span>
+              <span class="post-date">Apr 2026</span>
+            </div>
+            <div class="post-body">
+              <p>
+                Big news: I was admitted to the
+                <a href="https://cdso.utexas.edu/msai">UT Austin MSAI program</a>.
+                Excited to keep building toward deeper AI systems and bring that
+                momentum back into the projects here.
+              </p>
+            </div>
+            <div class="post-mood">Mood: Grateful | Quest: Accepted</div>
+            <div class="post-tags">
+              <span class="tag">#gradschool</span>
+              <span class="tag">#ai</span>
+              <span class="tag">#utaustin</span>
+            </div>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">New PRs & New Goals</span>
+              <span class="post-date">Feb 24, 2026</span>
+            </div>
+            <div class="post-body">
+              <p>
+                Hit some solid numbers this week. Tricep pushdowns at 80lbs x 5,
+                lat pulldowns 175lbs x 3. The cut is going well — intermittent
+                fasting is actually making me feel sharper in the morning
+                sessions.
+              </p>
+              <p>
+                Also been grinding on the OMSCS application. Three years of
+                production experience building cloud ETL pipelines should count
+                for something, right? GCP, BigQuery, Dataflow... let's see if
+                Georgia Tech agrees. 🤞
+              </p>
+            </div>
+            <div class="post-mood">♫ Mood: Determined | ☁ Weather: Cold</div>
+            <div class="post-tags">
+              <span class="tag">#fitness</span>
+              <span class="tag">#gradschool</span>
+              <span class="tag">#gains</span>
+            </div>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">Late Night Coding Thoughts</span>
+              <span class="post-date">Feb 20, 2026</span>
+            </div>
+            <div class="post-body">
+              <p>
+                There's something about writing code at 2am with lo-fi playing
+                in the background. The world is quiet, the terminal is humming,
+                and Spring Boot is actually cooperating for once.
+              </p>
+              <p>
+                Working on a new data pipeline at work. Processing terabytes
+                through BigQuery and Dataflow — it's like watching water flow
+                through a river system. Each transformation is a bend in the
+                stream. Maybe I need sleep...
+              </p>
+            </div>
+            <div class="post-mood">♫ Mood: Dreamy | 🌙 Time: 2:14 AM</div>
+            <div class="post-tags">
+              <span class="tag">#coding</span>
+              <span class="tag">#latenight</span>
+              <span class="tag">#gcp</span>
+            </div>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">On Patience & Plans</span>
+              <span class="post-date">Feb 15, 2026</span>
+            </div>
+            <div class="post-body">
+              <p>
+                There's a Vietnamese saying — "mưu sự tại nhân, thành sự tại
+                thiên." We plan, but heaven decides. Doesn't mean we stop
+                planning though. It means we plan harder, and hold the results
+                loosely.
+              </p>
+              <p>
+                90-day cut plan is on track. The OMSCS apps are submitted. The
+                code keeps shipping. Now we wait, and we keep grinding.
+              </p>
+            </div>
+            <div class="post-mood">
+              ♫ Mood: Reflective | 📖 Reading: Philosophy
+            </div>
+            <div class="post-tags">
+              <span class="tag">#philosophy</span>
+              <span class="tag">#vietnamese</span>
+              <span class="tag">#patience</span>
+            </div>
+          </article>
+
+          <section class="guestbook-area">
+            <h3>&#128221; Guestbook</h3>
+            <div class="gb-entry">
+              <span class="gb-name">xX_CoderGirl_Xx</span>
+              <span class="gb-date">02/22/2026</span>
+              <p>cool blog!! love the pixel art banner~ keep posting! (&#9685;&#8255;&#9685;&#10047;)</p>
+            </div>
+            <div class="gb-entry">
+              <span class="gb-name">dark_samurai99</span>
+              <span class="gb-date">02/18/2026</span>
+              <p>nice site bro. good taste &#128076;</p>
+            </div>
+            <p class="gb-view-all"><a href="guestbook.html">&gt;&gt; view all &amp; sign the guestbook</a></p>
+          </section>
+        </main>
       </div>
 
-      <div class="sidebar-box">
-        <h3>Stats</h3>
-        <div class="stat-line">Posts: <span>42</span></div>
-        <div class="stat-line">Mood: <span>☕ Caffeinated</span></div>
-        <div class="stat-line">Listening: <span>Lo-fi beats</span></div>
-        <div class="stat-line">Reading: <span>CLRS</span></div>
-      </div>
-
-      <div class="sidebar-box">
-        <h3>Links</h3>
-        <ul class="links-list">
-          <li><a href="#">GitHub</a></li>
-          <li><a href="#">Last.fm</a></li>
-          <li><a href="#">Anime List</a></li>
-          <li><a href="#">Link Me!</a></li>
-        </ul>
-      </div>
-
-      <div class="sidebar-box">
-        <h3>Quests</h3>
-        <div class="stat-line">✅ 225lb Bench</div>
-        <div class="stat-line">✅ 245lb Deadlift</div>
-        <div class="stat-line">⬜ OMSCS Admission</div>
-        <div class="stat-line">⬜ Build AI system</div>
-      </div>
-    </aside>
-
-    <!-- Main -->
-    <main class="main-content">
-      <article class="blog-post">
-        <div class="post-header">
-          <span class="post-title">New PRs & New Goals</span>
-          <span class="post-date">Feb 24, 2026</span>
-        </div>
-        <div class="post-body">
-          <p>Hit some solid numbers this week. Tricep pushdowns at 80lbs x 5, lat pulldowns 175lbs x 3. The cut is going well — intermittent fasting is actually making me feel sharper in the morning sessions.</p>
-          <p>Also been grinding on the OMSCS application. Three years of production experience building cloud ETL pipelines should count for something, right? GCP, BigQuery, Dataflow... let's see if Georgia Tech agrees. 🤞</p>
-        </div>
-        <div class="post-mood">♫ Mood: Determined | ☁ Weather: Cold</div>
-        <div class="post-tags">
-          <span class="tag">#fitness</span>
-          <span class="tag">#gradschool</span>
-          <span class="tag">#gains</span>
-        </div>
-      </article>
-
-      <article class="blog-post">
-        <div class="post-header">
-          <span class="post-title">Late Night Coding Thoughts</span>
-          <span class="post-date">Feb 20, 2026</span>
-        </div>
-        <div class="post-body">
-          <p>There's something about writing code at 2am with lo-fi playing in the background. The world is quiet, the terminal is humming, and Spring Boot is actually cooperating for once.</p>
-          <p>Working on a new data pipeline at work. Processing terabytes through BigQuery and Dataflow — it's like watching water flow through a river system. Each transformation is a bend in the stream. Maybe I need sleep...</p>
-        </div>
-        <div class="post-mood">♫ Mood: Dreamy | 🌙 Time: 2:14 AM</div>
-        <div class="post-tags">
-          <span class="tag">#coding</span>
-          <span class="tag">#latenight</span>
-          <span class="tag">#gcp</span>
-        </div>
-      </article>
-
-      <article class="blog-post">
-        <div class="post-header">
-          <span class="post-title">On Patience & Plans</span>
-          <span class="post-date">Feb 15, 2026</span>
-        </div>
-        <div class="post-body">
-          <p>There's a Vietnamese saying — "mưu sự tại nhân, thành sự tại thiên." We plan, but heaven decides. Doesn't mean we stop planning though. It means we plan harder, and hold the results loosely.</p>
-          <p>90-day cut plan is on track. The OMSCS apps are submitted. The code keeps shipping. Now we wait, and we keep grinding.</p>
-        </div>
-        <div class="post-mood">♫ Mood: Reflective | 📖 Reading: Philosophy</div>
-        <div class="post-tags">
-          <span class="tag">#philosophy</span>
-          <span class="tag">#vietnamese</span>
-          <span class="tag">#patience</span>
-        </div>
-      </article>
-
-      <!-- Guestbook -->
-      <section class="guestbook-area" id="guestbook">
-        <h3>📝 Guestbook</h3>
-        <div class="gb-entry">
-          <span class="gb-name">xX_CoderGirl_Xx</span> <span class="gb-date">02/22/2026</span>
-          <p>cool blog!! love the pixel art banner~ keep posting! (◕‿◕✿)</p>
-        </div>
-        <div class="gb-entry">
-          <span class="gb-name">dark_samurai99</span> <span class="gb-date">02/18/2026</span>
-          <p>nice site bro. is that kikyo in the sidebar? good taste 👌</p>
-        </div>
-        <div class="gb-entry">
-          <span class="gb-name">anon_visitor</span> <span class="gb-date">02/10/2026</span>
-          <p>found this through a webring. bookmarked! your philosophy posts are deep</p>
-        </div>
-        <div class="gb-form">
-          <input type="text" placeholder="Your name...">
-          <textarea placeholder="Leave a message~"></textarea>
-          <button>✎ Sign Guestbook</button>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-icons">✦ ✧ ✦ ✧ ✦ ✧ ✦</div>
-    <p>made with ♥ and too much caffeine</p>
-    <p style="margin-top: 4px;">
-      visitors: 
-      <span class="counter-digits">
-        <span class="counter-digit">0</span>
-        <span class="counter-digit">0</span>
-        <span class="counter-digit">4</span>
-        <span class="counter-digit">8</span>
-        <span class="counter-digit">7</span>
-        <span class="counter-digit">2</span>
-      </span>
-    </p>
-    <p style="margin-top: 6px; font-size: 12px;">© 2026 Hung | <span class="blink">best viewed in 1024x768</span></p>
-  </footer>
-</div>
-
-</body>
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="footer-icons">&#10022; &#10023; &#10022; &#10023; &#10022; &#10023; &#10022;</div>
+        <p>made with &#9829; and too much caffeine</p>
+        <p class="footer-counter">
+          visitors:
+          <span class="counter-digits">
+            <span class="counter-digit">0</span>
+            <span class="counter-digit">0</span>
+            <span class="counter-digit">4</span>
+            <span class="counter-digit">8</span>
+            <span class="counter-digit">7</span>
+            <span class="counter-digit">2</span>
+          </span>
+        </p>
+        <p class="footer-note">&copy; 2026 Hung | <span class="blink">best viewed in 1024x768</span></p>
+      </footer>
+    </div>
+  </body>
 </html>

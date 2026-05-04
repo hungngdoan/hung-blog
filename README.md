@@ -1,6 +1,8 @@
 # Hung's Journal
 
-https://hungngdoan.github.io/hung-blog/
+Blog: https://hungngdoan.github.io/hung-blog/
+
+Guestbook: https://hungngdoan.github.io/hung-blog/#guestbook
 
 A freestyle static personal site -- retro/Y2K-inspired, no framework, no build step. Just raw HTML, CSS, and vibes.
 
