@@ -135,17 +135,80 @@ A sidebar widget that lets visitors play a single featured track directly on the
 - **No external dependencies.** Pure HTML5 Audio API + vanilla JS (~60 lines, IIFE-scoped). No libraries, no build step.
 - **Accessible.** Play button and volume slider have `aria-label` attributes. Keyboard-operable via native button and range input semantics.
 
-### How to update the song
+### Audio hosting strategy: GitHub Releases
 
-1. Replace `music/song-of-the-day.mp3` with the new track
-2. Edit the song title text in the `.music-title-scroll` div in `index.html`
-3. If the filename changes, update the `src` attribute on the `<audio>` element
+MP3 files are **not committed to git**. They are hosted as GitHub Release assets to avoid git history bloat. The `music/` directory is gitignored (`music/*.mp3`). A local copy can live in `music/` for testing, but the production `<audio src>` points to a GitHub Release URL.
+
+#### Why not commit mp3s directly?
+
+Git stores every version of every file in history permanently. Even if you delete and replace a file, the old blob stays in `.git/objects/`. Swapping one 5MB song weekly means ~260MB of dead weight in history after a year. `git clone` downloads all of it every time. GitHub Releases don't have this problem -- deleting a release asset actually frees the storage.
+
+#### GitHub Releases limits (free tier)
+
+| Limit | Value |
+|---|---|
+| Max file size per asset | 2GB |
+| Total release storage | Shares repo soft limit (~1GB), loosely enforced |
+| Bandwidth (public repos) | No cap |
+| Cost | Free for public repos |
+
+At 5MB per song, you can host 200 songs before approaching 1GB. For a personal blog, this is effectively unlimited.
+
+#### How to upload a new song
+
+1. Go to the repo on GitHub -> **Releases** -> **Create a new release**
+2. Tag: use a sequential tag like `music-v1`, `music-v2`, etc.
+3. Title: song name and artist (e.g. "Cloud 9 - Tobu")
+4. Drag the mp3 file into the **Attach binaries** area
+5. Click **Publish release**
+6. Right-click the uploaded file link -> **Copy link address**
+7. Update two things in `index.html`:
+   - The `src` attribute on the `<audio id="musicAudio">` element
+   - The song title text inside `.music-title-scroll`
+
+The release URL format is:
+```
+https://github.com/hungngdoan/hung-blog/releases/download/<tag>/<filename>
+```
+
+Example:
+```
+https://github.com/hungngdoan/hung-blog/releases/download/music-v1/Tobu-Cloud9.mp3
+```
+
+#### How to swap the current song
+
+1. Upload the new mp3 as a new release (e.g. `music-v2`)
+2. Update `index.html` with the new release URL and song title
+3. Commit and push the HTML change (a few bytes, no audio in git)
+4. The old release stays on GitHub as an archive (or delete it if you want)
+
+#### Scaling to 100+ songs
+
+If the library grows large, organize releases by batches rather than one-per-song:
+
+| Scale | Strategy |
+|---|---|
+| 1-20 songs | One release per song. Tags: `music-v1`, `music-v2`, etc. Easy to browse on the Releases page. |
+| 20-100 songs | Batch releases by month or quarter. Tag: `music-2026-q2`. Attach multiple mp3s to a single release. Reduces clutter on the Releases page. |
+| 100+ songs | Consider migrating to Cloudflare R2 (10GB free, no egress fees) or Backblaze B2 (10GB free). At this scale you are building a music library, not a "song of the day" widget. The player UI would also need to evolve into a playlist/selector, which is a separate design effort. |
+
+#### Cleanup
+
+- Deleting a release on GitHub permanently removes the assets. No history bloat.
+- Old release URLs will 404 after deletion. Make sure the current `<audio src>` in `index.html` always points to a live release.
+- The `music/` folder is gitignored. Local mp3s are for testing only and won't be pushed.
+
+#### Local development
+
+Keep a copy of the current song in `music/` for local testing. The `<audio>` element works with both local paths and full URLs. When developing locally, you can temporarily set `src="music/Tobu-Cloud9.mp3"`. Before pushing, switch it back to the GitHub Release URL.
 
 ### Constraints
 
-- MP3 files should not be excessively large; target under 5MB for reasonable page load on GitHub Pages
+- MP3 files should be under 10MB per track for reasonable streaming on slow connections
 - Only one track at a time; this is not a playlist player
-- GitHub Pages has a 100MB repo size soft limit; audio files count toward this
+- GitHub Releases shares the repo's ~1GB soft storage limit
+- Release asset URLs are public; do not upload copyrighted material you don't have rights to distribute
 
 ---
 

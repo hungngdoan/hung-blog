@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books ~ Hung's Journal</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="marquee-bar">
+      <div class="marquee-content">
+        ★ ★ ★ Welcome to my little corner of the internet ~ feel free to look
+        around ~ sign the guestbook before you leave! ★ ★ ★ updated 05.03.2026 ★
+        ★ ★ best viewed at 1024x768 ★ ★ ★
+      </div>
+    </div>
+
+    <div class="page-wrapper">
+      <header class="site-header">
+        <h1 class="site-title">~*~ Hung's Journal ~*~</h1>
+        <p class="site-subtitle">thoughts &#12539; code &#12539; life</p>
+        <div class="banner-wrap">
+          <img
+            src="img/banner.jpg"
+            alt="Pixel art banner with characters sitting in grass"
+          />
+        </div>
+      </header>
+
+      <nav class="nav-bar">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="entries.html">Entries</a>
+        <a href="books.html" class="active">Books</a>
+        <a href="music.html">Music</a>
+        <a href="games.html">Games</a>
+        <a href="links.html">Links</a>
+        <a href="guestbook.html">Guestbook</a>
+      </nav>
+
+      <div class="content-grid">
+        <aside class="sidebar">
+          <div class="sidebar-box avatar-box">
+            <img
+              src="img/avatar-zero-saber.png"
+              alt="Zero saber attack avatar of Hung"
+            />
+            <div class="avatar-name">Hung</div>
+            <div class="avatar-status">
+              <span class="status-dot">&#9679;</span>online
+            </div>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Stats</h3>
+            <div class="stat-line">Posts: <span>42</span></div>
+            <div class="stat-line">Mood: <span>&#9749; Caffeinated</span></div>
+            <div class="stat-line">Listening: <span>Lo-fi beats</span></div>
+            <div class="stat-line">Reading: <span>CLRS</span></div>
+          </div>
+
+          <div class="sidebar-box sidebar-links-box">
+            <h3>Hangouts</h3>
+            <ul class="links-list">
+              <li>
+                <a
+                  href="https://github.com/hungngdoan"
+                  class="sidebar-ext-link"
+                  data-icon="git"
+                  >GitHub</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://world.gomobi.vn/"
+                  class="sidebar-ext-link"
+                  data-icon="game"
+                  >Teamobi World</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://pro54qh1.forumvi.com/forum"
+                  class="sidebar-ext-link"
+                  data-icon="forum"
+                  >Inspired Forum</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Quests</h3>
+            <div class="stat-line">&#9989; 225lb Bench</div>
+            <div class="stat-line">&#9989; 315lb Squat</div>
+            <div class="stat-line">&#9989; 245lb Deadlift</div>
+            <div class="stat-line">&#9989; MSAI UT Austin</div>
+            <div class="stat-line">
+              &#11036;
+              <a href="https://mml-book.github.io/">Mathematics for ML</a>
+            </div>
+            <div class="stat-line">
+              &#11036;
+              <a href="https://www.learnpytorch.io/">Learn PyTorch</a>
+            </div>
+          </div>
+        </aside>
+
+        <main class="main-content">
+          <section class="page-section">
+            <h2>Currently Reading</h2>
+          </section>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">Introduction to Algorithms (CLRS)</span>
+              <span class="post-date">Cormen, Leiserson, Rivest, Stein</span>
+            </div>
+            <div class="post-body">
+              <p>The algorithms bible. Dense but worth every page. Currently grinding through the graph algorithms section — Dijkstra's proof of correctness is beautiful once it clicks.</p>
+            </div>
+            <div class="post-mood">&#128214; Progress: ~60% | Chapter 24</div>
+            <div class="post-tags">
+              <span class="tag">#algorithms</span>
+              <span class="tag">#cs</span>
+            </div>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">Mathematics for Machine Learning</span>
+              <span class="post-date">Deisenroth, Faisal, Ong</span>
+            </div>
+            <div class="post-body">
+              <p>Building the math foundation for MSAI. The linear algebra chapters are gold. Currently working through the probability and distributions section — making everything from undergrad click in a new way.</p>
+            </div>
+            <div class="post-mood">&#128214; Progress: ~40% | Chapter 6</div>
+            <div class="post-tags">
+              <span class="tag">#math</span>
+              <span class="tag">#ml</span>
+              <span class="tag">#msai-prep</span>
+            </div>
+          </article>
+
+          <section class="page-section">
+            <h2>Completed</h2>
+          </section>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">Designing Data-Intensive Applications</span>
+              <span class="post-date">Martin Kleppmann</span>
+            </div>
+            <div class="post-body">
+              <p>Changed how I think about distributed systems. The chapter on stream processing directly influenced how I designed our Dataflow pipelines at work. Required reading for anyone touching data at scale.</p>
+            </div>
+            <div class="post-mood">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="post-tags">
+              <span class="tag">#systems</span>
+              <span class="tag">#distributed</span>
+              <span class="tag">#data</span>
+            </div>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">The Pragmatic Programmer</span>
+              <span class="post-date">Hunt &amp; Thomas</span>
+            </div>
+            <div class="post-body">
+              <p>Timeless advice. The tracer bullets concept changed how I prototype. "Don't gather requirements — dig for them" is something I think about in every sprint planning.</p>
+            </div>
+            <div class="post-mood">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="post-tags">
+              <span class="tag">#engineering</span>
+              <span class="tag">#career</span>
+            </div>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">Clean Code</span>
+              <span class="post-date">Robert C. Martin</span>
+            </div>
+            <div class="post-body">
+              <p>Good principles, some parts dated. The naming conventions chapter alone is worth it. The Java-heavy examples feel old but the core ideas about readability hold up.</p>
+            </div>
+            <div class="post-mood">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+            <div class="post-tags">
+              <span class="tag">#engineering</span>
+              <span class="tag">#java</span>
+            </div>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">Atomic Habits</span>
+              <span class="post-date">James Clear</span>
+            </div>
+            <div class="post-body">
+              <p>Read this during the start of my 90-day cut. The "1% better every day" compound effect is real — applied it to both lifting and coding. Habit stacking got me consistent with morning gym sessions.</p>
+            </div>
+            <div class="post-mood">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+            <div class="post-tags">
+              <span class="tag">#self-improvement</span>
+              <span class="tag">#fitness</span>
+            </div>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">The Art of War</span>
+              <span class="post-date">Sun Tzu</span>
+            </div>
+            <div class="post-body">
+              <p>Short but dense. "Every battle is won before it is fought." Applies to system design interviews more than you'd think.</p>
+            </div>
+            <div class="post-mood">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="post-tags">
+              <span class="tag">#philosophy</span>
+              <span class="tag">#strategy</span>
+            </div>
+          </article>
+
+          <section class="page-section">
+            <h2>Want to Read</h2>
+          </section>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">Deep Learning</span>
+              <span class="post-date">Goodfellow, Bengio, Courville</span>
+            </div>
+            <div class="post-body">
+              <p>The deep learning textbook. Planning to start once I finish Math for ML — need that foundation first.</p>
+            </div>
+            <div class="post-tags">
+              <span class="tag">#ml</span>
+              <span class="tag">#msai-prep</span>
+            </div>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">System Design Interview (Vol 1 &amp; 2)</span>
+              <span class="post-date">Alex Xu</span>
+            </div>
+            <div class="post-body">
+              <p>Everyone at work recommends this. Want to level up on designing systems beyond just the data pipeline layer.</p>
+            </div>
+            <div class="post-tags">
+              <span class="tag">#systems</span>
+              <span class="tag">#career</span>
+            </div>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <span class="post-title">Meditations</span>
+              <span class="post-date">Marcus Aurelius</span>
+            </div>
+            <div class="post-body">
+              <p>"M&#432;u s&#7921; t&#7841;i nh&#226;n, th&#224;nh s&#7921; t&#7841;i thi&#234;n" — the Vietnamese philosophy I grew up with has strong Stoic parallels. Want to explore that connection.</p>
+            </div>
+            <div class="post-tags">
+              <span class="tag">#philosophy</span>
+              <span class="tag">#stoicism</span>
+            </div>
+          </article>
+        </main>
+      </div>
+
+      <footer class="site-footer">
+        <div class="footer-icons">
+          &#10022; &#10023; &#10022; &#10023; &#10022; &#10023; &#10022;
+        </div>
+        <p>made with &#9829; and too much caffeine</p>
+        <p class="footer-note">
+          &copy; 2026 Hung | <span class="blink">best viewed in 1024x768</span>
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
