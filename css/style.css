@@ -98,7 +98,7 @@ body::before {
 .marquee-content {
   display: inline-block;
   white-space: nowrap;
-  animation: marquee 20s linear infinite;
+  animation: marquee 26s linear infinite;
   font-family: "VT323", monospace;
   font-size: 23px;
   color: var(--accent-gold);
