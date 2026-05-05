@@ -54,11 +54,13 @@ Ensure repo root contains:
 hung-blog/
   index.html        <-- home/posts page
   about.html        <-- bio, stats, quests, personal context
+  entries.html      <-- blog entries archive
   links.html        <-- links and blogroll
   guestbook.html    <-- decorative guestbook
   css/style.css     <-- shared stylesheet
   img/              <-- shared image assets
-  README.md     <-- project description
+  music/            <-- mp3 assets for song-of-the-day player
+  README.md         <-- project description
 ```
 
 No build config is required.
@@ -105,6 +107,45 @@ No build step. No CI. No templating. Just edit static files and push.
 | Want a custom domain (e.g. hung.dev) | Buy domain, configure CNAME in repo settings |
 | Want comments/guestbook to work | Add Giscus (GitHub-backed comments) |
 | Shared page shell gets tedious | Consider Hugo, 11ty, or a tiny static include workflow |
+
+---
+
+## Music Player: Song of the Day
+
+**Added:** 2026-05-04
+
+### Purpose
+
+A sidebar widget that lets visitors play a single featured track directly on the homepage. Positioned immediately below the avatar/profile box to reinforce the personal, expressive feel of the site. The design leans into the retro anime fansite aesthetic already established by the rest of the layout.
+
+### Components
+
+| File | What was added |
+|---|---|
+| `index.html` | `music-box` sidebar section with `<audio>` element, play/pause button, progress bar, volume slider, and inline `<script>` |
+| `css/style.css` | `.music-*` class family: scrolling title marquee, circular play button with glow states, gradient progress bar, range-input volume slider with cross-browser thumb styling |
+| `music/` | Directory for mp3 assets (not checked into git by default) |
+
+### Design decisions
+
+- **No autoplay.** Browsers block it, and it is hostile UX. Visitor must click play.
+- **Scrolling title.** The sidebar is 225px wide. Song titles overflow. A CSS marquee animation handles this without JS, matching the site's existing marquee bar aesthetic.
+- **Volume control with mute toggle.** Clicking the music note icon toggles mute and remembers the previous volume level. The range slider gives fine-grained control.
+- **Click-to-seek on progress bar.** Maps click position to `audio.currentTime` proportionally. No drag-seek (unnecessary complexity for a single-track widget).
+- **No external dependencies.** Pure HTML5 Audio API + vanilla JS (~60 lines, IIFE-scoped). No libraries, no build step.
+- **Accessible.** Play button and volume slider have `aria-label` attributes. Keyboard-operable via native button and range input semantics.
+
+### How to update the song
+
+1. Replace `music/song-of-the-day.mp3` with the new track
+2. Edit the song title text in the `.music-title-scroll` div in `index.html`
+3. If the filename changes, update the `src` attribute on the `<audio>` element
+
+### Constraints
+
+- MP3 files should not be excessively large; target under 5MB for reasonable page load on GitHub Pages
+- Only one track at a time; this is not a playlist player
+- GitHub Pages has a 100MB repo size soft limit; audio files count toward this
 
 ---
 
