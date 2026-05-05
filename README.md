@@ -22,7 +22,7 @@ A personal corner of the internet where I write about whatever I feel like:
 - Pure static HTML/CSS
 - Multi-page HTML with one shared stylesheet
 - Retro aesthetic: pixel art, glow effects, starfield background, marquee
-- Fonts: VT323, Press Start 2P, Comic Neue
+- Fonts: VT323, Press Start 2P
 - No JavaScript dependencies, no build tools, no frameworks
 - Just open the HTML file in a browser
 
