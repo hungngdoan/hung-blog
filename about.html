@@ -5,24 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About ~ Hung's Journal</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Comic+Neue:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <script>
+      (function () {
+        var l = "en";
+        try {
+          l = localStorage.getItem("lang") || "en";
+        } catch (e) {}
+        if (l !== "vi") {
+          l = "en";
+        }
+        document.documentElement.lang = l;
+        document.documentElement.className = "lang-" + l;
+      })();
+    </script>
   </head>
   <body>
     <div class="marquee-bar">
-      <div class="marquee-content">
-        ★ ★ ★ Welcome to my little corner of the internet ~ feel free to look
-        around ~ sign the guestbook before you leave! ★ ★ ★ updated 05.03.2026 ★
-        ★ ★ best viewed at 1024x768 ★ ★ ★
+      <div class="marquee-content" data-i18n="marquee.welcome">
+        ★ ★ ★ Welcome to my little corner of the Internet! feel free to look
+        around 🌸 ♡ sign the guestbook before you leave! ★ ★ ★ updated 05.04.2026
+        ★ ★ ★ best viewed at 1024x768 ★ ★ ★
       </div>
     </div>
 
     <div class="page-wrapper">
       <header class="site-header">
         <h1 class="site-title">~*~ Hung's Journal ~*~</h1>
-        <p class="site-subtitle">thoughts &#12539; code &#12539; life</p>
+        <p class="site-subtitle" data-i18n="shell.subtitle">
+          thoughts &#12539; code &#12539; life
+        </p>
         <div class="banner-wrap">
           <img
             src="img/banner.jpg"
@@ -32,15 +47,19 @@
       </header>
 
       <nav class="nav-bar">
-        <a href="index.html">Home</a>
-        <a href="about.html" class="active">About</a>
-        <a href="roadmap.html">Roadmap</a>
-        <a href="entries.html">Entries</a>
-        <a href="books.html">Books</a>
-        <a href="music.html">Music</a>
-        <a href="games.html">Games</a>
-        <a href="links.html">Links</a>
-        <a href="guestbook.html">Guestbook</a>
+        <a href="index.html" data-i18n="nav.home">Home</a>
+        <a href="about.html" class="active" data-i18n="nav.about">About</a>
+        <a href="roadmap.html" data-i18n="nav.roadmap">Roadmap</a>
+        <a href="books.html" data-i18n="nav.books">Books</a>
+        <a href="music.html" data-i18n="nav.music">Music</a>
+        <a href="games.html" data-i18n="nav.games">Games</a>
+        <a href="links.html" data-i18n="nav.links">Links</a>
+        <a href="guestbook.html" data-i18n="nav.guestbook">Guestbook</a>
+        <a href="entries.html" data-i18n="nav.entries">Entries</a>
+        <button class="lang-toggle" id="langToggle" aria-label="Switch language">
+          <span class="lang-choice lang-choice-en">EN</span> |
+          <span class="lang-choice lang-choice-vi">VI</span>
+        </button>
       </nav>
 
       <div class="content-grid">
@@ -51,21 +70,29 @@
               alt="Zero saber attack avatar of Hung"
             />
             <div class="avatar-name">Hung</div>
-            <div class="avatar-status">
+            <div class="avatar-status" data-i18n-html="sidebar.online">
               <span class="status-dot">&#9679;</span>online
             </div>
           </div>
 
           <div class="sidebar-box">
-            <h3>Stats</h3>
-            <div class="stat-line">Posts: <span>42</span></div>
-            <div class="stat-line">Mood: <span>&#9749; Caffeinated</span></div>
-            <div class="stat-line">Listening: <span>Lo-fi beats</span></div>
-            <div class="stat-line">Reading: <span>CLRS</span></div>
+            <h3 data-i18n="sidebar.stats">Stats</h3>
+            <div class="stat-line" data-i18n-html="sidebar.posts">
+              Posts: <span>42</span>
+            </div>
+            <div class="stat-line" data-i18n-html="sidebar.mood">
+              Mood: <span>&#9749; Caffeinated</span>
+            </div>
+            <div class="stat-line" data-i18n-html="sidebar.listening">
+              Listening: <span>Lo-fi beats</span>
+            </div>
+            <div class="stat-line" data-i18n-html="sidebar.reading">
+              Reading: <span>CLRS</span>
+            </div>
           </div>
 
           <div class="sidebar-box sidebar-links-box">
-            <h3>Hangouts</h3>
+            <h3 data-i18n="sidebar.hangouts">Hangouts</h3>
             <ul class="links-list">
               <li>
                 <a
@@ -95,7 +122,7 @@
           </div>
 
           <div class="sidebar-box">
-            <h3>Quests</h3>
+            <h3 data-i18n="sidebar.quests">Quests</h3>
             <div class="stat-line">&#9989; 225lb Bench</div>
             <div class="stat-line">&#9989; 315lb Squat</div>
             <div class="stat-line">&#9989; 245lb Deadlift</div>
@@ -115,7 +142,7 @@
 
         <main class="main-content">
           <section class="page-section">
-            <h2>About Me</h2>
+            <h2 data-i18n="page.about.heading_about">About Me</h2>
             <p>
               Hey, I'm Hưng. Software engineer by day, lifter by night,
               overthinker by night.
@@ -131,7 +158,7 @@
               philosophy and the nature of ambition.
             </p>
 
-            <h2>Current Arc</h2>
+            <h2 data-i18n="page.about.heading_arc">Current Arc</h2>
             <ul>
               <li>Preparing for UT Austin MSAI</li>
               <li>90-day cut (intermittent fasting + progressive overload)</li>
@@ -139,7 +166,7 @@
               <li>Building this site from scratch</li>
             </ul>
 
-            <h2>Interests</h2>
+            <h2 data-i18n="page.about.heading_interests">Interests</h2>
             <ul>
               <li>Weightlifting and fitness tracking</li>
               <li>Fish keeping (freshwater planted tanks)</li>
@@ -149,7 +176,7 @@
               <li>Cats </li>
             </ul>
 
-            <h2>Philosophy</h2>
+            <h2 data-i18n="page.about.heading_philosophy">Philosophy</h2>
             <p>
               "Mưu sự tại nhân, thành sự tại thiên."<br />
               We plan, but heaven decides. Doesn't mean we stop planning though.
@@ -163,11 +190,17 @@
         <div class="footer-icons">
           &#10022; &#10023; &#10022; &#10023; &#10022; &#10023; &#10022;
         </div>
-        <p>made with &#9829; and too much caffeine</p>
+        <p data-i18n-html="footer.made_with">
+          made with &#9829; and too much caffeine
+        </p>
         <p class="footer-note">
-          &copy; 2026 Hung | <span class="blink">best viewed in 1024x768</span>
+          &copy; 2026 Hung |
+          <span class="blink" data-i18n="footer.best_viewed"
+            >best viewed in 1024x768</span
+          >
         </p>
       </footer>
     </div>
+    <script src="js/i18n.js"></script>
   </body>
 </html>

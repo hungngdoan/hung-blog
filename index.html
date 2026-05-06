@@ -9,10 +9,23 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <script>
+      (function () {
+        var l = "en";
+        try {
+          l = localStorage.getItem("lang") || "en";
+        } catch (e) {}
+        if (l !== "vi") {
+          l = "en";
+        }
+        document.documentElement.lang = l;
+        document.documentElement.className = "lang-" + l;
+      })();
+    </script>
   </head>
   <body>
     <div class="marquee-bar">
-      <div class="marquee-content">
+      <div class="marquee-content" data-i18n="marquee.welcome">
         ★ ★ ★ Welcome to my little corner of the Internet! feel free to look
         around 🌸 ♡ sign the guestbook before you leave! ★ ★ ★ updated 05.04.2026
         ★ ★ ★ best viewed at 1024x768 ★ ★ ★
@@ -22,7 +35,9 @@
     <div class="page-wrapper">
       <header class="site-header">
         <h1 class="site-title">~*~ Hung's Journal ~*~</h1>
-        <p class="site-subtitle">thoughts &#12539; code &#12539; life</p>
+        <p class="site-subtitle" data-i18n="shell.subtitle">
+          thoughts &#12539; code &#12539; life
+        </p>
         <div class="banner-wrap">
           <img
             src="img/banner.jpg"
@@ -32,15 +47,19 @@
       </header>
 
       <nav class="nav-bar">
-        <a href="index.html" class="active">Home</a>
-        <a href="about.html">About</a>
-        <a href="roadmap.html">Roadmap</a>
-        <a href="entries.html">Entries</a>
-        <a href="books.html">Books</a>
-        <a href="music.html">Music</a>
-        <a href="games.html">Games</a>
-        <a href="links.html">Links</a>
-        <a href="guestbook.html">Guestbook</a>
+        <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+        <a href="about.html" data-i18n="nav.about">About</a>
+        <a href="roadmap.html" data-i18n="nav.roadmap">Roadmap</a>
+        <a href="books.html" data-i18n="nav.books">Books</a>
+        <a href="music.html" data-i18n="nav.music">Music</a>
+        <a href="games.html" data-i18n="nav.games">Games</a>
+        <a href="links.html" data-i18n="nav.links">Links</a>
+        <a href="guestbook.html" data-i18n="nav.guestbook">Guestbook</a>
+        <a href="entries.html" data-i18n="nav.entries">Entries</a>
+        <button class="lang-toggle" id="langToggle" aria-label="Switch language">
+          <span class="lang-choice lang-choice-en">EN</span> |
+          <span class="lang-choice lang-choice-vi">VI</span>
+        </button>
       </nav>
 
       <div class="content-grid">
@@ -52,13 +71,15 @@
               alt="Zero saber attack avatar of Hung"
             />
             <div class="avatar-name">Hung</div>
-            <div class="avatar-status">
+            <div class="avatar-status" data-i18n-html="sidebar.online">
               <span class="status-dot">&#9679;</span>online
             </div>
           </div>
 
           <div class="sidebar-box music-box">
-            <h3><span class="blink">&#9835;</span> Now Playing</h3>
+            <h3 data-i18n-html="music_player.now_playing">
+              <span class="blink">&#9835;</span> Now Playing
+            </h3>
             <div class="music-title-wrap">
               <div class="music-title-scroll">Cloud 9 - Tobu</div>
             </div>
@@ -98,15 +119,23 @@
           </div>
 
           <div class="sidebar-box">
-            <h3>Stats</h3>
-            <div class="stat-line">Posts: <span>42</span></div>
-            <div class="stat-line">Mood: <span>&#9749; Caffeinated</span></div>
-            <div class="stat-line">Listening: <span>Lo-fi beats</span></div>
-            <div class="stat-line">Reading: <span>CLRS</span></div>
+            <h3 data-i18n="sidebar.stats">Stats</h3>
+            <div class="stat-line" data-i18n-html="sidebar.posts">
+              Posts: <span>42</span>
+            </div>
+            <div class="stat-line" data-i18n-html="sidebar.mood">
+              Mood: <span>&#9749; Caffeinated</span>
+            </div>
+            <div class="stat-line" data-i18n-html="sidebar.listening">
+              Listening: <span>Lo-fi beats</span>
+            </div>
+            <div class="stat-line" data-i18n-html="sidebar.reading">
+              Reading: <span>CLRS</span>
+            </div>
           </div>
 
           <div class="sidebar-box sidebar-links-box">
-            <h3>Hangouts</h3>
+            <h3 data-i18n="sidebar.hangouts">Hangouts</h3>
             <ul class="links-list">
               <li>
                 <a
@@ -136,18 +165,20 @@
           </div>
 
           <div class="sidebar-box">
-            <h3>Quests</h3>
+            <h3 data-i18n="sidebar.quests">Quests</h3>
             <div class="stat-line">&#9989; 225lb Bench</div>
             <div class="stat-line">&#9989; 315lb Squat</div>
             <div class="stat-line">&#9989; 245lb Deadlift</div>
             <div class="stat-line">&#9989; MSAI UT Austin</div>
             <div class="stat-line">
               &#11036;
-              <a href="https://mml-book.github.io/">Mathematics for ML</a>
+              <a href="https://mml-book.github.io/"
+                >Finish Mathematics for Machine Learning</a
+              >
             </div>
             <div class="stat-line">
               &#11036;
-              <a href="https://www.learnpytorch.io/">Learn PyTorch</a>
+              <a href="https://www.learnpytorch.io/">Finish Learn PyTorch</a>
             </div>
           </div>
         </aside>
@@ -256,7 +287,7 @@
           </article>
 
           <section class="guestbook-area">
-            <h3>&#128221; Guestbook</h3>
+            <h3 data-i18n-html="gb.heading">&#128221; Guestbook</h3>
             <div class="gb-entry">
               <span class="gb-name">xX_CoderGirl_Xx</span>
               <span class="gb-date">02/22/2026</span>
@@ -271,7 +302,7 @@
               <p>nice site bro. good taste &#128076;</p>
             </div>
             <p class="gb-view-all">
-              <a href="guestbook.html"
+              <a href="guestbook.html" data-i18n-html="gb.view_all"
                 >&gt;&gt; view all &amp; sign the guestbook</a
               >
             </p>
@@ -284,9 +315,11 @@
         <div class="footer-icons">
           &#10022; &#10023; &#10022; &#10023; &#10022; &#10023; &#10022;
         </div>
-        <p>made with &#9829; and too much caffeine</p>
+        <p data-i18n-html="footer.made_with">
+          made with &#9829; and too much caffeine
+        </p>
         <p class="footer-counter">
-          visitors:
+          <span data-i18n="footer.visitors">visitors:</span>
           <span class="counter-digits">
             <span class="counter-digit">0</span>
             <span class="counter-digit">0</span>
@@ -297,10 +330,14 @@
           </span>
         </p>
         <p class="footer-note">
-          &copy; 2026 Hung | <span class="blink">best viewed in 1024x768</span>
+          &copy; 2026 Hung |
+          <span class="blink" data-i18n="footer.best_viewed"
+            >best viewed in 1024x768</span
+          >
         </p>
       </footer>
     </div>
+    <script src="js/i18n.js"></script>
     <script>
       (function () {
         var audio = document.getElementById("musicAudio");
