@@ -572,6 +572,7 @@ body::before {
   font-family: var(--font-display);
   font-size: 13px;
   color: var(--accent-cyan);
+  line-height: 1.45;
 }
 
 .post-date {
@@ -931,6 +932,29 @@ body::before {
 
 .soon-link {
   color: var(--text-dim);
+}
+
+.game-section-icon,
+.game-title-icon {
+  color: var(--accent-gold);
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.45);
+}
+
+.game-section-icon {
+  margin-right: 8px;
+}
+
+.game-title {
+  display: inline;
+}
+
+.game-title-icon {
+  display: inline-block;
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  line-height: 1;
+  margin-right: 8px;
+  vertical-align: -1px;
 }
 
 .tag-platform {
