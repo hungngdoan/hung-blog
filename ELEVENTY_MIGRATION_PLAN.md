@@ -20,9 +20,9 @@ hung-blog/
         header.njk                # Site title, subtitle, banner
         nav.njk                   # Navigation with active state logic
         sidebar.njk               # Avatar, stats, hangouts, quests
-        sidebar-music.njk         # Music player widget (index only)
+        sidebar-music.njk         # Music player widget (all pages)
         footer.njk                # Footer with optional visitor counter
-        music-player-script.njk   # Inline music player JS (index only)
+        music-player-script.njk   # Inline music player JS (all pages)
     _data/
       site.json                   # Site-wide metadata (title, subtitle, banner, etc.)
       nav.json                    # Navigation items array
@@ -39,6 +39,7 @@ hung-blog/
       style.css                   # Passthrough copy (untouched)
     js/
       site.js                     # Passthrough copy (untouched)
+      page-transitions.js         # PJAX content swapping for persistent music
     img/                          # Passthrough copy
     music/                        # Passthrough copy
   _site/                          # Build output (gitignored)
@@ -56,10 +57,11 @@ Each page sets front matter variables. Most pages only need `title`, `navActive`
 | `title`              | -                | (all pages)    | `<title>` tag content            |
 | `navActive`          | -                | (all pages)    | Which nav link gets `.active`    |
 | `permalink`          | -                | (all pages)    | Output filename (e.g. about.html)|
-| `showMusicPlayer`    | `false`          | index          | Sidebar music widget + script    |
 | `showVisitorCounter` | `false`          | index          | Footer visitor counter           |
 | `marqueeText`        | standard text    | index          | Custom emoji marquee variant     |
 | `fontsUrl`           | default 2 fonts  | about          | Extra Comic Neue font            |
+
+Note: `showMusicPlayer` has been removed — the music player is now part of the shared sidebar on all pages (see "Persistent Music Player" section below).
 
 ## Template Details
 
@@ -91,9 +93,8 @@ Full HTML document shell consuming front matter variables:
       </div>
       {% include "partials/footer.njk" %}
     </div>
-    {% if showMusicPlayer %}
-      {% include "partials/music-player-script.njk" %}
-    {% endif %}
+    {% include "partials/music-player-script.njk" %}
+    <script src="js/page-transitions.js" defer></script>
   </body>
 </html>
 ```
@@ -112,12 +113,10 @@ Loops over `nav.json` and applies active class:
 
 ### sidebar.njk
 
-Conditionally includes the music player widget:
+The music player is always included (no longer index-only) so it persists across page transitions:
 
 ```nunjucks
-{% if showMusicPlayer %}
-  {% include "partials/sidebar-music.njk" %}
-{% endif %}
+{% include "partials/sidebar-music.njk" %}
 ```
 
 ### footer.njk
@@ -147,6 +146,90 @@ permalink: about.html
 </section>
 ```
 
+## Persistent Music Player & Page Transitions
+
+### Problem
+
+Currently, navigating between pages causes a full page reload, which stops any playing music. The music player also only exists on the index page.
+
+### Solution
+
+Two changes work together:
+
+1. **Music player on all pages** — Move the music player widget from index-only to the shared `sidebar.njk` partial, so it appears on every page alongside Stats, Hangouts, and Quests.
+
+2. **PJAX-style page transitions** — A small JS script (`page-transitions.js`) intercepts nav link clicks and swaps only the `<main>` content + updates the active nav state, without reloading the full page. The sidebar (including the music player) stays alive.
+
+### page-transitions.js
+
+```js
+(function () {
+  document.addEventListener("click", function (e) {
+    const link = e.target.closest(".nav-bar a");
+    if (!link || link.origin !== location.origin) return;
+    e.preventDefault();
+
+    fetch(link.href)
+      .then(function (res) { return res.text(); })
+      .then(function (html) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, "text/html");
+
+        // Swap main content
+        var newMain = doc.querySelector(".main-content");
+        document.querySelector(".main-content").replaceWith(newMain);
+
+        // Update active nav link
+        document.querySelectorAll(".nav-bar a").forEach(function (a) {
+          a.classList.remove("active");
+        });
+        link.classList.add("active");
+
+        // Update document title
+        document.title = doc.title;
+
+        // Update URL without reload
+        history.pushState(null, "", link.href);
+      });
+  });
+
+  // Handle browser back/forward buttons
+  window.addEventListener("popstate", function () {
+    fetch(location.href)
+      .then(function (res) { return res.text(); })
+      .then(function (html) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, "text/html");
+        document.querySelector(".main-content").replaceWith(
+          doc.querySelector(".main-content")
+        );
+        document.title = doc.title;
+
+        var current = location.pathname.split("/").pop() || "index.html";
+        document.querySelectorAll(".nav-bar a").forEach(function (a) {
+          a.classList.toggle("active", a.getAttribute("href") === current);
+        });
+      });
+  });
+})();
+```
+
+### Directory Structure Update
+
+```
+src/
+  js/
+    site.js                     # Existing (passthrough)
+    page-transitions.js         # New — PJAX content swapping
+```
+
+### What Changes From the Original Plan
+
+- `sidebar-music.njk` is always included in `sidebar.njk` (not conditional)
+- `music-player-script.njk` is always included in `base.njk` (not conditional)
+- `showMusicPlayer` front matter variable is removed
+- New `page-transitions.js` added and loaded in `base.njk`
+
 ## Implementation Steps
 
 1. `npm init -y` + `npm install --save-dev @11ty/eleventy`
@@ -156,12 +239,14 @@ permalink: about.html
 5. Convert simplest page first (`entries.njk`) and verify visual match
 6. Convert remaining simple pages: links, guestbook, roadmap, books, music, games
 7. Convert `about.njk` (tests `fontsUrl` override)
-8. Convert `index.njk` last (most complex: music player, visitor counter, custom marquee, inline script)
-9. Move `css/`, `js/`, `img/`, `music/` into `src/`
-10. Verify all 9 pages match originals visually
-11. Delete original root-level HTML files
-12. Update `.gitignore` to add `node_modules/` and `_site/`
-13. Add GitHub Actions workflow for deployment
+8. Convert `index.njk` last (most complex: visitor counter, custom marquee)
+9. Create `page-transitions.js` for PJAX content swapping
+10. Move `css/`, `js/`, `img/`, `music/` into `src/`
+11. Verify all 9 pages match originals visually
+12. Test music playback persists across page navigation
+13. Delete original root-level HTML files
+14. Update `.gitignore` to add `node_modules/` and `_site/`
+15. Add GitHub Actions workflow for deployment
 
 ## GitHub Actions Deployment
 
