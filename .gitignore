@@ -1,4 +1,8 @@
 engineer_principle_local.md
+.claude/
+node_modules/
+_site/
 
 # Audio assets hosted via GitHub Releases
 music/*.mp3
+src/music/*.mp3

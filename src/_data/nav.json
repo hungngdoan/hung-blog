@@ -1,0 +1,11 @@
+[
+  { "url": "index.html", "label": "Home" },
+  { "url": "about.html", "label": "About" },
+  { "url": "roadmap.html", "label": "Roadmap" },
+  { "url": "entries.html", "label": "Entries" },
+  { "url": "books.html", "label": "Books" },
+  { "url": "music.html", "label": "Music" },
+  { "url": "games.html", "label": "Games" },
+  { "url": "links.html", "label": "Links" },
+  { "url": "guestbook.html", "label": "Guestbook" }
+]
