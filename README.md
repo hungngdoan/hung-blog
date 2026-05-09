@@ -33,7 +33,6 @@ npm install          # install dependencies (first time only)
 npm start            # dev server with live reload (for local development)
 npm run build        # build to _site/ (used by CI for deployment)
 ```
-
 ## Structure
 
 ```
