@@ -1,0 +1,39 @@
+<div class="sidebar-box music-box">
+  <h3><span class="blink">&#9835;</span> Now Playing</h3>
+  <div class="music-title-wrap">
+    <div class="music-title-scroll">Cloud 9 - Tobu</div>
+  </div>
+  <div class="music-controls">
+    <button
+      class="music-btn"
+      id="musicPlayBtn"
+      aria-label="Play"
+      title="Play"
+    >
+      &#9654;
+    </button>
+    <div class="music-progress-wrap" id="musicProgressWrap">
+      <div class="music-progress-bar" id="musicProgressBar"></div>
+    </div>
+    <span class="music-time" id="musicTime">0:00</span>
+  </div>
+  <div class="music-volume">
+    <span class="music-vol-icon" id="musicVolIcon" title="Mute"
+      >&#9834;</span
+    >
+    <input
+      type="range"
+      class="music-vol-slider"
+      id="musicVolSlider"
+      min="0"
+      max="100"
+      value="70"
+      aria-label="Volume"
+    />
+  </div>
+  <audio
+    id="musicAudio"
+    preload="metadata"
+    src="music/Tobu-Cloud9.mp3"
+  ></audio>
+</div>

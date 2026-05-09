@@ -1,0 +1,76 @@
+<script>
+  (function () {
+    var audio = document.getElementById("musicAudio");
+    var btn = document.getElementById("musicPlayBtn");
+    var bar = document.getElementById("musicProgressBar");
+    var wrap = document.getElementById("musicProgressWrap");
+    var time = document.getElementById("musicTime");
+    var vol = document.getElementById("musicVolSlider");
+    var volIcon = document.getElementById("musicVolIcon");
+    var prevVol = 0.7;
+
+    audio.volume = 0.7;
+
+    function fmt(s) {
+      var m = Math.floor(s / 60);
+      var sec = Math.floor(s % 60);
+      return m + ":" + (sec < 10 ? "0" : "") + sec;
+    }
+
+    btn.addEventListener("click", function () {
+      if (audio.paused) {
+        audio.play();
+        btn.textContent = "❚❚";
+        btn.classList.add("playing");
+        btn.setAttribute("aria-label", "Pause");
+        btn.title = "Pause";
+      } else {
+        audio.pause();
+        btn.textContent = "▶";
+        btn.classList.remove("playing");
+        btn.setAttribute("aria-label", "Play");
+        btn.title = "Play";
+      }
+    });
+
+    audio.addEventListener("timeupdate", function () {
+      if (audio.duration) {
+        bar.style.width = (audio.currentTime / audio.duration) * 100 + "%";
+        time.textContent = fmt(audio.currentTime);
+      }
+    });
+
+    audio.addEventListener("ended", function () {
+      btn.textContent = "▶";
+      btn.classList.remove("playing");
+      bar.style.width = "0%";
+      time.textContent = "0:00";
+    });
+
+    wrap.addEventListener("click", function (e) {
+      if (audio.duration) {
+        var rect = wrap.getBoundingClientRect();
+        audio.currentTime =
+          ((e.clientX - rect.left) / rect.width) * audio.duration;
+      }
+    });
+
+    vol.addEventListener("input", function () {
+      audio.volume = vol.value / 100;
+      volIcon.textContent = audio.volume === 0 ? "✕" : "♪";
+    });
+
+    volIcon.addEventListener("click", function () {
+      if (audio.volume > 0) {
+        prevVol = audio.volume;
+        audio.volume = 0;
+        vol.value = 0;
+        volIcon.textContent = "✕";
+      } else {
+        audio.volume = prevVol;
+        vol.value = prevVol * 100;
+        volIcon.textContent = "♪";
+      }
+    });
+  })();
+</script>

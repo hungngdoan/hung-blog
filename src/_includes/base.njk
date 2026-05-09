@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+    <link
+      href="{{ fontsUrl if fontsUrl else site.defaultFontsUrl }}"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/site.js" defer></script>
+  </head>
+  <body>
+    {% include "partials/marquee.njk" %}
+    <div class="page-wrapper">
+      {% include "partials/header.njk" %}
+      {% include "partials/nav.njk" %}
+      <div class="content-grid">
+        {% include "partials/sidebar.njk" %}
+        <main class="main-content">
+          {{ content | safe }}
+        </main>
+      </div>
+      {% include "partials/footer.njk" %}
+    </div>
+    {% include "partials/music-player-script.njk" %}
+    <script src="js/page-transitions.js" defer></script>
+  </body>
+</html>

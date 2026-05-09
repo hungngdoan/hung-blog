@@ -1,0 +1,5 @@
+<nav class="nav-bar">
+  {% for item in nav %}
+    <a href="{{ item.url }}"{% if item.url == navActive %} class="active"{% endif %}>{{ item.label }}</a>
+  {% endfor %}
+</nav>

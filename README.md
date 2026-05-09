@@ -4,7 +4,7 @@ Blog: https://hungngdoan.github.io/hung-blog/
 
 Guestbook: https://hungngdoan.github.io/hung-blog/#guestbook
 
-A freestyle static personal site -- retro/Y2K-inspired, no framework, no build step. Just raw HTML, CSS, and vibes.
+A freestyle personal site -- retro/Y2K-inspired, built with Eleventy (11ty).
 
 ## What is this
 
@@ -19,16 +19,40 @@ A personal corner of the internet where I write about whatever I feel like:
 
 ## Tech
 
-- Pure static HTML/CSS
-- Multi-page HTML with one shared stylesheet
+- [Eleventy (11ty)](https://www.11ty.dev/) static site generator with Nunjucks templates
+- Shared layout (`base.njk`) + partials eliminate duplicated HTML across 9 pages
+- PJAX page transitions so the music player keeps playing across navigation
 - Retro aesthetic: pixel art, glow effects, starfield background, marquee
 - Fonts: VT323, Press Start 2P
-- No JavaScript dependencies, no build tools, no frameworks
-- Just open the HTML file in a browser
+- Deployed via GitHub Actions to GitHub Pages
+
+## Getting Started
+
+```bash
+npm install          # install dependencies (first time only)
+npm start            # dev server with live reload (for local development)
+npm run build        # build to _site/ (used by CI for deployment)
+```
 
 ## Structure
 
-This is intentionally simple: HTML pages in the repo root, shared styles in `css/style.css`, and shared images in `img/`. There is no CMS, no templating engine, no deploy pipeline. Edit the files, open in browser, done.
+```
+src/
+  _includes/
+    base.njk                  # Shared HTML layout
+    partials/                 # marquee, header, nav, sidebar, footer, music player
+  _data/
+    site.json                 # Site metadata
+    nav.json                  # Navigation items
+  index.njk, about.njk, ...  # Pages (front matter + unique content only)
+  css/style.css               # Stylesheet
+  js/site.js                  # Last-updated script
+  js/page-transitions.js      # PJAX content swapping
+  img/                        # Images
+  music/                      # Audio files
+_site/                        # Build output (gitignored)
+.eleventy.js                  # Eleventy config
+```
 
 ## Music and NCS tracks
 

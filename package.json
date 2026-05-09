@@ -1,0 +1,26 @@
+{
+  "name": "hung-blog",
+  "version": "1.0.0",
+  "description": "Blog: https://hungngdoan.github.io/hung-blog/",
+  "main": "index.js",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hungngdoan/hung-blog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/hungngdoan/hung-blog/issues"
+  },
+  "homepage": "https://github.com/hungngdoan/hung-blog#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.5"
+  }
+}
