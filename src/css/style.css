@@ -906,6 +906,72 @@ body::before {
   color: var(--accent-pink);
 }
 
+.quotes-section .quote-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px 0 6px;
+}
+
+.quotes-section .quote-item {
+  border-left: 2px solid var(--accent-pink);
+  padding: 8px 0 8px 14px;
+}
+
+.quotes-section .quote-item p {
+  color: var(--text-main);
+  font-size: 22px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.quotes-section .troll-feature {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(190, 170, 255, 0.12),
+      rgba(255, 105, 180, 0.06)
+    ),
+    rgba(0, 0, 50, 0.35);
+  border: 1px solid rgba(190, 170, 255, 0.58);
+  border-left: 4px solid #beaaff;
+  border-radius: 4px;
+  box-shadow: 0 0 14px rgba(190, 170, 255, 0.1);
+  margin-top: 6px;
+  padding: 16px 18px;
+}
+
+.quotes-section .troll-feature h3 {
+  color: #d6c9ff;
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0 0 10px;
+}
+
+.quotes-section .troll-feature-list {
+  margin: 0;
+}
+
+.quotes-section .troll-feature-list li {
+  font-size: 20px;
+  line-height: 1.5;
+  margin: 5px 0;
+  padding-left: 18px;
+}
+
+.quotes-section .troll-feature-list li::before {
+  color: var(--accent-cyan);
+  content: "-";
+}
+
+.quotes-section .troll-feature-summary {
+  color: var(--accent-pink);
+  font-size: 22px;
+  line-height: 1.5;
+  margin: 12px 0 0;
+}
+
 .about-section {
   font-family: var(--font-pixel);
 }
