@@ -48,7 +48,7 @@ src/
   js/site.js                  # Last-updated script
   js/page-transitions.js      # PJAX content swapping
   img/                        # Images
-  music/                      # Audio files
+  music/                      # Published audio files
 _site/                        # Build output (gitignored)
 .eleventy.js                  # Eleventy config
 ```
@@ -64,9 +64,9 @@ For any NCS song used on this site:
 - Do not treat local files in `music/` as part of this site's own license.
 - Do not redistribute NCS music separately from permitted content unless you have the right license.
 
-Current local music-player track:
+Current music-player track:
 
-- `music/Tobu-Cloud9.mp3` -- verify the exact official title, artist credit, and current NCS availability before deploying or committing the MP3.
+- `src/music/Tobu-Cloud9.mp3` -- copied to `_site/music/Tobu-Cloud9.mp3` by Eleventy. Verify the exact official title, artist credit, and current NCS availability before changing or deploying the MP3.
 
 ## Fan art and nostalgia assets
 

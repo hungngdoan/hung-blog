@@ -8,6 +8,14 @@
     var vol = document.getElementById("musicVolSlider");
     var volIcon = document.getElementById("musicVolIcon");
     var prevVol = 0.7;
+    var PLAY_ICON = "\u25b6";
+    var PAUSE_ICON = "\u275a\u275a";
+    var MUSIC_ICON = "\u266a";
+    var MUTE_ICON = "\u2715";
+
+    if (!audio || !btn || !bar || !wrap || !time || !vol || !volIcon) {
+      return;
+    }
 
     audio.volume = 0.7;
 
@@ -17,19 +25,41 @@
       return m + ":" + (sec < 10 ? "0" : "") + sec;
     }
 
+    function setPlaying(isPlaying) {
+      btn.textContent = isPlaying ? PAUSE_ICON : PLAY_ICON;
+      btn.classList.toggle("playing", isPlaying);
+      btn.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
+      btn.title = isPlaying ? "Pause" : "Play";
+    }
+
+    function showAudioError() {
+      setPlaying(false);
+      btn.disabled = false;
+      btn.setAttribute("aria-label", "Audio unavailable");
+      btn.title = "Audio unavailable";
+      time.textContent = "error";
+    }
+
     btn.addEventListener("click", function () {
       if (audio.paused) {
-        audio.play();
-        btn.textContent = "❚❚";
-        btn.classList.add("playing");
-        btn.setAttribute("aria-label", "Pause");
-        btn.title = "Pause";
+        btn.disabled = true;
+        btn.title = "Loading";
+
+        var playAttempt = audio.play();
+        if (playAttempt && typeof playAttempt.then === "function") {
+          playAttempt
+            .then(function () {
+              btn.disabled = false;
+              setPlaying(true);
+            })
+            .catch(showAudioError);
+        } else {
+          btn.disabled = false;
+          setPlaying(true);
+        }
       } else {
         audio.pause();
-        btn.textContent = "▶";
-        btn.classList.remove("playing");
-        btn.setAttribute("aria-label", "Play");
-        btn.title = "Play";
+        setPlaying(false);
       }
     });
 
@@ -41,11 +71,12 @@
     });
 
     audio.addEventListener("ended", function () {
-      btn.textContent = "▶";
-      btn.classList.remove("playing");
+      setPlaying(false);
       bar.style.width = "0%";
       time.textContent = "0:00";
     });
+
+    audio.addEventListener("error", showAudioError);
 
     wrap.addEventListener("click", function (e) {
       if (audio.duration) {
@@ -57,7 +88,7 @@
 
     vol.addEventListener("input", function () {
       audio.volume = vol.value / 100;
-      volIcon.textContent = audio.volume === 0 ? "✕" : "♪";
+      volIcon.textContent = audio.volume === 0 ? MUTE_ICON : MUSIC_ICON;
     });
 
     volIcon.addEventListener("click", function () {
@@ -65,11 +96,11 @@
         prevVol = audio.volume;
         audio.volume = 0;
         vol.value = 0;
-        volIcon.textContent = "✕";
+        volIcon.textContent = MUTE_ICON;
       } else {
         audio.volume = prevVol;
         vol.value = prevVol * 100;
-        volIcon.textContent = "♪";
+        volIcon.textContent = MUSIC_ICON;
       }
     });
   })();
