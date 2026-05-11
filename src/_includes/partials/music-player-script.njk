@@ -7,7 +7,7 @@
     var time = document.getElementById("musicTime");
     var vol = document.getElementById("musicVolSlider");
     var volIcon = document.getElementById("musicVolIcon");
-    var prevVol = 0.7;
+    var prevVol = 0.5;
     var PLAY_ICON = "\u25b6";
     var PAUSE_ICON = "\u275a\u275a";
     var MUSIC_ICON = "\u266a";
@@ -17,7 +17,7 @@
       return;
     }
 
-    audio.volume = 0.7;
+    audio.volume = 0.5;
 
     function fmt(s) {
       var m = Math.floor(s / 60);

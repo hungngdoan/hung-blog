@@ -591,6 +591,11 @@ body::before {
   margin-bottom: 10px;
 }
 
+.post-opener {
+  color: #ff5c5c;
+  font-weight: 700;
+}
+
 .post-body a {
   color: var(--link-color);
   text-decoration: none;
