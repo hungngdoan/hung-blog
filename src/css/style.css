@@ -536,6 +536,23 @@ body::before {
   box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
 }
 
+.music-credit {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--link-color);
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  text-decoration: none;
+  transition:
+    color 0.2s,
+    text-shadow 0.2s;
+}
+
+.music-credit:hover {
+  color: var(--accent-pink);
+  text-shadow: 0 0 8px rgba(255, 105, 180, 0.5);
+}
+
 /* Main content */
 .main-content {
   display: flex;
@@ -573,6 +590,21 @@ body::before {
   font-size: 13px;
   color: var(--accent-cyan);
   line-height: 1.45;
+}
+
+.music-page .page-section h2,
+.music-page .post-title {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.music-page .page-section h2 {
+  font-size: 18px;
+}
+
+.music-page .post-title {
+  font-size: 17px;
 }
 
 .post-date {
