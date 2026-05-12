@@ -591,6 +591,25 @@ body::before {
   margin-bottom: 10px;
 }
 
+.book-quote {
+  margin: 14px 0 4px;
+  padding: 12px 14px;
+  border-left: 3px solid var(--accent-gold);
+  background: rgba(255, 215, 0, 0.07);
+}
+
+.book-quote p {
+  margin-bottom: 8px;
+}
+
+.book-quote cite {
+  display: block;
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  color: var(--text-dim);
+  font-style: normal;
+}
+
 .post-opener {
   color: #ff5c5c;
   font-weight: 700;
