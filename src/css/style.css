@@ -978,6 +978,40 @@ body::before {
   margin: 0;
 }
 
+.quotes-section .quote-featured {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 105, 180, 0.08),
+      rgba(0, 255, 255, 0.05)
+    ),
+    rgba(0, 0, 50, 0.4);
+  border: 1px solid rgba(255, 105, 180, 0.4);
+  border-radius: 6px;
+  box-shadow: 0 0 18px rgba(255, 105, 180, 0.12), 0 0 6px rgba(0, 255, 255, 0.06);
+  padding: 20px;
+}
+
+.quotes-section .quote-featured-img {
+  width: 240px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 105, 180, 0.3);
+  box-shadow: 0 0 12px rgba(255, 105, 180, 0.15);
+}
+
+.quotes-section .quote-featured-text {
+  border-left: 2px solid var(--accent-pink);
+  padding: 8px 0 8px 14px;
+  margin-top: 14px;
+}
+
+.quotes-section .quote-featured-text p {
+  color: var(--text-main);
+  font-size: 22px;
+  line-height: 1.6;
+  margin: 0;
+}
+
 .quotes-section .troll-feature {
   background:
     linear-gradient(
