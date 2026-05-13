@@ -663,6 +663,12 @@ body::before {
   text-shadow: 0 0 8px rgba(255, 105, 180, 0.5);
 }
 
+.post-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 105, 180, 0.25);
+  margin: 12px 0;
+}
+
 .post-mood {
   font-family: var(--font-pixel);
   font-size: 18px;
@@ -969,6 +975,12 @@ body::before {
 .quotes-section .quote-item {
   border-left: 2px solid var(--accent-pink);
   padding: 8px 0 8px 14px;
+}
+
+.quotes-section .quote-item footer {
+  color: var(--accent-cyan);
+  font-size: 16px;
+  margin-top: 8px;
 }
 
 .quotes-section .quote-item p {
