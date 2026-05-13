@@ -18,7 +18,7 @@
       {% include "partials/nav.njk" %}
       <div class="content-grid">
         {% include "partials/sidebar.njk" %}
-        <main class="main-content">
+        <main class="main-content{% if pageClass %} {{ pageClass }}{% endif %}">
           {{ content | safe }}
         </main>
       </div>
