@@ -642,6 +642,19 @@ body::before {
   font-style: normal;
 }
 
+.chapter-notes {
+  margin: 12px 0 0;
+  padding-left: 28px;
+}
+
+.chapter-notes li {
+  margin: 8px 0;
+}
+
+.chapter-notes strong {
+  color: var(--accent-gold);
+}
+
 .post-opener {
   color: #ff5c5c;
   font-weight: 700;
