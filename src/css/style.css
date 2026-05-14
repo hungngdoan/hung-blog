@@ -1106,3 +1106,110 @@ body::before {
   padding: 1px 8px;
   border-radius: 3px;
 }
+
+/* 36 Ke - Stratagems */
+.stratagem-section {
+  margin: 10px 0 6px;
+}
+
+.stratagem-intro {
+  border-left: 3px solid var(--accent-gold);
+  background: rgba(255, 215, 0, 0.06);
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  border-radius: 0 4px 4px 0;
+}
+
+.stratagem-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stratagem-card {
+  border: 1px solid #2a2a4a;
+  border-radius: 4px;
+  background: rgba(0, 0, 40, 0.35);
+  transition: border-color 0.2s;
+}
+
+.stratagem-card[open] {
+  border-color: rgba(255, 105, 180, 0.3);
+}
+
+.stratagem-card summary {
+  padding: 10px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-pixel);
+  list-style: none;
+}
+
+.stratagem-card summary::-webkit-details-marker { display: none; }
+.stratagem-card summary::marker { content: ""; }
+
+.stratagem-card summary:hover {
+  background: rgba(0, 255, 255, 0.04);
+}
+
+.stratagem-card summary::after {
+  content: "\25B8";
+  color: var(--accent-pink);
+  margin-left: auto;
+  font-size: 14px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.stratagem-card[open] > summary::after {
+  transform: rotate(90deg);
+}
+
+.stratagem-num {
+  color: var(--accent-gold);
+  min-width: 26px;
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+.stratagem-title {
+  color: var(--accent-cyan);
+  font-size: 20px;
+}
+
+.stratagem-meaning {
+  color: var(--text-dim);
+  font-size: 17px;
+}
+
+.stratagem-body {
+  padding: 4px 14px 16px 50px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.stratagem-body p {
+  font-size: 19px;
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+.stratagem-body p:last-child {
+  margin-bottom: 0;
+}
+
+.stratagem-body ul {
+  margin: 6px 0;
+  padding-left: 6px;
+}
+
+.stratagem-body ul li {
+  font-size: 19px;
+  line-height: 1.6;
+}
+
+.stratagem-body ul li::marker {
+  content: "\2022 ";
+  color: var(--accent-pink);
+}
