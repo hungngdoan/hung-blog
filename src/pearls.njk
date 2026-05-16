@@ -1,0 +1,176 @@
+---
+layout: base.njk
+title: "Pearls ~ Hung's Journal"
+navActive: pearls.html
+permalink: pearls.html
+pageClass: pearls-page
+---
+
+{% set pearls = [
+  { name: "War Crimson", inner: "#b8172c", outer: "#6b0f1a", glow: "rgba(184, 23, 44, 0.5)" },
+  { name: "Spirit Teal", inner: "#2af5d0", outer: "#0e7a66", glow: "rgba(42, 245, 208, 0.5)" },
+  { name: "Arcane Violet", inner: "#6a4bc3", outer: "#3a2570", glow: "rgba(106, 75, 195, 0.5)" },
+  { name: "Imperial Gold", inner: "#c9a23c", outer: "#8a6e24", glow: "rgba(201, 162, 60, 0.5)" },
+  { name: "Command Blue", inner: "#3a86ff", outer: "#1a4499", glow: "rgba(58, 134, 255, 0.5)" },
+  { name: "Ember Orange", inner: "#ff9f1c", outer: "#b36a00", glow: "rgba(255, 159, 28, 0.5)" },
+  { name: "Site Cyan", inner: "#00ffff", outer: "#008899", glow: "rgba(0, 255, 255, 0.5)" },
+  { name: "Hyper Pink", inner: "#ff69b4", outer: "#9f2a6b", glow: "rgba(255, 105, 180, 0.5)" },
+  { name: "Rose Pink", inner: "#ff4f9f", outer: "#991b55", glow: "rgba(255, 79, 159, 0.5)" },
+  { name: "Bubblegum", inner: "#ff8ac7", outer: "#a83272", glow: "rgba(255, 138, 199, 0.5)" },
+  { name: "Magenta", inner: "#ff00cc", outer: "#8f0072", glow: "rgba(255, 0, 204, 0.5)" },
+  { name: "Fuchsia", inner: "#d946ef", outer: "#7e1f8f", glow: "rgba(217, 70, 239, 0.5)" },
+  { name: "Quest Lime", inner: "#7fff00", outer: "#3f8f00", glow: "rgba(127, 255, 0, 0.5)" },
+  { name: "Link Sky", inner: "#00ccff", outer: "#006d99", glow: "rgba(0, 204, 255, 0.5)" },
+  { name: "Soft Lilac", inner: "#e0d0ff", outer: "#8270b0", glow: "rgba(224, 208, 255, 0.5)" },
+  { name: "Muted Violet", inner: "#9988bb", outer: "#51466f", glow: "rgba(153, 136, 187, 0.5)" },
+  { name: "Signal Red", inner: "#ff0000", outer: "#970000", glow: "rgba(255, 0, 0, 0.5)" },
+  { name: "Ruby Red", inner: "#dc2626", outer: "#7f1010", glow: "rgba(220, 38, 38, 0.5)" },
+  { name: "Coral", inner: "#ff5c5c", outer: "#9e1f1f", glow: "rgba(255, 92, 92, 0.5)" },
+  { name: "Amber", inner: "#ffd700", outer: "#9a7b00", glow: "rgba(255, 215, 0, 0.5)" },
+  { name: "Yellow", inner: "#ffff00", outer: "#8f8f00", glow: "rgba(255, 255, 0, 0.5)" },
+  { name: "Green", inner: "#00ff00", outer: "#008a00", glow: "rgba(0, 255, 0, 0.5)" },
+  { name: "Emerald", inner: "#22c55e", outer: "#116330", glow: "rgba(34, 197, 94, 0.5)" },
+  { name: "Aqua", inner: "#49c6e5", outer: "#17667d", glow: "rgba(73, 198, 229, 0.5)" },
+  { name: "Sapphire", inner: "#0088ff", outer: "#004a96", glow: "rgba(0, 136, 255, 0.5)" },
+  { name: "Indigo", inner: "#4f46e5", outer: "#27216f", glow: "rgba(79, 70, 229, 0.5)" },
+  { name: "Purple", inner: "#8800ff", outer: "#4d008f", glow: "rgba(136, 0, 255, 0.5)" },
+  { name: "Lavender", inner: "#beaaff", outer: "#6750a4", glow: "rgba(190, 170, 255, 0.5)" },
+  { name: "Pearl White", inner: "#f5f7ff", outer: "#7c849f", glow: "rgba(245, 247, 255, 0.5)" }
+] %}
+
+<style>
+  .main-content.pearls-page {
+    gap: 0;
+  }
+
+  .pearls-page .pearl-stage {
+    min-height: 72vh;
+    padding: clamp(1.25rem, 4vw, 3rem);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid rgba(73, 198, 229, 0.24);
+    border-radius: 4px;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(73, 198, 229, 0.14), transparent 36%),
+      linear-gradient(145deg, #080b12 0%, #121624 46%, #090b10 100%);
+  }
+
+  .pearls-page .pearl-grid {
+    width: min(900px, 100%);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(116px, 1fr));
+    gap: clamp(1.1rem, 3vw, 2rem) clamp(0.8rem, 2.4vw, 1.6rem);
+    align-items: start;
+    justify-items: center;
+  }
+
+  .pearls-page .pearl-swatch {
+    width: 116px;
+    min-height: 104px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.55rem;
+  }
+
+  .pearls-page .pearl-cell {
+    position: relative;
+    width: 44px;
+    height: 44px;
+  }
+
+  .pearls-page .tt-gem {
+    position: absolute;
+    width: 44px; height: 44px;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pearls-page .tt-gem-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2.5px solid #c9a23c;
+    background: radial-gradient(circle, var(--gem-inner) 30%, var(--gem-outer) 70%, #8a6e24 100%);
+    box-shadow: 0 0 12px var(--gem-glow), inset 0 -2px 4px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.15);
+  }
+
+  .pearls-page .tt-gem-bg::before {
+    content: "";
+    position: absolute;
+    top: 4px; left: 6px;
+    width: 12px; height: 8px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    transform: rotate(-20deg);
+  }
+
+  .pearls-page .tt-gem-num {
+    position: relative;
+    z-index: 2;
+    font-family: "Cinzel Decorative", serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  }
+
+  .pearls-page .pearl-label {
+    width: 100%;
+    display: grid;
+    gap: 0.12rem;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  .pearls-page .pearl-name,
+  .pearls-page .pearl-code {
+    overflow-wrap: anywhere;
+  }
+
+  .pearls-page .pearl-name {
+    color: var(--text-main);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .pearls-page .pearl-code {
+    color: var(--text-dim);
+    font-family: var(--font-pixel);
+    font-size: 1rem;
+    letter-spacing: 0;
+  }
+
+  @media (max-width: 560px) {
+    .pearls-page .pearl-stage {
+      min-height: 66vh;
+      padding: 1.25rem;
+    }
+
+    .pearls-page .pearl-grid {
+      grid-template-columns: repeat(2, minmax(116px, 1fr));
+      gap: 1.05rem;
+    }
+  }
+</style>
+
+<section class="pearl-stage" aria-label="Pearl color gallery">
+  <div class="pearl-grid">
+    {%- for pearl in pearls %}
+    <figure class="pearl-swatch" style="--gem-inner: {{ pearl.inner }}; --gem-outer: {{ pearl.outer }}; --gem-glow: {{ pearl.glow }};">
+      <span class="pearl-cell" aria-hidden="true">
+        <span class="tt-gem"><span class="tt-gem-bg"></span><span class="tt-gem-num"></span></span>
+      </span>
+      <figcaption class="pearl-label">
+        <span class="pearl-name">{{ pearl.name }}</span>
+        <span class="pearl-code">{{ pearl.inner }}</span>
+      </figcaption>
+    </figure>
+    {%- endfor %}
+  </div>
+</section>

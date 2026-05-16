@@ -117,5 +117,22 @@
       { "bg": "radial-gradient(circle, #2af5d0 0%, transparent 66%)", "w": 82, "h": 122, "x": "66%", "y": "58%" }
     ],
     "rune": "怒"
+  },
+  {
+    "name": "Thắng Bại Thường Tình",
+    "type": "Tào Tháo - Resilience",
+    "mana": 4,
+    "atk": 6,
+    "hp": 6,
+    "rarity": "rare",
+    "set": "Tao III",
+    "ability": "Trong binh pháp, thắng và bại đều là điều có thể xảy ra. Người cầm quân không để một lần thua làm mất chí, cũng không để một lần thắng làm mờ mắt.",
+    "flavor": "\"Thắng bại là chuyện thường tình của binh gia.\"",
+    "artColors": ["#101820", "#24506a", "#4b2f16"],
+    "artShapes": [
+      { "bg": "radial-gradient(circle, #49c6e5 0%, transparent 70%)", "w": 118, "h": 96, "x": "44%", "y": "38%" },
+      { "bg": "radial-gradient(circle, #d49a3a 0%, transparent 68%)", "w": 86, "h": 118, "x": "66%", "y": "58%" }
+    ],
+    "rune": "勝"
   }
 ]
