@@ -931,15 +931,41 @@ fontsUrl: "https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&
     { inner: "#6a4bc3", outer: "#3a2570", glow: "rgba(106, 75, 195, 0.5)" },
     { inner: "#c9a23c", outer: "#8a6e24", glow: "rgba(201, 162, 60, 0.5)" },
     { inner: "#3a86ff", outer: "#1a4499", glow: "rgba(58, 134, 255, 0.5)" },
-    { inner: "#ff9f1c", outer: "#b36a00", glow: "rgba(255, 159, 28, 0.5)" }
+    { inner: "#ff9f1c", outer: "#b36a00", glow: "rgba(255, 159, 28, 0.5)" },
+    { inner: "#00ffff", outer: "#008899", glow: "rgba(0, 255, 255, 0.5)" },
+    { inner: "#ff69b4", outer: "#9f2a6b", glow: "rgba(255, 105, 180, 0.5)" },
+    { inner: "#ff4f9f", outer: "#991b55", glow: "rgba(255, 79, 159, 0.5)" },
+    { inner: "#ff8ac7", outer: "#a83272", glow: "rgba(255, 138, 199, 0.5)" },
+    { inner: "#ff00cc", outer: "#8f0072", glow: "rgba(255, 0, 204, 0.5)" },
+    { inner: "#d946ef", outer: "#7e1f8f", glow: "rgba(217, 70, 239, 0.5)" },
+    { inner: "#7fff00", outer: "#3f8f00", glow: "rgba(127, 255, 0, 0.5)" },
+    { inner: "#00ccff", outer: "#006d99", glow: "rgba(0, 204, 255, 0.5)" },
+    { inner: "#e0d0ff", outer: "#8270b0", glow: "rgba(224, 208, 255, 0.5)" },
+    { inner: "#9988bb", outer: "#51466f", glow: "rgba(153, 136, 187, 0.5)" },
+    { inner: "#ff0000", outer: "#970000", glow: "rgba(255, 0, 0, 0.5)" },
+    { inner: "#dc2626", outer: "#7f1010", glow: "rgba(220, 38, 38, 0.5)" },
+    { inner: "#ff5c5c", outer: "#9e1f1f", glow: "rgba(255, 92, 92, 0.5)" },
+    { inner: "#ffd700", outer: "#9a7b00", glow: "rgba(255, 215, 0, 0.5)" },
+    { inner: "#ffff00", outer: "#8f8f00", glow: "rgba(255, 255, 0, 0.5)" },
+    { inner: "#00ff00", outer: "#008a00", glow: "rgba(0, 255, 0, 0.5)" },
+    { inner: "#22c55e", outer: "#116330", glow: "rgba(34, 197, 94, 0.5)" },
+    { inner: "#49c6e5", outer: "#17667d", glow: "rgba(73, 198, 229, 0.5)" },
+    { inner: "#0088ff", outer: "#004a96", glow: "rgba(0, 136, 255, 0.5)" },
+    { inner: "#4f46e5", outer: "#27216f", glow: "rgba(79, 70, 229, 0.5)" },
+    { inner: "#8800ff", outer: "#4d008f", glow: "rgba(136, 0, 255, 0.5)" },
+    { inner: "#beaaff", outer: "#6750a4", glow: "rgba(190, 170, 255, 0.5)" },
+    { inner: "#f5f7ff", outer: "#7c849f", glow: "rgba(245, 247, 255, 0.5)" },
+    { inner: "#be123c", outer: "#6e0a22", glow: "rgba(190, 18, 60, 0.5)" },
+    { inner: "#34d399", outer: "#167d56", glow: "rgba(52, 211, 153, 0.5)" },
+    { inner: "#93c5fd", outer: "#3b5f96", glow: "rgba(147, 197, 253, 0.5)" }
   ];
 
   function renderCard(animate) {
     var c = cards[currentIndex];
     var num = currentIndex + 1;
-    var gc = gemColors[currentIndex % gemColors.length];
 
     for (var g = 0; g < 4; g++) {
+      var gc = gemColors[(currentIndex * gemBgs.length + g) % gemColors.length];
       gemNums[g].textContent = num;
       gemBgs[g].style.background = "radial-gradient(circle, " + gc.inner + " 30%, " + gc.outer + " 70%, #8a6e24 100%)";
       gemBgs[g].style.boxShadow = "0 0 12px " + gc.glow + ", inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.15)";
