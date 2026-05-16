@@ -100,5 +100,22 @@
       { "bg": "radial-gradient(circle, #4488ff 0%, transparent 65%)", "w": 86, "h": 106, "x": "66%", "y": "60%" }
     ],
     "rune": "勇"
+  },
+  {
+    "name": "Nộ Mà Tỉnh",
+    "type": "Tào Tháo - Temperance",
+    "mana": 5,
+    "atk": 7,
+    "hp": 7,
+    "rarity": "epic",
+    "set": "Tao III",
+    "ability": "Giận dữ có thể làm mờ trí phán đoán, nhưng mất hết oán hận cũng khiến ý chí phản kích yếu đi. Người mạnh là người biết giữ lửa trong lòng mà đầu vẫn lạnh.",
+    "flavor": "\"Không được khích nộ sẽ làm giảm trí tuệ, không được oán hận sẽ giảm đi một nửa sức mạnh.\"",
+    "artColors": ["#16090d", "#5a1726", "#102834"],
+    "artShapes": [
+      { "bg": "radial-gradient(circle, #d73a4a 0%, transparent 70%)", "w": 126, "h": 108, "x": "44%", "y": "36%" },
+      { "bg": "radial-gradient(circle, #2af5d0 0%, transparent 66%)", "w": 82, "h": 122, "x": "66%", "y": "58%" }
+    ],
+    "rune": "怒"
   }
 ]
