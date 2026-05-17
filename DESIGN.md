@@ -1,227 +1,328 @@
-# Design Doc: hung-blog GitHub Pages Deployment
+# Design Doc: Hung Blog
 
-**Author:** Hung Doan
-**Date:** 2026-05-03
-**Status:** Draft
+**Author:** Hung Doan  
+**Last updated:** 2026-05-16  
+**Status:** Current application reference
 
 ---
 
 ## Objective
 
-Deploy a static personal site to GitHub Pages so it is publicly accessible via URL. No frameworks, no build tools, no backend.
+Hung Blog is a personal static site published at:
+
+```
+https://hungngdoan.github.io/hung-blog/
+```
+
+The site should stay fast, low-cost, easy to edit, and expressive. It uses Eleventy to remove duplicated page chrome while keeping the output as plain static HTML, CSS, JavaScript, images, and audio.
+
+The site is not a product dashboard or CMS. It is a personal web space with a retro/Y2K visual language, a shared music player, and a few richer interactive content pages.
 
 ---
 
 ## Current State
 
-- Multi-page static site served directly by GitHub Pages
-- Shared stylesheet at `css/style.css`
-- Shared image assets in `img/`
-- Git repo on GitHub, branch `main`
-- No framework, build step, backend, or deployment pipeline
-
-## Target State
-
-- Site live at `https://hungngdoan.github.io/hung-blog/`
-- Any push to `main` auto-deploys within 2 minutes
-- Zero ongoing cost
+- Eleventy 3 builds the site from `src/` into `_site/`.
+- Nunjucks pages use the shared layout `src/_includes/base.njk`.
+- Shared partials handle the marquee, header, nav, sidebar, footer, and music player script.
+- Navigation is data-driven from `src/_data/nav.json`.
+- `pearls.html` and `guestbook.html` are intentionally built but hidden from the top nav.
+- Static assets are copied through from `src/css`, `src/js`, `src/img`, and `src/music`.
+- GitHub Actions builds and deploys `_site/` to GitHub Pages on pushes to `main`.
+- The old `plan_sample/` prototype is no longer required by the built app. The 36 Ke experience now lives in `src/36ke.njk` with its image in `src/img/chineseDragon1.jpg`.
 
 ---
 
 ## Architecture
 
 ```
-GitHub Repo (main branch)
+src/
+  Eleventy input
+  Nunjucks pages, shared layout, partials, data, assets
     |
     v
-GitHub Pages (static file serving)
+npm run build
     |
     v
-Public URL --> index.html
+_site/
+  Static HTML/CSS/JS/assets
+    |
+    v
+GitHub Actions Pages artifact
+    |
+    v
+GitHub Pages
 ```
 
-There is no build step. GitHub Pages serves HTML, CSS, and image files directly from the repo root.
+At runtime, there is no backend. The browser loads static files from GitHub Pages.
+
+The page shell is shared by `base.njk`. Nav clicks are enhanced by `src/js/page-transitions.js`, which fetches the target page, swaps only `.main-content`, updates the active nav item and document title, and reactivates page-local scripts. This keeps the sidebar music player outside the swapped area so playback can continue across navigation.
+
+Every page must still work when loaded directly, without relying on PJAX.
 
 ---
 
-## Implementation Steps
-
-### Step 1: Verify repo structure
-
-Ensure repo root contains:
+## File Map
 
 ```
-hung-blog/
-  index.html        <-- home/posts page
-  about.html        <-- bio, stats, quests, personal context
-  entries.html      <-- blog entries archive
-  links.html        <-- links and blogroll
-  guestbook.html    <-- decorative guestbook
-  css/style.css     <-- shared stylesheet
-  img/              <-- shared image assets
-  music/            <-- mp3 assets for song-of-the-day player
-  README.md         <-- project description
+.github/workflows/deploy.yml       # GitHub Pages build and deploy workflow
+.eleventy.js                       # Eleventy input/output and passthrough config
+package.json                       # npm scripts and Eleventy dependency
+README.md                          # Contributor-facing project summary
+DESIGN.md                          # This application design reference
+
+src/
+  _data/
+    nav.json                       # Top-nav items
+    site.json                      # Site title, subtitle, banner, default fonts
+    taothaoCards.json              # Tao Thao card content and art data
+  _includes/
+    base.njk                       # Shared document shell
+    partials/                      # Header, nav, sidebar, footer, music pieces
+  css/style.css                    # Global site styles
+  js/site.js                       # Last-updated script
+  js/page-transitions.js           # PJAX-style nav enhancement
+  img/                             # Published image assets
+  music/                           # Published audio assets
+  *.njk                            # Page templates
+
+_site/                             # Build output, not source of truth
+plan_sample/                       # Legacy prototype folder, not app runtime
 ```
-
-No build config is required.
-
-### Step 2: Push to main
-
-Merge `daily-updates` branch into `main` (or push directly to `main`).
-
-### Step 3: Enable GitHub Pages
-
-1. Go to repo on GitHub
-2. Settings > Pages
-3. Source: "Deploy from a branch"
-4. Branch: `main`
-5. Folder: `/ (root)`
-6. Save
-
-### Step 4: Verify deployment
-
-- Wait 1-2 minutes
-- Visit `https://hungngdoan.github.io/hung-blog/`
-- Confirm the page renders correctly
 
 ---
 
-## Adding Content (ongoing)
+## Pages
 
-To update the site:
+### Visible top-nav pages
 
-1. Edit the relevant HTML page
-2. Edit `css/style.css` for shared visual changes
-3. Push to `main`
-4. Site updates automatically in ~60 seconds
+| URL | Source | Purpose |
+|---|---|---|
+| `index.html` | `src/index.njk` | Home page and recent personal content |
+| `about.html` | `src/about.njk` | Bio and personal context |
+| `roadmap.html` | `src/roadmap.njk` | Goals and progress |
+| `quotes.html` | `src/quotes.njk` | Quote collection |
+| `taothao.html` | `src/taothao.njk` | Interactive Tao Thao card deck |
+| `36ke.html` | `src/36ke.njk` | Native 36 Ke strategy page |
+| `books.html` | `src/books.njk` | Book notes and reading list |
+| `music.html` | `src/music.njk` | Music notes and current rotation |
+| `games.html` | `src/games.njk` | Games page |
+| `links.html` | `src/links.njk` | Links and references |
 
-No build step. No CI. No templating. Just edit static files and push.
+### Hidden but built pages
+
+| URL | Source | Purpose |
+|---|---|---|
+| `pearls.html` | `src/pearls.njk` | Pearl/gem color reference matching the Tao Thao card gems |
+| `guestbook.html` | `src/guestbook.njk` | Decorative guestbook page |
+
+Hidden pages should not be added to `src/_data/nav.json`. Link to them directly from relevant content when needed.
 
 ---
 
-## Future Considerations (do NOT implement now)
+## Navigation
 
-| If this happens | Then consider |
-|---|---|
-| Writing 3+ posts/week gets tedious | Migrate to Hugo or 11ty |
-| Want a custom domain (e.g. hung.dev) | Buy domain, configure CNAME in repo settings |
-| Want comments/guestbook to work | Add Giscus (GitHub-backed comments) |
-| Shared page shell gets tedious | Consider Hugo, 11ty, or a tiny static include workflow |
+`src/_data/nav.json` is the source of truth for the top nav.
+
+Each visible page should define:
+
+```yaml
+layout: base.njk
+title: "Page Title ~ Hung's Journal"
+navActive: page.html
+permalink: page.html
+```
+
+`navActive` should match the page URL from `nav.json` so the active state works both on direct load and after PJAX navigation.
+
+To create a hidden built page, keep the front matter and permalink, but omit it from `nav.json`.
 
 ---
 
-## Music Player: Song of the Day
+## Visual System
 
-**Added:** 2026-05-04
+The global visual system lives mostly in `src/css/style.css`.
 
-### Purpose
+Core direction:
 
-A sidebar widget that lets visitors play a single featured track directly on the homepage. Positioned immediately below the avatar/profile box to reinforce the personal, expressive feel of the site. The design leans into the retro anime fansite aesthetic already established by the rest of the layout.
+- Retro/Y2K personal-site feel.
+- Pixel-style typography with `VT323` and `Press Start 2P` as defaults.
+- Shared chrome: marquee, banner, left sidebar, nav tabs, content card area, footer.
+- Compact, information-first page layouts rather than marketing-style landing pages.
+- Feature pages can introduce scoped local styles when their visual world is genuinely different.
 
-### Components
+Page-specific visual worlds:
 
-| File | What was added |
-|---|---|
-| `index.html` | `music-box` sidebar section with `<audio>` element, play/pause button, progress bar, volume slider, and inline `<script>` |
-| `css/style.css` | `.music-*` class family: scrolling title marquee, circular play button with glow states, gradient progress bar, range-input volume slider with cross-browser thumb styling |
-| `music/` | Directory for mp3 assets (not checked into git by default) |
+- `taothao.html` uses a dark fantasy card-table style with gold borders, glowing gems, animated atmosphere, and card flip interactions.
+- `36ke.html` uses a compact classical strategy layout with a dragon image background, gold/red accents, one strategy row per line, and native expandable rows.
+- `pearls.html` isolates the Tao Thao gem/pearl colors into a color-reference gallery with names and hex codes.
 
-### Design decisions
+---
 
-- **No autoplay.** Browsers block it, and it is hostile UX. Visitor must click play.
-- **Scrolling title.** The sidebar is 225px wide. Song titles overflow. A CSS marquee animation handles this without JS, matching the site's existing marquee bar aesthetic.
-- **Volume control with mute toggle.** Clicking the music note icon toggles mute and remembers the previous volume level. The range slider gives fine-grained control.
-- **Click-to-seek on progress bar.** Maps click position to `audio.currentTime` proportionally. No drag-seek (unnecessary complexity for a single-track widget).
-- **No external dependencies.** Pure HTML5 Audio API + vanilla JS (~60 lines, IIFE-scoped). No libraries, no build step.
-- **Accessible.** Play button and volume slider have `aria-label` attributes. Keyboard-operable via native button and range input semantics.
+## Core Features
 
-### Audio hosting strategy: GitHub Releases
+### Shared layout
 
-MP3 files are **not committed to git**. They are hosted as GitHub Release assets to avoid git history bloat. The `music/` directory is gitignored (`music/*.mp3`). A local copy can live in `music/` for testing, but the production `<audio src>` points to a GitHub Release URL.
+All pages render through `base.njk`, which includes:
 
-#### Why not commit mp3s directly?
+- Global fonts and stylesheet.
+- `src/js/site.js`.
+- Marquee.
+- Header.
+- Data-driven nav.
+- Sidebar.
+- Main content slot.
+- Footer.
+- Music player script.
+- PJAX page transition script.
 
-Git stores every version of every file in history permanently. Even if you delete and replace a file, the old blob stays in `.git/objects/`. Swapping one 5MB song weekly means ~260MB of dead weight in history after a year. `git clone` downloads all of it every time. GitHub Releases don't have this problem -- deleting a release asset actually frees the storage.
+### Music player
 
-#### GitHub Releases limits (free tier)
+The sidebar music player is rendered through the sidebar partials and controlled by `music-player-script.njk`.
 
-| Limit | Value |
-|---|---|
-| Max file size per asset | 2GB |
-| Total release storage | Shares repo soft limit (~1GB), loosely enforced |
-| Bandwidth (public repos) | No cap |
-| Cost | Free for public repos |
+Current behavior:
 
-At 5MB per song, you can host 200 songs before approaching 1GB. For a personal blog, this is effectively unlimited.
+- User-initiated playback only.
+- Looping single-track player.
+- Play/pause button.
+- Click-to-seek progress bar.
+- Elapsed time display.
+- Volume slider and mute toggle.
+- Error state if audio cannot load.
 
-#### How to upload a new song
+Audio under `src/music/` is copied into `_site/music/`. Large MP3 files are ignored by git and should be hosted outside git history when practical. The current published local audio is an `.opus` file.
 
-1. Go to the repo on GitHub -> **Releases** -> **Create a new release**
-2. Tag: use a sequential tag like `music-v1`, `music-v2`, etc.
-3. Title: song name and artist (e.g. "Cloud 9 - Tobu")
-4. Drag the mp3 file into the **Attach binaries** area
-5. Click **Publish release**
-6. Right-click the uploaded file link -> **Copy link address**
-7. Update two things in `index.html`:
-   - The `src` attribute on the `<audio id="musicAudio">` element
-   - The song title text inside `.music-title-scroll`
+### Last updated display
 
-The release URL format is:
+`src/js/site.js` looks for `[data-last-updated]` nodes, fetches the latest commit date from the GitHub API, and renders it. If the request fails, the fallback HTML date stays in place.
+
+### PJAX-style navigation
+
+`src/js/page-transitions.js` enhances clicks on `.nav-bar a`.
+
+It:
+
+- Fetches the destination HTML.
+- Replaces `.main-content`.
+- Re-runs page-local scripts inside the new content.
+- Updates `document.title`.
+- Updates the active nav class.
+- Handles browser back/forward.
+
+Feature scripts that attach global listeners should provide cleanup before reinitializing. `taothao.njk` currently does this with `window.__ttCleanup`.
+
+### Tao Thao card deck
+
+Source:
+
+- Page shell and interaction: `src/taothao.njk`
+- Card data: `src/_data/taothaoCards.json`
+
+Behavior:
+
+- Card data renders the initial card server-side.
+- Inline JSON feeds the browser-side deck controls.
+- Previous/next buttons, side arrows, thumbnails, keyboard arrows, swipe navigation, and card flipping are supported.
+- The card face uses per-card `artColors`, `artShapes`, and `rune`.
+- Gem colors are assigned by card index from the page-local gem palette. All gems on one card share the same color; different cards receive different colors in an alternating spectrum.
+- Reduced-motion preferences disable decorative motion where appropriate.
+
+### Pearls color reference
+
+Source:
+
+- `src/pearls.njk`
+
+Behavior:
+
+- Built as `pearls.html` but hidden from the top nav.
+- Uses the same pearl/gem visual format as the Tao Thao card gems.
+- Annotates each pearl with a color name and the primary inner hex code.
+- Acts as the reference page for expanding or adjusting card gem colors.
+
+### 36 Ke page
+
+Source:
+
+- `src/36ke.njk`
+- `src/img/chineseDragon1.jpg`
+
+Behavior:
+
+- Built as `36ke.html` and visible in the top nav.
+- Contains six chapters and all 36 strategies.
+- Uses a compact hero so the page can fit naturally inside the main blog layout.
+- Shows one strategy per long row, with the short sentence on the row.
+- Uses native `<details>` and `<summary>` for expandable explanations and examples.
+- Requires no runtime JavaScript.
+
+---
+
+## Build And Deploy
+
+Local commands:
+
+```bash
+npm install
+npm start
+npm run build
 ```
-https://github.com/hungngdoan/hung-blog/releases/download/<tag>/<filename>
-```
 
-Example:
-```
-https://github.com/hungngdoan/hung-blog/releases/download/music-v1/Tobu-Cloud9.mp3
-```
+Deployment is defined in `.github/workflows/deploy.yml`.
 
-#### How to swap the current song
+On push to `main`, GitHub Actions:
 
-1. Upload the new mp3 as a new release (e.g. `music-v2`)
-2. Update `index.html` with the new release URL and song title
-3. Commit and push the HTML change (a few bytes, no audio in git)
-4. The old release stays on GitHub as an archive (or delete it if you want)
+1. Checks out the repo.
+2. Sets up Node 20.
+3. Runs `npm ci`.
+4. Runs `npm run build`.
+5. Uploads `_site/` as a Pages artifact.
+6. Deploys to GitHub Pages.
 
-#### Scaling to 100+ songs
+---
 
-If the library grows large, organize releases by batches rather than one-per-song:
+## Change Guidelines
 
-| Scale | Strategy |
-|---|---|
-| 1-20 songs | One release per song. Tags: `music-v1`, `music-v2`, etc. Easy to browse on the Releases page. |
-| 20-100 songs | Batch releases by month or quarter. Tag: `music-2026-q2`. Attach multiple mp3s to a single release. Reduces clutter on the Releases page. |
-| 100+ songs | Consider migrating to Cloudflare R2 (10GB free, no egress fees) or Backblaze B2 (10GB free). At this scale you are building a music library, not a "song of the day" widget. The player UI would also need to evolve into a playlist/selector, which is a separate design effort. |
+- Treat `src/` as source of truth. Do not hand-edit `_site/`.
+- Use shared layout/partials for chrome changes.
+- Use `src/_data/nav.json` for top-nav changes.
+- Keep hidden pages out of `nav.json`.
+- Put reusable site-wide styles in `src/css/style.css`.
+- Keep highly specific feature-page styles scoped by `pageClass`.
+- Prefer static HTML and native browser behavior before adding JavaScript.
+- Keep page-local scripts resilient to PJAX reinitialization.
+- When adding new assets, place them under the matching `src/img`, `src/js`, `src/css`, or `src/music` folder so Eleventy copies them.
+- Run `npm run build` before considering a change complete.
 
-#### Cleanup
+---
 
-- Deleting a release on GitHub permanently removes the assets. No history bloat.
-- Old release URLs will 404 after deletion. Make sure the current `<audio src>` in `index.html` always points to a live release.
-- The `music/` folder is gitignored. Local mp3s are for testing only and won't be pushed.
+## Verification Checklist
 
-#### Local development
+Before deploying meaningful changes:
 
-Keep a copy of the current song in `music/` for local testing. The `<audio>` element works with both local paths and full URLs. When developing locally, you can temporarily set `src="music/Tobu-Cloud9.mp3"`. Before pushing, switch it back to the GitHub Release URL.
-
-### Constraints
-
-- MP3 files should be under 10MB per track for reasonable streaming on slow connections
-- Only one track at a time; this is not a playlist player
-- GitHub Releases shares the repo's ~1GB soft storage limit
-- Release asset URLs are public; do not upload copyrighted material you don't have rights to distribute
+- `npm run build` completes successfully.
+- Direct-load each touched page by its generated URL.
+- Navigate to touched pages through the top nav.
+- Confirm hidden pages still build if they were touched.
+- Confirm the music player can start, pause, seek, change volume, and continue across nav transitions.
+- Confirm `taothao.html` still supports flip, prev/next, thumbnails, keyboard arrows, and swipe after PJAX navigation.
+- Confirm `36ke.html` rows expand/collapse and the dragon image renders.
+- Check a narrow viewport for text overflow or broken layout.
 
 ---
 
 ## Non-Goals
 
-- No CMS
-- No JavaScript frameworks
-- No server-side logic
-- No database
-- No analytics (unless added later via simple script tag)
+- No backend server.
+- No database.
+- No CMS.
+- No analytics by default.
+- No client-side app framework.
+- No dependency on `plan_sample/` for production output.
+- No dynamic guestbook submissions unless a separate design introduces a hosted comment system.
 
 ---
 
 ## Rollback
 
-If something breaks: revert the commit on `main`. GitHub Pages redeploys from the previous state automatically.
+If a deployed change breaks the site, revert the commit on `main`. GitHub Actions will rebuild and redeploy the previous static output.

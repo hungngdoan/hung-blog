@@ -2,7 +2,7 @@
 
 Blog: https://hungngdoan.github.io/hung-blog/
 
-Guestbook: https://hungngdoan.github.io/hung-blog/#guestbook
+Guestbook page (hidden from top nav): https://hungngdoan.github.io/hung-blog/guestbook.html
 
 A freestyle personal site -- retro/Y2K-inspired, built with Eleventy (11ty).
 
@@ -33,6 +33,18 @@ npm install          # install dependencies (first time only)
 npm start            # dev server with live reload (for local development)
 npm run build        # build to _site/ (used by CI for deployment)
 ```
+
+## Navigation
+
+Main navigation is driven by `src/_data/nav.json`.
+
+Some pages are intentionally built but hidden from the top nav:
+
+- `pearls.html`
+- `guestbook.html`
+
+Keep hidden pages out of `nav.json`; link to them from relevant content when needed.
+
 ## Structure
 
 ```
