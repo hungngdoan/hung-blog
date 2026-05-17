@@ -11,8 +11,20 @@
     "flavor": "\"Thà ta phụ người trong thiên hạ, chứ đừng để người trong thiên hạ phụ ta.\"",
     "artColors": ["#210607", "#5a1116", "#17101f"],
     "artShapes": [
-      { "bg": "radial-gradient(circle, #b8172c 0%, transparent 70%)", "w": 120, "h": 130, "x": "52%", "y": "34%" },
-      { "bg": "radial-gradient(circle, #f0c850 0%, transparent 65%)", "w": 72, "h": 72, "x": "26%", "y": "60%" }
+      {
+        "bg": "radial-gradient(circle, #b8172c 0%, transparent 70%)",
+        "w": 120,
+        "h": 130,
+        "x": "52%",
+        "y": "34%"
+      },
+      {
+        "bg": "radial-gradient(circle, #f0c850 0%, transparent 65%)",
+        "w": 72,
+        "h": 72,
+        "x": "26%",
+        "y": "60%"
+      }
     ],
     "rune": "刃"
   },
@@ -28,8 +40,20 @@
     "flavor": "\"Không tin thì không dùng, đã dùng là phải tin.\"",
     "artColors": ["#071a24", "#123f55", "#2b2412"],
     "artShapes": [
-      { "bg": "radial-gradient(circle, #2af5d0 0%, transparent 70%)", "w": 128, "h": 92, "x": "44%", "y": "38%" },
-      { "bg": "radial-gradient(circle, #f0c850 0%, transparent 68%)", "w": 88, "h": 110, "x": "68%", "y": "56%" }
+      {
+        "bg": "radial-gradient(circle, #2af5d0 0%, transparent 70%)",
+        "w": 128,
+        "h": 92,
+        "x": "44%",
+        "y": "38%"
+      },
+      {
+        "bg": "radial-gradient(circle, #f0c850 0%, transparent 68%)",
+        "w": 88,
+        "h": 110,
+        "x": "68%",
+        "y": "56%"
+      }
     ],
     "rune": "信"
   },
@@ -45,8 +69,20 @@
     "flavor": "\"Kẻ nhận sai chẳng khác nào nói mình nhu nhược.\"",
     "artColors": ["#110d1f", "#33265e", "#0f172d"],
     "artShapes": [
-      { "bg": "radial-gradient(circle, #6a4bc3 0%, transparent 70%)", "w": 118, "h": 118, "x": "50%", "y": "40%" },
-      { "bg": "radial-gradient(circle, #3a86ff 0%, transparent 70%)", "w": 82, "h": 122, "x": "30%", "y": "58%" }
+      {
+        "bg": "radial-gradient(circle, #6a4bc3 0%, transparent 70%)",
+        "w": 118,
+        "h": 118,
+        "x": "50%",
+        "y": "40%"
+      },
+      {
+        "bg": "radial-gradient(circle, #3a86ff 0%, transparent 70%)",
+        "w": 82,
+        "h": 122,
+        "x": "30%",
+        "y": "58%"
+      }
     ],
     "rune": "威"
   },
@@ -62,8 +98,20 @@
     "flavor": "\"Biết sai sửa sai, nhưng không bao giờ nhận mình sai.\"",
     "artColors": ["#141005", "#3b2c0d", "#123221"],
     "artShapes": [
-      { "bg": "radial-gradient(circle, #c9a23c 0%, transparent 70%)", "w": 104, "h": 104, "x": "42%", "y": "36%" },
-      { "bg": "radial-gradient(circle, #2ec47a 0%, transparent 68%)", "w": 94, "h": 120, "x": "64%", "y": "58%" }
+      {
+        "bg": "radial-gradient(circle, #c9a23c 0%, transparent 70%)",
+        "w": 104,
+        "h": 104,
+        "x": "42%",
+        "y": "36%"
+      },
+      {
+        "bg": "radial-gradient(circle, #2ec47a 0%, transparent 68%)",
+        "w": 94,
+        "h": 120,
+        "x": "64%",
+        "y": "58%"
+      }
     ],
     "rune": "改"
   },
@@ -79,8 +127,20 @@
     "flavor": "\"Tại sao lòng bàn chân lại trắng hơn mặt và tay?\"",
     "artColors": ["#06181a", "#0d3534", "#241c0d"],
     "artShapes": [
-      { "bg": "radial-gradient(circle, #18b89a 0%, transparent 70%)", "w": 130, "h": 90, "x": "52%", "y": "42%" },
-      { "bg": "radial-gradient(circle, #8a6e24 0%, transparent 70%)", "w": 76, "h": 118, "x": "28%", "y": "58%" }
+      {
+        "bg": "radial-gradient(circle, #18b89a 0%, transparent 70%)",
+        "w": 130,
+        "h": 90,
+        "x": "52%",
+        "y": "42%"
+      },
+      {
+        "bg": "radial-gradient(circle, #8a6e24 0%, transparent 70%)",
+        "w": 76,
+        "h": 118,
+        "x": "28%",
+        "y": "58%"
+      }
     ],
     "rune": "隱"
   },
@@ -96,8 +156,20 @@
     "flavor": "\"Can đảm cẩn trọng, dám nghĩ dám làm mới có thể thành tựu sự nghiệp.\"",
     "artColors": ["#1b0b04", "#4d2308", "#10213a"],
     "artShapes": [
-      { "bg": "radial-gradient(circle, #ff9f1c 0%, transparent 70%)", "w": 120, "h": 132, "x": "46%", "y": "34%" },
-      { "bg": "radial-gradient(circle, #4488ff 0%, transparent 65%)", "w": 86, "h": 106, "x": "66%", "y": "60%" }
+      {
+        "bg": "radial-gradient(circle, #ff9f1c 0%, transparent 70%)",
+        "w": 120,
+        "h": 132,
+        "x": "46%",
+        "y": "34%"
+      },
+      {
+        "bg": "radial-gradient(circle, #4488ff 0%, transparent 65%)",
+        "w": 86,
+        "h": 106,
+        "x": "66%",
+        "y": "60%"
+      }
     ],
     "rune": "勇"
   },
@@ -113,26 +185,21 @@
     "flavor": "\"Không được khích nộ sẽ làm giảm trí tuệ, không được oán hận sẽ giảm đi một nửa sức mạnh.\"",
     "artColors": ["#16090d", "#5a1726", "#102834"],
     "artShapes": [
-      { "bg": "radial-gradient(circle, #d73a4a 0%, transparent 70%)", "w": 126, "h": 108, "x": "44%", "y": "36%" },
-      { "bg": "radial-gradient(circle, #2af5d0 0%, transparent 66%)", "w": 82, "h": 122, "x": "66%", "y": "58%" }
+      {
+        "bg": "radial-gradient(circle, #d73a4a 0%, transparent 70%)",
+        "w": 126,
+        "h": 108,
+        "x": "44%",
+        "y": "36%"
+      },
+      {
+        "bg": "radial-gradient(circle, #2af5d0 0%, transparent 66%)",
+        "w": 82,
+        "h": 122,
+        "x": "66%",
+        "y": "58%"
+      }
     ],
     "rune": "怒"
-  },
-  {
-    "name": "Thắng Bại Thường Tình",
-    "type": "Tào Tháo - Resilience",
-    "mana": 4,
-    "atk": 6,
-    "hp": 6,
-    "rarity": "rare",
-    "set": "Tao III",
-    "ability": "Trong binh pháp, thắng và bại đều là điều có thể xảy ra. Người cầm quân không để một lần thua làm mất chí, cũng không để một lần thắng làm mờ mắt.",
-    "flavor": "\"Thắng bại là chuyện thường tình của binh gia.\"",
-    "artColors": ["#101820", "#24506a", "#4b2f16"],
-    "artShapes": [
-      { "bg": "radial-gradient(circle, #49c6e5 0%, transparent 70%)", "w": 118, "h": 96, "x": "44%", "y": "38%" },
-      { "bg": "radial-gradient(circle, #d49a3a 0%, transparent 68%)", "w": 86, "h": 118, "x": "66%", "y": "58%" }
-    ],
-    "rune": "勝"
   }
 ]
