@@ -8,5 +8,12 @@
   { "url": "books.html", "label": "Books" },
   { "url": "music.html", "label": "Music" },
   { "url": "games.html", "label": "Games" },
-  { "url": "links.html", "label": "Links" }
+  {
+    "label": "Misc",
+    "children": [
+      { "url": "pearls.html", "label": "Pearls" },
+      { "url": "page-styles.html", "label": "Style Lab" },
+      { "url": "links.html", "label": "Links" }
+    ]
+  }
 ]
