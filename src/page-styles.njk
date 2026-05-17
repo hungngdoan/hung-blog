@@ -1,0 +1,970 @@
+---
+layout: base.njk
+title: "Style Lab ~ Hung's Journal"
+navActive: page-styles.html
+permalink: page-styles.html
+pageClass: page-styles-page
+---
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Outfit:wght@200;300;400;500;600&family=Syne:wght@400;500;600;700;800&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Bricolage+Grotesque:wght@400;500;600;700&family=DM+Serif+Text:ital@0;1&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Karla:wght@300;400;500;600;700&family=Abril+Fatface&family=Nunito+Sans:wght@300;400;500;600;700&family=Alegreya:ital,wght@0,400;0,700;0,800;1,400;1,700&family=Source+Sans+3:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" />
+
+<style>
+  .ps-page {
+    --ps-page-bg: #0A0A08;
+    --ps-card-bg: #13120F;
+    --ps-accent: #C9A84C;
+    --ps-accent-soft: rgba(201,168,76,0.12);
+    --ps-text: #E8E2D4;
+    --ps-text-soft: #9A9385;
+    --ps-muted: #5C5649;
+    --ps-border: #2A2720;
+    --ps-gradient-a: #0A0A08;
+    --ps-gradient-b: #1A1610;
+    --ps-gradient-c: #0D0B07;
+    --ps-glow-color: rgba(201,168,76,0.06);
+    --ps-particle-color: rgba(201,168,76,0.15);
+    --ps-heading-font: 'Bodoni Moda', serif;
+    --ps-heading-weight: 400;
+    --ps-heading-style: normal;
+    --ps-heading-size: 48px;
+    --ps-body-font: 'Outfit', sans-serif;
+    --ps-body-size: 16px;
+    --ps-body-weight: 300;
+    --ps-label-font: 'Outfit', sans-serif;
+    --ps-quote-size: 28px;
+    --ps-quote-weight: 400;
+    --ps-quote-style: normal;
+    --ps-spacing: 0.02em;
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(170deg, var(--ps-gradient-a) 0%, var(--ps-gradient-b) 50%, var(--ps-gradient-c) 100%);
+  }
+
+  .ps-page,
+  .ps-page * {
+    box-sizing: border-box;
+  }
+
+  .ps-page .ps-grain,
+  .ps-page .ps-orbs,
+  .ps-page .ps-ink-wash,
+  .ps-page .ps-center-line {
+    position: fixed;
+    pointer-events: none;
+  }
+
+  .ps-page .ps-grain {
+    inset: 0;
+    z-index: 1;
+    opacity: 0.3;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 150px 150px;
+  }
+
+  .ps-page .ps-orbs {
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .ps-page .ps-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--ps-glow-color);
+  }
+
+  .ps-page .ps-orb-1 {
+    top: 10%;
+    right: 15%;
+    width: 400px;
+    height: 400px;
+    filter: blur(100px);
+    animation: float1 12s ease-in-out infinite;
+  }
+
+  .ps-page .ps-orb-2 {
+    bottom: 20%;
+    left: 10%;
+    width: 300px;
+    height: 300px;
+    filter: blur(80px);
+    animation: float2 15s ease-in-out infinite;
+  }
+
+  .ps-page .ps-orb-3 {
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    filter: blur(120px);
+    animation: float3 18s ease-in-out infinite;
+  }
+
+  .ps-page .ps-ink-wash {
+    inset: 0;
+    z-index: 0;
+  }
+
+  .ps-page .ps-ink-wash svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+  }
+
+  .ps-page .ps-center-line {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--ps-accent) 7%, transparent), transparent);
+  }
+
+  .ps-page .ps-selectors,
+  .ps-page .ps-header,
+  .ps-page .ps-posts,
+  .ps-page .ps-footer {
+    position: relative;
+    z-index: 10;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .ps-page .ps-selectors {
+    padding: 24px 24px 0;
+  }
+
+  .ps-page .ps-section-label {
+    margin-bottom: 8px;
+    color: var(--ps-muted);
+    font-family: var(--ps-label-font);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+
+  .ps-page .ps-palette-grid,
+  .ps-page .ps-font-grid {
+    display: grid;
+    gap: 8px;
+  }
+
+  .ps-page .ps-palette-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding-bottom: 16px;
+  }
+
+  .ps-page .ps-font-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-bottom: 8px;
+  }
+
+  .ps-page .ps-swatch {
+    display: flex;
+    min-width: 0;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+
+  .ps-page .ps-swatch.active {
+    border-color: var(--ps-accent);
+    opacity: 1;
+  }
+
+  .ps-page .ps-palette-swatch {
+    background: var(--swatch-bg);
+  }
+
+  .ps-page .ps-font-swatch {
+    background: var(--ps-card-bg);
+  }
+
+  .ps-page .ps-palette-dots {
+    display: flex;
+    gap: 3px;
+  }
+
+  .ps-page .ps-palette-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--dot-color);
+  }
+
+  .ps-page .ps-palette-dot-card {
+    border: 1px solid var(--dot-border);
+  }
+
+  .ps-page .ps-swatch-name {
+    color: var(--swatch-text, var(--ps-text));
+    font-size: 11px;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .ps-page .ps-swatch-desc {
+    color: var(--swatch-muted, var(--ps-muted));
+    font-size: 9px;
+    line-height: 1.3;
+    text-align: left;
+  }
+
+  .ps-page .ps-font-sample {
+    color: var(--ps-text);
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .ps-page .ps-font-swatch .ps-swatch-name,
+  .ps-page .ps-font-swatch .ps-swatch-desc {
+    font-family: var(--ps-label-font);
+  }
+
+  .ps-page .ps-header {
+    padding: 48px 24px 8px;
+    text-align: center;
+  }
+
+  .ps-page .ps-header-label {
+    margin-bottom: 20px;
+    color: var(--ps-accent);
+    font-family: var(--ps-label-font);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+  }
+
+  .ps-page .ps-title {
+    margin: 0 0 16px;
+    color: var(--ps-text);
+    font-family: var(--ps-heading-font);
+    font-size: var(--ps-heading-size);
+    font-style: var(--ps-heading-style);
+    font-weight: var(--ps-heading-weight);
+    letter-spacing: var(--ps-spacing);
+    line-height: 1.1;
+    transition: all 0.4s ease;
+  }
+
+  .ps-page .ps-divider {
+    width: 60px;
+    height: 1px;
+    margin: 0 auto 20px;
+    background: linear-gradient(90deg, transparent, var(--ps-accent), transparent);
+  }
+
+  .ps-page .ps-subtitle {
+    max-width: 480px;
+    margin: 0 auto;
+    color: var(--ps-text-soft);
+    font-family: var(--ps-body-font);
+    font-size: var(--ps-body-size);
+    font-style: italic;
+    font-weight: var(--ps-body-weight);
+    line-height: 1.7;
+  }
+
+  .ps-page .ps-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 40px 24px 80px;
+  }
+
+  .ps-page .ps-post {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--ps-card-bg);
+    border: 1px solid var(--ps-border);
+    border-radius: 2px;
+    transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .ps-page .ps-post:focus-visible {
+    outline: 2px solid var(--ps-accent);
+    outline-offset: 3px;
+  }
+
+  .ps-page .ps-post.expanded {
+    background: linear-gradient(135deg, var(--ps-card-bg), color-mix(in srgb, var(--ps-card-bg) 94%, transparent));
+    border-color: color-mix(in srgb, var(--ps-accent) 25%, transparent);
+  }
+
+  .ps-page .ps-post-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    opacity: 0;
+    background: linear-gradient(90deg, transparent, var(--ps-accent), transparent);
+  }
+
+  .ps-page .ps-post.expanded .ps-post-glow {
+    opacity: 1;
+  }
+
+  .ps-page .ps-post-inner {
+    padding: 32px 36px 28px;
+  }
+
+  .ps-page .ps-post-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .ps-page .ps-post-theme {
+    color: var(--ps-accent);
+    font-family: var(--ps-label-font);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .ps-page .ps-post-time {
+    color: var(--ps-muted);
+    font-family: var(--ps-label-font);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+  }
+
+  .ps-page .ps-post-quote {
+    margin: 0 0 10px;
+    color: var(--ps-text);
+    font-family: var(--ps-heading-font);
+    font-size: var(--ps-quote-size);
+    font-style: var(--ps-quote-style);
+    font-weight: var(--ps-quote-weight);
+    letter-spacing: var(--ps-spacing);
+    line-height: 1.35;
+    transition: font-family 0.3s ease;
+  }
+
+  .ps-page .ps-post-translation {
+    margin: 0 0 20px;
+    color: var(--ps-muted);
+    font-family: var(--ps-label-font);
+    font-size: 12px;
+    font-style: italic;
+    letter-spacing: 0.04em;
+  }
+
+  .ps-page .ps-post-rule {
+    width: 40px;
+    height: 1px;
+    margin-bottom: 20px;
+    background: color-mix(in srgb, var(--ps-accent) 32%, transparent);
+  }
+
+  .ps-page .ps-post-teaser,
+  .ps-page .ps-post-body p {
+    font-family: var(--ps-body-font);
+    font-size: var(--ps-body-size);
+    font-weight: var(--ps-body-weight);
+  }
+
+  .ps-page .ps-post-teaser {
+    margin: 0;
+    color: var(--ps-text-soft);
+    line-height: 1.8;
+  }
+
+  .ps-page .ps-post-body {
+    display: none;
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid var(--ps-border);
+  }
+
+  .ps-page .ps-post.expanded .ps-post-body {
+    display: block;
+  }
+
+  .ps-page .ps-post-body p {
+    margin: 0 0 20px;
+    color: var(--ps-text);
+    line-height: 1.9;
+  }
+
+  .ps-page .ps-post-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ps-page .ps-post-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+    color: var(--ps-accent);
+    font-family: var(--ps-label-font);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .ps-page .ps-toggle-arrow {
+    display: inline-block;
+    font-size: 11px;
+    transition: transform 0.4s ease;
+  }
+
+  .ps-page .ps-post.expanded .ps-toggle-arrow {
+    transform: rotate(180deg);
+  }
+
+  .ps-page .ps-footer {
+    padding: 32px 24px;
+    border-top: 1px solid var(--ps-border);
+    text-align: center;
+  }
+
+  .ps-page .ps-footer p {
+    margin: 0;
+    color: var(--ps-muted);
+    font-family: var(--ps-body-font);
+    font-size: 13px;
+    font-style: italic;
+    letter-spacing: 0.08em;
+  }
+
+  @keyframes float1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-30px, 20px); } }
+  @keyframes float2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(20px, -30px); } }
+  @keyframes float3 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-15px, -20px); } }
+
+  @media (max-width: 700px) {
+    .ps-page .ps-palette-grid,
+    .ps-page .ps-font-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ps-page .ps-title {
+      font-size: min(var(--ps-heading-size), 38px);
+    }
+
+    .ps-page .ps-post-inner {
+      padding: 26px 24px 24px;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .ps-page .ps-palette-grid,
+    .ps-page .ps-font-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ps-page .ps-selectors,
+    .ps-page .ps-header,
+    .ps-page .ps-posts,
+    .ps-page .ps-footer {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .ps-page .ps-post-meta {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+</style>
+
+<div class="ps-page" id="ps-page">
+  <div class="ps-orbs" aria-hidden="true">
+    <div class="ps-orb ps-orb-1"></div>
+    <div class="ps-orb ps-orb-2"></div>
+    <div class="ps-orb ps-orb-3"></div>
+  </div>
+
+  <div class="ps-ink-wash" aria-hidden="true">
+    <svg width="100%" height="100%">
+      <defs>
+        <radialGradient id="ps-w1" cx="30%" cy="20%">
+          <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.04" data-accent />
+          <stop offset="100%" stop-color="transparent" />
+        </radialGradient>
+        <radialGradient id="ps-w2" cx="70%" cy="80%">
+          <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.03" data-accent />
+          <stop offset="100%" stop-color="transparent" />
+        </radialGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#ps-w1)" />
+      <rect width="100%" height="100%" fill="url(#ps-w2)" />
+    </svg>
+  </div>
+
+  <div class="ps-grain" aria-hidden="true"></div>
+  <div class="ps-center-line" aria-hidden="true"></div>
+
+  <section class="ps-selectors" aria-label="Style controls">
+    <div class="ps-section-label">Màu sắc</div>
+    <div class="ps-palette-grid" id="ps-palette-grid"></div>
+
+    <div class="ps-section-label">Phông chữ</div>
+    <div class="ps-font-grid" id="ps-font-grid"></div>
+  </section>
+
+  <header class="ps-header">
+    <div class="ps-header-label">&#9671;&ensp;Bộ sưu tập&ensp;&#9671;</div>
+    <h1 class="ps-title">Món Ngon Việt Nam</h1>
+    <div class="ps-divider" aria-hidden="true"></div>
+    <p class="ps-subtitle">
+      Một vòng hương vị qua những món ăn quen thuộc trong ẩm thực Việt Nam.
+      Mỗi món là một câu chuyện về vùng miền, nguyên liệu và cách người Việt ăn ngon mỗi ngày.
+    </p>
+  </header>
+
+  <section class="ps-posts" aria-label="Các món ngon Việt Nam">
+    <article class="ps-post" data-post-id="1" tabindex="0" role="button" aria-expanded="false">
+      <div class="ps-post-glow" aria-hidden="true"></div>
+      <div class="ps-post-inner">
+        <div class="ps-post-meta">
+          <span class="ps-post-theme">◉&ensp;Món Nước</span>
+          <span class="ps-post-time">4 phút</span>
+        </div>
+        <h2 class="ps-post-quote">Phở bò Hà Nội</h2>
+        <p class="ps-post-translation">Northern beef noodle soup</p>
+        <div class="ps-post-rule" aria-hidden="true"></div>
+        <p class="ps-post-teaser">Một bát phở ngon bắt đầu từ nước dùng trong, thơm quế hồi, ngọt sâu từ xương bò và hành nướng.</p>
+        <div class="ps-post-body">
+          <p>Phở bò Hà Nội là món ăn vừa giản dị vừa cầu kỳ. Sợi phở mềm, thịt bò thái mỏng, hành lá, rau thơm và nước dùng nóng tạo nên hương vị thanh mà đậm.</p>
+          <p>Điểm hay của phở nằm ở sự cân bằng. Nước dùng không cần quá béo, không cần quá nồng, nhưng phải có độ ngọt tự nhiên và mùi thơm ấm của gia vị rang.</p>
+          <p>Ăn phở ngon nhất là lúc bát còn bốc khói, thêm chút chanh, vài lát ớt, rồi thưởng thức chậm để cảm nhận vị Việt Nam rất tinh tế trong từng thìa nước.</p>
+        </div>
+        <div class="ps-post-toggle">
+          <span class="ps-toggle-label">Đọc tiếp</span>
+          <span class="ps-toggle-arrow" aria-hidden="true">&#9660;</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="ps-post" data-post-id="2" tabindex="0" role="button" aria-expanded="false">
+      <div class="ps-post-glow" aria-hidden="true"></div>
+      <div class="ps-post-inner">
+        <div class="ps-post-meta">
+          <span class="ps-post-theme">☽&ensp;Món Đường Phố</span>
+          <span class="ps-post-time">5 phút</span>
+        </div>
+        <h2 class="ps-post-quote">Bánh mì Sài Gòn</h2>
+        <p class="ps-post-translation">Vietnamese baguette sandwich</p>
+        <div class="ps-post-rule" aria-hidden="true"></div>
+        <p class="ps-post-teaser">Ổ bánh giòn rụm, nhân đầy đặn, vị mặn ngọt chua cay hòa lại thành món ăn đường phố rất khó quên.</p>
+        <div class="ps-post-body">
+          <p>Bánh mì Sài Gòn là hình ảnh quen thuộc của nhịp sống nhanh nhưng vẫn đầy hương vị. Vỏ bánh phải giòn, ruột nhẹ, đủ chắc để giữ pate, bơ, chả, thịt, đồ chua, dưa leo và rau thơm.</p>
+          <p>Cái ngon của bánh mì nằm ở nhiều lớp vị. Pate béo, thịt đậm, đồ chua làm sáng miệng, ớt cay nhẹ và rau thơm kéo mọi thứ lại với nhau.</p>
+          <p>Đây là món ăn nhỏ gọn nhưng rất giàu tính cách: bình dân, linh hoạt, hào sảng, và luôn ngon nhất khi vừa được kẹp nóng trên tay.</p>
+        </div>
+        <div class="ps-post-toggle">
+          <span class="ps-toggle-label">Đọc tiếp</span>
+          <span class="ps-toggle-arrow" aria-hidden="true">&#9660;</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="ps-post" data-post-id="3" tabindex="0" role="button" aria-expanded="false">
+      <div class="ps-post-glow" aria-hidden="true"></div>
+      <div class="ps-post-inner">
+        <div class="ps-post-meta">
+          <span class="ps-post-theme">⚡&ensp;Món Gia Đình</span>
+          <span class="ps-post-time">4 phút</span>
+        </div>
+        <h2 class="ps-post-quote">Cơm tấm sườn bì chả</h2>
+        <p class="ps-post-translation">Broken rice with grilled pork</p>
+        <div class="ps-post-rule" aria-hidden="true"></div>
+        <p class="ps-post-teaser">Món cơm bình dân miền Nam có đủ khói than, mỡ hành, nước mắm chua ngọt và miếng sườn nướng thơm lừng.</p>
+        <div class="ps-post-body">
+          <p>Cơm tấm ngon phải có hạt cơm tơi, sườn nướng mềm, bì thơm, chả trứng béo và nước mắm pha vừa miệng. Khi chan lên, mọi thành phần hòa vào nhau rất tự nhiên.</p>
+          <p>Miếng sườn là linh hồn của đĩa cơm. Thịt được ướp mặn ngọt, nướng trên than cho hơi xém cạnh, thơm mùi hành tỏi và nước mắm.</p>
+          <p>Cơm tấm không cầu kỳ theo kiểu sang trọng, nhưng lại có sức hấp dẫn rất đời thường: no bụng, đậm đà, dễ nhớ, và ăn hoài không chán.</p>
+        </div>
+        <div class="ps-post-toggle">
+          <span class="ps-toggle-label">Đọc tiếp</span>
+          <span class="ps-toggle-arrow" aria-hidden="true">&#9660;</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="ps-post" data-post-id="4" tabindex="0" role="button" aria-expanded="false">
+      <div class="ps-post-glow" aria-hidden="true"></div>
+      <div class="ps-post-inner">
+        <div class="ps-post-meta">
+          <span class="ps-post-theme">◉&ensp;Món Nước</span>
+          <span class="ps-post-time">5 phút</span>
+        </div>
+        <h2 class="ps-post-quote">Bún bò Huế</h2>
+        <p class="ps-post-translation">Hue-style spicy beef noodle soup</p>
+        <div class="ps-post-rule" aria-hidden="true"></div>
+        <p class="ps-post-teaser">Tô bún miền Trung cay thơm, nước dùng đỏ nhẹ màu sa tế, nổi bật bởi sả, mắm ruốc và vị bò đậm đà.</p>
+        <div class="ps-post-body">
+          <p>Bún bò Huế có cá tính mạnh hơn phở. Nước dùng thơm sả, có chiều sâu từ mắm ruốc, cay nhẹ từ sa tế và vị ngọt chắc của xương hầm.</p>
+          <p>Sợi bún to, thịt bò, giò heo, chả cua và rau sống làm tô bún đầy đặn. Khi ăn, thêm chanh và rau thơm sẽ làm vị cay béo trở nên sáng hơn.</p>
+          <p>Đây là món ăn mang tinh thần miền Trung rõ rệt: đậm, thẳng, nhiều lớp hương, và để lại dư vị ấm lâu sau khi ăn xong.</p>
+        </div>
+        <div class="ps-post-toggle">
+          <span class="ps-toggle-label">Đọc tiếp</span>
+          <span class="ps-toggle-arrow" aria-hidden="true">&#9660;</span>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <footer class="ps-footer">
+    <p>&copy; 2026 &ensp;&#9671;&ensp; Hương vị Việt Nam</p>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var PALETTES = {
+      ink_gold: {
+        name: "Mực & Vàng", desc: "Masculine luxury. Whiskey bar at midnight.",
+        pageBg: "#0A0A08", cardBg: "#13120F", accent: "#C9A84C",
+        accentSoft: "rgba(201,168,76,0.12)", text: "#E8E2D4", textSoft: "#9A9385",
+        muted: "#5C5649", border: "#2A2720",
+        gradientA: "#0A0A08", gradientB: "#1A1610", gradientC: "#0D0B07",
+        glowColor: "rgba(201,168,76,0.06)", particleColor: "rgba(201,168,76,0.15)"
+      },
+      mystic_night: {
+        name: "Đêm Huyền", desc: "Midnight secrets. Smoke and moonlight.",
+        pageBg: "#080B14", cardBg: "#0E1220", accent: "#8B9FBF",
+        accentSoft: "rgba(139,159,191,0.1)", text: "#D4DAE8", textSoft: "#7A839A",
+        muted: "#454D63", border: "#1C2236",
+        gradientA: "#080B14", gradientB: "#0F1528", gradientC: "#0A0E1A",
+        glowColor: "rgba(100,140,200,0.05)", particleColor: "rgba(139,159,191,0.12)"
+      },
+      red_wine: {
+        name: "Rượu Đỏ", desc: "Velvet warmth. The taste of temptation.",
+        pageBg: "#0E0608", cardBg: "#170C10", accent: "#B5464A",
+        accentSoft: "rgba(181,70,74,0.1)", text: "#E8DDD4", textSoft: "#9A8A82",
+        muted: "#5C4A45", border: "#2E1E22",
+        gradientA: "#0E0608", gradientB: "#1A0E14", gradientC: "#120810",
+        glowColor: "rgba(181,70,74,0.05)", particleColor: "rgba(181,70,74,0.12)"
+      },
+      tram_huong: {
+        name: "Trầm Hương", desc: "Ancient forest. Sacred smoke rising.",
+        pageBg: "#070B08", cardBg: "#0D1410", accent: "#6B9B72",
+        accentSoft: "rgba(107,155,114,0.1)", text: "#D8E2D4", textSoft: "#849A82",
+        muted: "#4A5C47", border: "#1E2E20",
+        gradientA: "#070B08", gradientB: "#101A12", gradientC: "#090E0A",
+        glowColor: "rgba(107,155,114,0.05)", particleColor: "rgba(107,155,114,0.12)"
+      },
+      tim_mong: {
+        name: "Tím Mộng", desc: "Velvet plum. Opium den haze.",
+        pageBg: "#0B0810", cardBg: "#140F1C", accent: "#9B7BBF",
+        accentSoft: "rgba(155,123,191,0.1)", text: "#DDD4E8", textSoft: "#8A7E9A",
+        muted: "#544D63", border: "#261F36",
+        gradientA: "#0B0810", gradientB: "#15102A", gradientC: "#0E0A18",
+        glowColor: "rgba(155,123,191,0.05)", particleColor: "rgba(155,123,191,0.12)"
+      },
+      dong_co: {
+        name: "Đồng Cổ", desc: "Burnt copper. Firelight on skin.",
+        pageBg: "#0C0906", cardBg: "#16120D", accent: "#C08850",
+        accentSoft: "rgba(192,136,80,0.1)", text: "#E8DDD0", textSoft: "#9A8E7A",
+        muted: "#5C5340", border: "#2E2820",
+        gradientA: "#0C0906", gradientB: "#1A150E", gradientC: "#100C08",
+        glowColor: "rgba(192,136,80,0.05)", particleColor: "rgba(192,136,80,0.12)"
+      },
+      hong_tram: {
+        name: "Hồng Trầm", desc: "Dusty rose. Silk on charcoal.",
+        pageBg: "#0C090B", cardBg: "#161214", accent: "#B07080",
+        accentSoft: "rgba(176,112,128,0.1)", text: "#E8D8DD", textSoft: "#9A858C",
+        muted: "#5C4A52", border: "#2E2226",
+        gradientA: "#0C090B", gradientB: "#1A1218", gradientC: "#100C0E",
+        glowColor: "rgba(176,112,128,0.05)", particleColor: "rgba(176,112,128,0.12)"
+      },
+      dai_duong: {
+        name: "Đại Dương", desc: "Abyssal teal. Sunken treasure.",
+        pageBg: "#060B0C", cardBg: "#0C1516", accent: "#5AA0A0",
+        accentSoft: "rgba(90,160,160,0.1)", text: "#D4E4E4", textSoft: "#7E9A9A",
+        muted: "#455C5C", border: "#1C2E2E",
+        gradientA: "#060B0C", gradientB: "#0E1A1C", gradientC: "#080E10",
+        glowColor: "rgba(90,160,160,0.05)", particleColor: "rgba(90,160,160,0.12)"
+      }
+    };
+
+    var FONTS = {
+      bodoni: {
+        name: "Thời Trang", vibe: "High-fashion editorial",
+        heading: "'Bodoni Moda', serif", headingWeight: 400, headingStyle: "normal", headingSize: 48,
+        body: "'Outfit', sans-serif", bodySize: 16, bodyWeight: 300,
+        labelFont: "'Outfit', sans-serif", quoteSize: 28, quoteWeight: 400, quoteStyle: "normal",
+        spacing: "0.02em",
+        googleUrl: "https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Outfit:wght@200;300;400;500;600&display=swap",
+        sample: "Aa", sampleFont: "'Bodoni Moda', serif"
+      },
+      syne: {
+        name: "Đương Đại", vibe: "Geometric. Architectural.",
+        heading: "'Syne', sans-serif", headingWeight: 700, headingStyle: "normal", headingSize: 44,
+        body: "'Crimson Pro', serif", bodySize: 17, bodyWeight: 400,
+        labelFont: "'Syne', sans-serif", quoteSize: 26, quoteWeight: 700, quoteStyle: "normal",
+        spacing: "-0.01em",
+        googleUrl: "https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap",
+        sample: "Aa", sampleFont: "'Syne', sans-serif"
+      },
+      lora: {
+        name: "Văn Chương", vibe: "Warm literary. Old bookshop.",
+        heading: "'Lora', serif", headingWeight: 400, headingStyle: "italic", headingSize: 46,
+        body: "'Lora', serif", bodySize: 16.5, bodyWeight: 400,
+        labelFont: "'Bricolage Grotesque', sans-serif", quoteSize: 27, quoteWeight: 400, quoteStyle: "italic",
+        spacing: "0.01em",
+        googleUrl: "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Bricolage+Grotesque:wght@400;500;600;700&display=swap",
+        sample: "Aa", sampleFont: "'Lora', serif"
+      },
+      dm_serif: {
+        name: "Tuyên Ngôn", vibe: "Bold statement. Confident.",
+        heading: "'DM Serif Text', serif", headingWeight: 400, headingStyle: "normal", headingSize: 44,
+        body: "'Hanken Grotesk', sans-serif", bodySize: 16, bodyWeight: 400,
+        labelFont: "'Hanken Grotesk', sans-serif", quoteSize: 26, quoteWeight: 400, quoteStyle: "italic",
+        spacing: "0.005em",
+        googleUrl: "https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap",
+        sample: "Aa", sampleFont: "'DM Serif Text', serif"
+      },
+      fraunces: {
+        name: "Mềm Mại", vibe: "Soft power. Organic curves.",
+        heading: "'Fraunces', serif", headingWeight: 400, headingStyle: "italic", headingSize: 46,
+        body: "'Plus Jakarta Sans', sans-serif", bodySize: 16, bodyWeight: 400,
+        labelFont: "'Plus Jakarta Sans', sans-serif", quoteSize: 28, quoteWeight: 400, quoteStyle: "italic",
+        spacing: "0.01em",
+        googleUrl: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap",
+        sample: "Aa", sampleFont: "'Fraunces', serif"
+      },
+      instrument: {
+        name: "Tinh Tế", vibe: "Quiet elegance. Razor thin.",
+        heading: "'Instrument Serif', serif", headingWeight: 400, headingStyle: "italic", headingSize: 48,
+        body: "'Karla', sans-serif", bodySize: 16, bodyWeight: 400,
+        labelFont: "'Karla', sans-serif", quoteSize: 29, quoteWeight: 400, quoteStyle: "italic",
+        spacing: "0.015em",
+        googleUrl: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@300;400;500;600;700&display=swap",
+        sample: "Aa", sampleFont: "'Instrument Serif', serif"
+      },
+      abril: {
+        name: "Áp Phích", vibe: "Movie poster. Dramatic.",
+        heading: "'Abril Fatface', serif", headingWeight: 400, headingStyle: "normal", headingSize: 42,
+        body: "'Nunito Sans', sans-serif", bodySize: 16, bodyWeight: 400,
+        labelFont: "'Nunito Sans', sans-serif", quoteSize: 26, quoteWeight: 400, quoteStyle: "normal",
+        spacing: "0.005em",
+        googleUrl: "https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Nunito+Sans:wght@300;400;500;600;700&display=swap",
+        sample: "Aa", sampleFont: "'Abril Fatface', serif"
+      },
+      alegreya: {
+        name: "Cổ Kính", vibe: "Old-world charm. Calligraphy.",
+        heading: "'Alegreya', serif", headingWeight: 700, headingStyle: "italic", headingSize: 44,
+        body: "'Source Sans 3', sans-serif", bodySize: 16.5, bodyWeight: 400,
+        labelFont: "'Source Sans 3', sans-serif", quoteSize: 27, quoteWeight: 700, quoteStyle: "italic",
+        spacing: "0.005em",
+        googleUrl: "https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,700;0,800;1,400;1,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap",
+        sample: "Aa", sampleFont: "'Alegreya', serif"
+      },
+      playfair: {
+        name: "Sang Trọng", vibe: "Classic editorial. Timeless.",
+        heading: "'Playfair Display', serif", headingWeight: 900, headingStyle: "normal", headingSize: 44,
+        body: "'Source Serif 4', serif", bodySize: 16.5, bodyWeight: 400,
+        labelFont: "'DM Sans', sans-serif", quoteSize: 28, quoteWeight: 700, quoteStyle: "normal",
+        spacing: "0.005em",
+        googleUrl: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600;700&display=swap",
+        sample: "Aa", sampleFont: "'Playfair Display', serif"
+      }
+    };
+
+    var page = document.getElementById("ps-page");
+    if (!page) return;
+
+    var currentPalette = "ink_gold";
+    var currentFont = "bodoni";
+    var expandedPostId = null;
+
+    function setVar(name, value) {
+      page.style.setProperty(name, value);
+    }
+
+    function applyPalette(key) {
+      var p = PALETTES[key];
+      if (!p) return;
+
+      currentPalette = key;
+      setVar("--ps-page-bg", p.pageBg);
+      setVar("--ps-card-bg", p.cardBg);
+      setVar("--ps-accent", p.accent);
+      setVar("--ps-accent-soft", p.accentSoft);
+      setVar("--ps-text", p.text);
+      setVar("--ps-text-soft", p.textSoft);
+      setVar("--ps-muted", p.muted);
+      setVar("--ps-border", p.border);
+      setVar("--ps-gradient-a", p.gradientA);
+      setVar("--ps-gradient-b", p.gradientB);
+      setVar("--ps-gradient-c", p.gradientC);
+      setVar("--ps-glow-color", p.glowColor);
+      setVar("--ps-particle-color", p.particleColor);
+
+      page.querySelectorAll(".ps-ink-wash stop[data-accent]").forEach(function (stop) {
+        stop.setAttribute("stop-color", p.accent);
+      });
+
+      page.querySelectorAll("[data-palette]").forEach(function (button) {
+        var isActive = button.getAttribute("data-palette") === currentPalette;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+    }
+
+    function applyFont(key) {
+      var f = FONTS[key];
+      if (!f) return;
+
+      currentFont = key;
+      setVar("--ps-heading-font", f.heading);
+      setVar("--ps-heading-weight", f.headingWeight);
+      setVar("--ps-heading-style", f.headingStyle);
+      setVar("--ps-heading-size", f.headingSize + "px");
+      setVar("--ps-body-font", f.body);
+      setVar("--ps-body-size", f.bodySize + "px");
+      setVar("--ps-body-weight", f.bodyWeight);
+      setVar("--ps-label-font", f.labelFont);
+      setVar("--ps-quote-size", f.quoteSize + "px");
+      setVar("--ps-quote-weight", f.quoteWeight);
+      setVar("--ps-quote-style", f.quoteStyle);
+      setVar("--ps-spacing", f.spacing);
+
+      page.querySelectorAll("[data-font]").forEach(function (button) {
+        var isActive = button.getAttribute("data-font") === currentFont;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+    }
+
+    function renderPaletteSwatches() {
+      var grid = document.getElementById("ps-palette-grid");
+      if (!grid) return;
+
+      grid.innerHTML = "";
+      Object.keys(PALETTES).forEach(function (key) {
+        var p = PALETTES[key];
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "ps-swatch ps-palette-swatch";
+        button.setAttribute("data-palette", key);
+        button.setAttribute("aria-pressed", "false");
+        button.style.setProperty("--swatch-bg", p.pageBg);
+        button.style.setProperty("--swatch-text", p.text);
+        button.style.setProperty("--swatch-muted", p.muted);
+
+        var dots = document.createElement("div");
+        dots.className = "ps-palette-dots";
+        [p.accent, p.text, p.textSoft, p.cardBg].forEach(function (color, index) {
+          var dot = document.createElement("span");
+          dot.className = index === 3 ? "ps-palette-dot ps-palette-dot-card" : "ps-palette-dot";
+          dot.style.setProperty("--dot-color", color);
+          dot.style.setProperty("--dot-border", p.border);
+          dots.appendChild(dot);
+        });
+
+        var name = document.createElement("div");
+        name.className = "ps-swatch-name";
+        name.textContent = p.name;
+
+        var desc = document.createElement("div");
+        desc.className = "ps-swatch-desc";
+        desc.textContent = p.desc;
+
+        button.appendChild(dots);
+        button.appendChild(name);
+        button.appendChild(desc);
+        button.addEventListener("click", function () {
+          applyPalette(key);
+        });
+        grid.appendChild(button);
+      });
+    }
+
+    function renderFontSwatches() {
+      var grid = document.getElementById("ps-font-grid");
+      if (!grid) return;
+
+      grid.innerHTML = "";
+      Object.keys(FONTS).forEach(function (key) {
+        var f = FONTS[key];
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "ps-swatch ps-font-swatch";
+        button.setAttribute("data-font", key);
+        button.setAttribute("aria-pressed", "false");
+
+        var sample = document.createElement("div");
+        sample.className = "ps-font-sample";
+        sample.textContent = f.sample;
+        sample.style.fontFamily = f.sampleFont;
+        sample.style.fontWeight = f.headingWeight;
+        sample.style.fontStyle = f.headingStyle;
+
+        var name = document.createElement("div");
+        name.className = "ps-swatch-name";
+        name.textContent = f.name;
+
+        var vibe = document.createElement("div");
+        vibe.className = "ps-swatch-desc";
+        vibe.textContent = f.vibe;
+
+        button.appendChild(sample);
+        button.appendChild(name);
+        button.appendChild(vibe);
+        button.addEventListener("click", function () {
+          applyFont(key);
+        });
+        grid.appendChild(button);
+      });
+    }
+
+    function togglePost(id) {
+      expandedPostId = expandedPostId === id ? null : id;
+
+      page.querySelectorAll(".ps-post").forEach(function (article) {
+        var postId = Number(article.getAttribute("data-post-id"));
+        var isExpanded = postId === expandedPostId;
+        var label = article.querySelector(".ps-toggle-label");
+
+        article.classList.toggle("expanded", isExpanded);
+        article.setAttribute("aria-expanded", String(isExpanded));
+        if (label) {
+          label.textContent = isExpanded ? "Thu gọn" : "Đọc tiếp";
+        }
+      });
+    }
+
+    var posts = page.querySelector(".ps-posts");
+    if (posts) {
+      posts.addEventListener("click", function (event) {
+        var article = event.target.closest(".ps-post");
+        if (!article) return;
+        togglePost(Number(article.getAttribute("data-post-id")));
+      });
+
+      posts.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        var article = event.target.closest(".ps-post");
+        if (!article) return;
+        event.preventDefault();
+        togglePost(Number(article.getAttribute("data-post-id")));
+      });
+    }
+
+    renderPaletteSwatches();
+    renderFontSwatches();
+    applyPalette("ink_gold");
+    applyFont("bodoni");
+  })();
+</script>
