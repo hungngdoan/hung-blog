@@ -2,8 +2,6 @@
 
 Blog: https://hungngdoan.github.io/hung-blog/
 
-Guestbook page (hidden from top nav): https://hungngdoan.github.io/hung-blog/guestbook.html
-
 A freestyle personal site -- retro/Y2K-inspired, built with Eleventy (11ty).
 
 ## What is this
