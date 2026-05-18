@@ -896,10 +896,10 @@ body::before {
 
 .warp-zone-header {
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: 10px;
   color: var(--accent-gold);
   text-align: center;
-  padding: 12px 18px;
+  padding: 6px 18px;
   background: linear-gradient(
     135deg,
     rgba(255, 215, 0, 0.12),
@@ -911,22 +911,22 @@ body::before {
 }
 
 .warp-zone-body {
-  padding: 18px;
+  padding: 8px 18px 10px;
   text-align: center;
 }
 
 .warp-zone-text {
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-main);
-  margin-bottom: 14px;
-  line-height: 1.8;
+  margin-bottom: 6px;
+  line-height: 1.6;
   letter-spacing: 1px;
 }
 
 .warp-zone-bolt {
   font-family: var(--font-pixel);
-  font-size: 28px;
+  font-size: 20px;
   vertical-align: middle;
 }
 
@@ -936,7 +936,7 @@ body::before {
   font-size: 22px;
   color: var(--accent-cyan);
   text-decoration: none;
-  padding: 10px 24px;
+  padding: 6px 20px;
   border: 1px solid var(--accent-cyan);
   background: linear-gradient(180deg, rgba(0, 255, 255, 0.08), transparent);
   border-radius: 3px;
