@@ -1405,3 +1405,103 @@ body::before {
   content: "\2022 ";
   color: var(--accent-pink);
 }
+
+/* Tracker beacon */
+.tracker-beacon {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 6px 0 18px;
+  padding: 12px 18px;
+  background: linear-gradient(90deg, rgba(0, 255, 255, 0.08), rgba(255, 105, 180, 0.04) 70%, transparent);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.3s;
+  animation: beacon-border 3s ease-in-out infinite;
+}
+
+.tracker-beacon:hover {
+  background: linear-gradient(90deg, rgba(0, 255, 255, 0.14), rgba(255, 105, 180, 0.08) 70%, transparent);
+  border-color: var(--accent-pink);
+  border-left-color: var(--accent-pink);
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.15), inset 0 0 30px rgba(255, 105, 180, 0.03);
+}
+
+.tracker-beacon:hover .tracker-beacon-arrow {
+  transform: translateX(4px);
+  color: var(--accent-pink);
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+}
+
+@keyframes beacon-border {
+  0%, 100% { border-left-color: var(--accent-cyan); }
+  50% { border-left-color: var(--accent-pink); }
+}
+
+.tracker-beacon-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 9px;
+  color: var(--accent-lime);
+  letter-spacing: 2px;
+  flex-shrink: 0;
+}
+
+.tracker-beacon-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-lime);
+  box-shadow: 0 0 6px rgba(127, 255, 0, 0.7);
+  animation: blink-anim 1.2s steps(1) infinite;
+}
+
+.tracker-beacon-text {
+  font-family: var(--font-pixel);
+  font-size: 22px;
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+}
+
+.tracker-beacon-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.tracker-beacon-tag {
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  color: var(--accent-gold);
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  padding: 1px 8px;
+  border-radius: 3px;
+}
+
+.tracker-beacon-arrow {
+  font-size: 16px;
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+  transition: all 0.3s;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+}
+
+@media (max-width: 800px) {
+  .tracker-beacon {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tracker-beacon-tags {
+    width: 100%;
+    order: 3;
+  }
+  .tracker-beacon-arrow {
+    margin-left: auto;
+  }
+}
