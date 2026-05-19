@@ -63,3 +63,58 @@
       // Keep the fallback date that is already in the HTML.
     });
 })();
+
+(function () {
+  var dropdownSelector = ".nav-dropdown";
+  var toggleSelector = ".nav-dropdown-toggle";
+
+  function closeDropdown(dropdown) {
+    var toggle = dropdown.querySelector(toggleSelector);
+    dropdown.classList.remove("open");
+
+    if (toggle) {
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  }
+
+  function closeDropdowns(except) {
+    document.querySelectorAll(dropdownSelector).forEach(function (dropdown) {
+      if (dropdown !== except) {
+        closeDropdown(dropdown);
+      }
+    });
+  }
+
+  document.addEventListener("click", function (event) {
+    if (event.target.closest(".nav-dropdown-menu a")) {
+      closeDropdowns();
+      return;
+    }
+
+    var toggle = event.target.closest(toggleSelector);
+
+    if (toggle) {
+      var dropdown = toggle.closest(dropdownSelector);
+      var isOpen = dropdown.classList.contains("open");
+
+      closeDropdowns(dropdown);
+      dropdown.classList.toggle("open", !isOpen);
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+      return;
+    }
+
+    if (!event.target.closest(dropdownSelector)) {
+      closeDropdowns();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeDropdowns();
+    }
+  });
+
+  document.addEventListener("hung:pjax-complete", function () {
+    closeDropdowns();
+  });
+})();

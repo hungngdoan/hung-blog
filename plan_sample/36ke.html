@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三十六計 · 36 Kế</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-deep: #080810;
+    --bg-card: #111119;
+    --bg-card-hover: #181822;
+    --ink: #e8e4dc;
+    --ink-dim: #8a8578;
+    --ink-faint: #4a473f;
+    --vermillion: #c23a2e;
+    --vermillion-glow: rgba(194, 58, 46, 0.2);
+    --gold: #c9a84c;
+    --gold-dim: rgba(201, 168, 76, 0.3);
+    --seal-red: #b5312c;
+    --dragon-teal: #2a6e6e;
+    --dragon-purple: rgba(80, 50, 120, 0.15);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink-faint) transparent;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', 'Noto Serif', Georgia, serif;
+    background: var(--bg-deep);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === GLOBAL TEXTURE === */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cloud-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.018;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M30 140 Q30 120 50 120 Q45 100 65 95 Q60 75 80 70 Q85 50 105 55 Q115 40 130 50 Q145 40 155 55 Q170 50 175 70 Q190 80 180 95 Q195 110 175 120 Q180 135 160 140 Z' fill='none' stroke='%23c9a84c' stroke-width='0.8'/%3E%3C/svg%3E");
+    background-size: 300px 300px;
+  }
+
+  /* ============================================
+     HERO WITH DRAGON IMAGE
+     ============================================ */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 36px 18px 30px;
+    overflow: hidden;
+  }
+
+  /* Dragon image backdrop */
+  .hero-dragon-img {
+    position: absolute;
+    top: -72px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 145%;
+    width: auto;
+    min-width: 50%;
+    object-fit: cover;
+    object-position: center 18%;
+    opacity: 0.34;
+    z-index: 0;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse 70% 80% at 50% 45%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 45%, black 30%, transparent 75%);
+    filter: saturate(1.05) brightness(1.05) contrast(1.08);
+    animation: dragonPulse 10s ease-in-out infinite;
+  }
+
+  @keyframes dragonPulse {
+    0%, 100% { opacity: 0.32; filter: saturate(1.05) brightness(1.05) contrast(1.08); }
+    50% { opacity: 0.42; filter: saturate(1.2) brightness(1.12) contrast(1.12); }
+  }
+
+  /* Dark overlay gradients */
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      radial-gradient(ellipse at 50% 30%, transparent 20%, var(--bg-deep) 75%),
+      linear-gradient(180deg, rgba(8,8,16,0.3) 0%, rgba(8,8,16,0.6) 50%, var(--bg-deep) 100%);
+    pointer-events: none;
+  }
+
+  /* Ambient color glow from dragon */
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      radial-gradient(ellipse at 45% 35%, rgba(42, 110, 110, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 55% 25%, rgba(80, 50, 140, 0.05) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 80%, rgba(194, 58, 46, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Decorative corners */
+  .hero-corner {
+    position: absolute;
+    width: 62px;
+    height: 62px;
+    opacity: 0.2;
+    z-index: 3;
+  }
+  .hero-corner.tl { top: 14px; left: 14px; }
+  .hero-corner.tr { top: 14px; right: 14px; transform: scaleX(-1); }
+  .hero-corner.bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+  .hero-corner.br { bottom: 14px; right: 14px; transform: scale(-1, -1); }
+
+  /* Hero text content */
+  .hero-content {
+    position: relative;
+    z-index: 4;
+    width: min(860px, 100%);
+    padding: 0 18px;
+  }
+
+  .hero-hanzi {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(2.2rem, 7vw, 4.6rem);
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: transparent;
+    background: linear-gradient(180deg, #e8d48b 0%, var(--gold) 40%, var(--vermillion) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    line-height: 1.05;
+    filter: drop-shadow(0 0 34px rgba(194, 58, 46, 0.25)) drop-shadow(0 0 70px rgba(201, 168, 76, 0.12));
+    animation: fadeInDown 1.2s ease-out;
+  }
+
+  .hero-sub {
+    margin-top: 8px;
+    font-size: clamp(0.82rem, 1.8vw, 1.05rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink-dim);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    animation: fadeInUp 1s ease-out 0.4s both;
+  }
+
+  .hero-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 16px auto 0;
+    max-width: 300px;
+    animation: fadeInUp 1s ease-out 0.5s both;
+  }
+
+  .hero-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.5;
+  }
+
+  .hero-divider-diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--vermillion);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .hero-desc {
+    max-width: 560px;
+    margin: 14px auto 0;
+    font-size: 0.96rem;
+    line-height: 1.55;
+    color: var(--ink-dim);
+    animation: fadeInUp 1s ease-out 0.6s both;
+  }
+
+  .hero-scroll {
+    display: none;
+  }
+
+  .hero-scroll-arrow {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-right: 1.5px solid var(--ink-faint);
+    border-bottom: 1.5px solid var(--ink-faint);
+    transform: rotate(45deg);
+    animation: bounceDown 2s ease-in-out infinite;
+  }
+
+  @keyframes bounceDown {
+    0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.4; }
+    50% { transform: rotate(45deg) translateY(6px); opacity: 0.8; }
+  }
+
+  /* ============================================
+     MEANDER BORDER
+     ============================================ */
+  .meander-border {
+    position: relative;
+    z-index: 1;
+    height: 20px;
+    overflow: hidden;
+    opacity: 0.1;
+  }
+
+  .meander-border-inner {
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20' viewBox='0 0 40 20'%3E%3Crect x='0' y='0' width='10' height='10' fill='none' stroke='%23c9a84c' stroke-width='1'/%3E%3Crect x='10' y='0' width='10' height='20' fill='none' stroke='%23c9a84c' stroke-width='1'/%3E%3Crect x='20' y='10' width='10' height='10' fill='none' stroke='%23c9a84c' stroke-width='1'/%3E%3Crect x='30' y='0' width='10' height='20' fill='none' stroke='%23c9a84c' stroke-width='1'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: 40px 20px;
+  }
+
+  /* ============================================
+     CHAPTER SECTIONS
+     ============================================ */
+  .chapter {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 42px 18px 0;
+  }
+
+  .chapter-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeInLeft 0.6s ease-out forwards;
+  }
+
+  .chapter-num {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--vermillion);
+    line-height: 1;
+    opacity: 0.7;
+  }
+
+  .chapter-info { flex: 1; }
+
+  .chapter-title-cn {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  .chapter-title-vi {
+    font-size: 0.95rem;
+    color: var(--ink-dim);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .chapter-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--ink-faint), transparent);
+  }
+
+  /* ============================================
+     CARD GRID
+     ============================================ */
+  .strat-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 740px) {
+    .strat-grid { grid-template-columns: 1fr; }
+    .strat-head {
+      grid-template-columns: 30px minmax(0, 1fr) 24px;
+      gap: 10px;
+      padding: 12px;
+    }
+    .strat-summary {
+      grid-column: 2 / 4;
+      white-space: normal;
+    }
+    .strat-content { padding: 10px 12px 14px; }
+    .hero-corner { width: 44px; height: 44px; }
+    .hero { min-height: 300px; padding: 32px 14px 26px; }
+    .hero-dragon-img {
+      height: 145%;
+      min-width: 100%;
+      object-position: center 18%;
+      opacity: 0.28;
+      mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, black 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, black 20%, transparent 70%);
+    }
+  }
+
+  /* === CARD === */
+  .strat-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  .strat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--dragon-teal), var(--vermillion));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .strat-card:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(255,255,255,0.08);
+    transform: translateX(2px);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.38);
+  }
+
+  .strat-card:hover::before { opacity: 1; }
+
+  .strat-card.active {
+    background: var(--bg-card-hover);
+    border-color: var(--vermillion);
+    box-shadow: 0 0 0 1px var(--vermillion), 0 8px 32px rgba(194,58,46,0.12);
+  }
+
+  .strat-card.active::before { opacity: 1; }
+
+  .strat-head {
+    display: grid;
+    grid-template-columns: 34px minmax(170px, 220px) minmax(0, 1fr) 24px;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+  }
+
+  .strat-index {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--bg-deep);
+    background: linear-gradient(135deg, var(--gold), #b8943f);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(201, 168, 76, 0.2);
+  }
+
+  .strat-names { flex: 1; min-width: 0; }
+
+  .strat-hanzi {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.08em;
+  }
+
+  .strat-viet {
+    font-size: 0.82rem;
+    color: var(--ink-dim);
+    margin-top: 2px;
+  }
+
+  .strat-summary {
+    min-width: 0;
+    color: var(--ink);
+    font-size: 0.92rem;
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .strat-toggle {
+    color: var(--ink-faint);
+    font-size: 1.2rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .strat-card.active .strat-toggle {
+    transform: rotate(45deg);
+    color: var(--vermillion);
+  }
+
+  .strat-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .strat-card.active .strat-body { max-height: 600px; }
+
+  .strat-content {
+    display: grid;
+    gap: 6px;
+    padding: 10px 16px 14px 64px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .strat-meaning {
+    padding-top: 0;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .strat-example {
+    margin-top: 0;
+    padding: 0;
+    background: transparent;
+    border-left: 0;
+    border-radius: 0;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--ink-dim);
+    font-style: normal;
+  }
+
+  .strat-meaning::before,
+  .strat-example::before {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .strat-meaning::before { content: "Ý nghĩa: "; }
+  .strat-example::before { content: "Ví dụ: "; }
+
+  /* ============================================
+     SECTION DRAGON DIVIDER
+     ============================================ */
+  .section-divider {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    max-width: 600px;
+    margin: 40px auto 0;
+    padding: 0 24px;
+    opacity: 0.15;
+  }
+
+  .section-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .section-divider svg {
+    flex-shrink: 0;
+  }
+
+  /* ============================================
+     FOOTER
+     ============================================ */
+  .footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px 24px;
+    color: var(--ink-faint);
+    font-size: 0.85rem;
+    margin-top: 24px;
+  }
+
+  .footer-dragon-img {
+    width: 120px;
+    height: auto;
+    opacity: 0.08;
+    margin: 0 auto 16px;
+    display: block;
+    filter: saturate(0.3);
+    border-radius: 50%;
+    mask-image: radial-gradient(circle, black 40%, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle, black 40%, transparent 70%);
+  }
+
+  .footer-seal {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.6rem;
+    color: var(--seal-red);
+    opacity: 0.5;
+    margin-bottom: 8px;
+  }
+
+  /* ============================================
+     ANIMATIONS
+     ============================================ */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="cloud-bg"></div>
+
+<!-- ==========================================
+     HERO SECTION
+     ========================================== -->
+<section class="hero" id="hero">
+  <img src="chineseDragon1.jpg" alt="" class="hero-dragon-img" />
+  <div class="hero-overlay"></div>
+  <div class="hero-glow"></div>
+
+  <!-- Chinese decorative corners -->
+  <svg class="hero-corner tl" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 2 h96 v6 h-90 v84 h-6 z" stroke="#c9a84c" stroke-width="1.2"/>
+    <path d="M14 14 h24 v-6 h6 v30 h-30 v-6 h24 v-12 h-24 z" stroke="#c9a84c" stroke-width="0.8"/>
+    <path d="M14 44 h6 v24 h24 v6 h-30 z" stroke="#c9a84c" stroke-width="0.8"/>
+    <circle cx="74" cy="10" r="5" stroke="#c9a84c" stroke-width="0.5"/>
+    <circle cx="82" cy="6" r="3" stroke="#c9a84c" stroke-width="0.5"/>
+    <circle cx="10" cy="74" r="5" stroke="#c9a84c" stroke-width="0.5"/>
+    <circle cx="6" cy="82" r="3" stroke="#c9a84c" stroke-width="0.5"/>
+  </svg>
+  <svg class="hero-corner tr" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 2 h96 v6 h-90 v84 h-6 z" stroke="#c9a84c" stroke-width="1.2"/>
+    <path d="M14 14 h24 v-6 h6 v30 h-30 v-6 h24 v-12 h-24 z" stroke="#c9a84c" stroke-width="0.8"/>
+    <path d="M14 44 h6 v24 h24 v6 h-30 z" stroke="#c9a84c" stroke-width="0.8"/>
+    <circle cx="74" cy="10" r="5" stroke="#c9a84c" stroke-width="0.5"/>
+    <circle cx="10" cy="74" r="5" stroke="#c9a84c" stroke-width="0.5"/>
+  </svg>
+  <svg class="hero-corner bl" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 2 h96 v6 h-90 v84 h-6 z" stroke="#c9a84c" stroke-width="1.2"/>
+    <path d="M14 14 h24 v-6 h6 v30 h-30 v-6 h24 v-12 h-24 z" stroke="#c9a84c" stroke-width="0.8"/>
+    <path d="M14 44 h6 v24 h24 v6 h-30 z" stroke="#c9a84c" stroke-width="0.8"/>
+    <circle cx="74" cy="10" r="5" stroke="#c9a84c" stroke-width="0.5"/>
+    <circle cx="10" cy="74" r="5" stroke="#c9a84c" stroke-width="0.5"/>
+  </svg>
+  <svg class="hero-corner br" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 2 h96 v6 h-90 v84 h-6 z" stroke="#c9a84c" stroke-width="1.2"/>
+    <path d="M14 14 h24 v-6 h6 v30 h-30 v-6 h24 v-12 h-24 z" stroke="#c9a84c" stroke-width="0.8"/>
+    <path d="M14 44 h6 v24 h24 v6 h-30 z" stroke="#c9a84c" stroke-width="0.8"/>
+    <circle cx="74" cy="10" r="5" stroke="#c9a84c" stroke-width="0.5"/>
+    <circle cx="10" cy="74" r="5" stroke="#c9a84c" stroke-width="0.5"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-hanzi">三十六計</div>
+    <div class="hero-sub">Ba Mươi Sáu Kế</div>
+    <div class="hero-divider">
+      <div class="hero-divider-line"></div>
+      <div class="hero-divider-diamond"></div>
+      <div class="hero-divider-line"></div>
+    </div>
+    <p class="hero-desc">
+      Bộ sưu tập 36 mưu kế kinh điển từ binh pháp cổ đại Trung Hoa,
+      chia thành sáu chương, mỗi chương sáu kế.
+      Bấm vào từng kế để khám phá ý nghĩa và cách vận dụng.
+    </p>
+    <div class="hero-scroll">
+      <span class="hero-scroll-arrow"></span>
+    </div>
+  </div>
+</section>
+
+<div class="meander-border"><div class="meander-border-inner"></div></div>
+
+<div id="app"></div>
+
+<div class="meander-border"><div class="meander-border-inner"></div></div>
+
+<footer class="footer">
+  <img src="chineseDragon1.jpg" alt="" class="footer-dragon-img" />
+  <div class="footer-seal">兵</div>
+  Nguồn gốc: Binh pháp cổ đại Trung Hoa &middot; 三十六計
+</footer>
+
+<script>
+const DATA = [
+  {
+    chapter_cn: "勝戰計", chapter_vi: "Thắng Chiến Kế \u2014 Kế dùng khi thắng thế",
+    strats: [
+      { cn: "瞞天過海", vi: "Man thiên quá hải", meaning: "Giấu trời qua biển. Ngụy trang hành động thật dưới vẻ ngoài bình thường, lặp đi lặp lại để đối phương mất cảnh giác, rồi bất ngờ ra tay.", example: "Đường Thái Tông vượt biển đánh Cao Ly nhờ ngụy trang thuyền chiến thành tiệc rượu." },
+      { cn: "圍魏救趙", vi: "Vi Ngụy cứu Triệu", meaning: "Vây Ngụy cứu Triệu. Thay vì đối đầu trực diện nơi địch mạnh, hãy tấn công điểm yếu buộc địch phải rút lui.", example: "Tôn Tẫn vây kinh đô nước Ngụy thay vì cứu Triệu trực tiếp, buộc Bàng Quyên phải rút quân." },
+      { cn: "借刀殺人", vi: "Tá đao sát nhân", meaning: "Mượn dao giết người. Dùng sức mạnh của bên thứ ba để tiêu diệt đối thủ, giữ cho mình không hao tổn.", example: "Tào Tháo mượn tay Lưu Biểu giết Nễ Hành, tránh mang tiếng sát hại người tài." },
+      { cn: "以逸待勞", vi: "Dĩ dật đãi lao", meaning: "Lấy nhàn chờ mệt. Giữ sức, ổn định vị trí, để địch tự hao mòn vì hành quân và tấn công, rồi phản kích khi địch kiệt sức.", example: "Gia Cát Lượng cố thủ tại Kỳ Sơn, để quân Ngụy phải hành quân đường dài mà mệt mỏi." },
+      { cn: "趁火打劫", vi: "Thừa hỏa đả kiếp", meaning: "Thừa lúc cháy nhà mà cướp. Khi đối phương gặp khó khăn hoặc hỗn loạn nội bộ, nhân cơ hội đó mà tấn công.", example: "Khi nhà Đông Hán suy yếu, Tào Tháo nhân loạn mà gom quyền lực." },
+      { cn: "聲東擊西", vi: "Thanh đông kích tây", meaning: "Dương đông kích tây. Tạo ra ồn ào ở một hướng để thu hút sự chú ý, nhưng tấn công thực sự ở hướng ngược lại.", example: "Hàn Tín giả vờ vượt sông ở bến Lâm Tấn, nhưng đưa quân chính vượt ở Hạ Dương." }
+    ]
+  },
+  {
+    chapter_cn: "敵戰計", chapter_vi: "Địch Chiến Kế \u2014 Kế đối phó kẻ địch",
+    strats: [
+      { cn: "無中生有", vi: "Vô trung sinh hữu", meaning: "Từ không sinh có. Tạo ra ảo giác, tin đồn hoặc tình huống giả để đánh lừa đối phương, biến cái không thành có.", example: "Trương Nghi dùng lời hứa giả 600 dặm đất để chia rẽ liên minh Tề-Sở." },
+      { cn: "暗渡陳倉", vi: "Ám độ Trần Thương", meaning: "Ngầm vượt Trần Thương. Công khai làm một việc để đánh lạc hướng, bí mật thực hiện kế hoạch thật ở nơi khác.", example: "Hàn Tín sửa đường sạn đạo công khai nhưng bí mật đưa quân qua Trần Thương đánh Chương Hàm." },
+      { cn: "隔岸觀火", vi: "Cách ngạn quan hỏa", meaning: "Đứng bờ bên kia xem lửa cháy. Khi nội bộ địch tự mâu thuẫn, hãy kiên nhẫn đứng ngoài quan sát, để chúng tự suy yếu.", example: "Tào Tháo ngồi yên nhìn Viên Đàm và Viên Thượng tự đánh nhau sau khi Viên Thiệu mất." },
+      { cn: "笑裡藏刀", vi: "Tiếu lý tàng đao", meaning: "Cười mà giấu dao. Bên ngoài thân thiện, hòa nhã, nhưng bên trong đã chuẩn bị sẵn kế hoạch tấn công.", example: "Kinh Kha cười nói vui vẻ khi dâng bản đồ cho Tần Vương, nhưng dao đã giấu trong cuộn bản đồ." },
+      { cn: "李代桃僵", vi: "Lý đại đào cương", meaning: "Mận chết thay đào. Hy sinh cái nhỏ để bảo toàn cái lớn, chấp nhận mất mát có kiểm soát.", example: "Trong cờ vua, hy sinh quân để đổi lấy thế trận tốt hơn là nguyên tắc cơ bản." },
+      { cn: "順手牽羊", vi: "Thuận thủ khiên dương", meaning: "Thuận tay dắt dê. Tận dụng mọi sơ hở nhỏ của đối phương, dù nhỏ cũng tích lũy thành lợi thế lớn.", example: "Trong chiến tranh, thu nhặt vũ khí và lương thực địch bỏ lại sau mỗi trận." }
+    ]
+  },
+  {
+    chapter_cn: "攻戰計", chapter_vi: "Công Chiến Kế \u2014 Kế tấn công",
+    strats: [
+      { cn: "打草驚蛇", vi: "Đả thảo kinh xà", meaning: "Đập cỏ động rắn. Dò xét ý đồ đối phương bằng một hành động nhỏ, quan sát phản ứng để biết kế hoạch thật của chúng.", example: "Thử thăng chức cho một nhân viên đáng ngờ để xem phản ứng của phe cánh." },
+      { cn: "借屍還魂", vi: "Tá thi hoàn hồn", meaning: "Mượn xác hoàn hồn. Dùng lại cái cũ, cái bị bỏ quên, hoặc người khác để phục vụ mục đích mới của mình.", example: "Lưu Bị nương nhờ Lưu Biểu ở Kinh Châu, mượn đất và quân để phục hưng nhà Hán." },
+      { cn: "調虎離山", vi: "Điệu hổ ly sơn", meaning: "Dụ hổ rời núi. Đưa đối phương ra khỏi vị trí có lợi, nơi chúng mạnh nhất, rồi mới tấn công.", example: "Dụ đối thủ kinh doanh rời bỏ thị trường cốt lõi bằng cơ hội giả ở thị trường khác." },
+      { cn: "欲擒故縱", vi: "Dục cầm cố túng", meaning: "Muốn bắt phải thả. Cố ý nới lỏng để đối phương mất cảnh giác, rồi mới bắt gọn khi chúng lộ hết yếu điểm.", example: "Gia Cát Lượng bảy lần bắt bảy lần thả Mạnh Hoạch để thu phục nhân tâm." },
+      { cn: "拋磚引玉", vi: "Phao chuyên dẫn ngọc", meaning: "Ném gạch dẫn ngọc. Dùng thứ tầm thường làm mồi nhử để thu về thứ có giá trị lớn hơn.", example: "Chia sẻ một ít kiến thức miễn phí để thu hút khách hàng mua sản phẩm cao cấp." },
+      { cn: "擒賊擒王", vi: "Cầm tặc cầm vương", meaning: "Bắt giặc bắt vua. Nhắm thẳng vào thủ lĩnh, vào cốt lõi vấn đề. Đầu rắn bị chặt thì thân tự tan.", example: "Đánh thẳng vào chỉ huy sở thay vì giao tranh với từng đơn vị lẻ." }
+    ]
+  },
+  {
+    chapter_cn: "混戰計", chapter_vi: "Hỗn Chiến Kế \u2014 Kế dùng trong hỗn loạn",
+    strats: [
+      { cn: "釜底抽薪", vi: "Phủ để trừu tân", meaning: "Rút củi đáy nồi. Loại bỏ nguồn lực cốt lõi của đối phương thay vì đối phó với biểu hiện bên ngoài.", example: "Cắt đứt đường vận lương của quân địch thay vì giao chiến trực tiếp trên chiến trường." },
+      { cn: "混水摸魚", vi: "Hỗn thủy mạc ngư", meaning: "Đục nước bắt cá. Tạo ra hoặc lợi dụng tình huống hỗn loạn để trục lợi khi đối phương không thể phân biệt bạn thù.", example: "Trong thời loạn, các lãnh chúa nhỏ thường lợi dụng sự sụp đổ để mở rộng lãnh thổ." },
+      { cn: "金蟬脫殼", vi: "Kim thiền thoát xác", meaning: "Ve sầu lột xác. Rút lui an toàn bằng cách để lại vỏ bọc giả, duy trì vẻ ngoài như vẫn còn ở vị trí cũ.", example: "Gia Cát Lượng dùng tượng gỗ giả mình trên xe để quân Ngụy không dám truy đuổi." },
+      { cn: "關門捉賊", vi: "Quan môn tróc tặc", meaning: "Đóng cửa bắt giặc. Bao vây hoàn toàn, cắt đứt đường lui của địch rồi mới tiêu diệt, không để lối thoát.", example: "Hàn Tín bố trí phục binh vây kín quân Triệu tại trận Tỉnh Hình." },
+      { cn: "遠交近攻", vi: "Viễn giao cận công", meaning: "Xa kết bạn, gần thì đánh. Liên minh với kẻ ở xa để yên một mặt, tập trung sức đánh kẻ ở gần.", example: "Phạm Tuy hiến kế cho Tần Chiêu Vương: kết thân với Tề, Sở ở xa để đánh Hàn, Ngụy ở gần." },
+      { cn: "假道伐虢", vi: "Giả đạo phạt Quắc", meaning: "Mượn đường diệt Quắc. Mượn cớ hợp tác hoặc đi qua để rồi quay lại chiếm luôn nơi đã cho mượn.", example: "Tấn Hiến Công mượn đường nước Ngu để đánh Quắc, rồi quay lại diệt luôn nước Ngu." }
+    ]
+  },
+  {
+    chapter_cn: "並戰計", chapter_vi: "Tịnh Chiến Kế \u2014 Kế dùng khi hợp sức",
+    strats: [
+      { cn: "偷梁換柱", vi: "Du lương hoán trụ", meaning: "Trộm rường đổi cột. Ngầm thay đổi nội dung cốt lõi nhưng giữ nguyên hình thức bên ngoài.", example: "Triệu Cao sửa di chiếu, đổi người kế vị từ Phù Tô sang Hồ Hợi mà bên ngoài vẫn hợp pháp." },
+      { cn: "指桑罵槐", vi: "Chỉ tang mạ hòe", meaning: "Chỉ dâu mắng hòe. Phê bình gián tiếp bằng cách nói về người khác, nhưng ai cũng hiểu đang ám chỉ ai.", example: "Cấp trên phê bình chung trong cuộc họp nhưng mọi người đều biết đang nói về ai." },
+      { cn: "假痴不癲", vi: "Giả si bất điên", meaning: "Giả ngốc mà không điên. Tỏ ra ngu ngốc, không tham vọng để che giấu thực lực và ý đồ thật.", example: "Tư Mã Ý giả bệnh, giả ngốc nhiều năm trước khi phát động chính biến đoạt quyền họ Tào." },
+      { cn: "上屋抽梯", vi: "Thượng ốc trừu thê", meaning: "Dụ lên mái nhà rồi rút thang. Tạo cơ hội hấp dẫn dụ đối phương vào thế không thể quay lại, rồi cắt đường lui.", example: "Cho đối thủ đầu tư sâu vào dự án rồi rút hỗ trợ, khiến họ bị mắc kẹt." },
+      { cn: "樹上開花", vi: "Thụ thượng khai hoa", meaning: "Trên cây nở hoa. Tạo vẻ ngoài hoành tráng hơn thực lực, dùng hư trương thanh thế để uy hiếp đối phương.", example: "Trương Phi đứng một mình trên cầu Trường Bản hét vang, khiến quân Tào tưởng có phục binh." },
+      { cn: "反客為主", vi: "Phản khách vi chủ", meaning: "Đổi khách thành chủ. Từ vị trí phụ thuộc, từng bước giành quyền kiểm soát cho đến khi nắm quyền chủ động.", example: "Lưu Bị từ khách nhờ vả ở Kinh Châu dần dần nắm quyền kiểm soát cả vùng." }
+    ]
+  },
+  {
+    chapter_cn: "敗戰計", chapter_vi: "Bại Chiến Kế \u2014 Kế dùng khi thua thế",
+    strats: [
+      { cn: "美人計", vi: "Mỹ nhân kế", meaning: "Kế mỹ nhân. Dùng cái đẹp, sự quyến rũ, hoặc thú vui để làm đối phương sa đọa, mất tập trung, suy yếu ý chí.", example: "Vương Doãn dùng Điêu Thuyền để ly gián Đổng Trác và Lã Bố." },
+      { cn: "空城計", vi: "Không thành kế", meaning: "Kế thành trống. Khi yếu thế tuyệt đối, hãy phô bày sự trống rỗng một cách tự tin, khiến đối phương nghi ngờ có bẫy mà rút lui.", example: "Gia Cát Lượng mở toang cổng thành, ngồi gảy đàn, khiến Tư Mã Ý sợ phục binh mà rút quân." },
+      { cn: "反間計", vi: "Phản gián kế", meaning: "Kế phản gián. Lợi dụng gián điệp của địch hoặc tung tin giả qua kênh của địch để chúng tự nghi ngờ và tiêu diệt lẫn nhau.", example: "Chu Du dùng phản gián khiến Tào Tháo giết hai tướng thủy quân giỏi nhất trước trận Xích Bích." },
+      { cn: "苦肉計", vi: "Khổ nhục kế", meaning: "Kế khổ nhục. Tự gây đau đớn cho bản thân để tạo lòng tin hoặc sự thương hại từ đối phương, từ đó xâm nhập hàng ngũ địch.", example: "Hoàng Cái tự chịu đòn roi của Chu Du để giả hàng Tào Tháo, phóng hỏa đốt liên hoàn thuyền." },
+      { cn: "連環計", vi: "Liên hoàn kế", meaning: "Kế liên hoàn. Kết hợp nhiều mưu kế lại với nhau, kế này nối kế kia, tạo thành chuỗi không thể gỡ.", example: "Trận Xích Bích kết hợp phản gián, khổ nhục, hỏa công thành chuỗi liên hoàn." },
+      { cn: "走為上", vi: "Tẩu vi thượng sách", meaning: "Chạy là thượng sách. Khi không thể thắng, rút lui là lựa chọn khôn ngoan nhất. Bảo toàn lực lượng để chiến đấu ngày khác.", example: "Lưu Bị nhiều lần rút lui để bảo toàn lực lượng, cuối cùng xây dựng được nhà Thục Hán." }
+    ]
+  }
+];
+
+const CHAPTER_LABELS = ["\u58F9", "\u8CB3", "\u53C3", "\u8086", "\u4F0D", "\u9678"];
+
+const DIVIDER_SVG = `<svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20 2 L26 12 L20 22 L14 12 Z" stroke="#c9a84c" stroke-width="0.8" fill="none"/>
+  <circle cx="20" cy="12" r="3" stroke="#c9a84c" stroke-width="0.6" fill="none"/>
+</svg>`;
+
+function render() {
+  const app = document.getElementById('app');
+  let html = '';
+  let globalIndex = 0;
+
+  DATA.forEach((ch, ci) => {
+    html += `<section class="chapter">
+      <div class="chapter-header" style="animation-delay:${ci * 0.1}s">
+        <div class="chapter-num">${CHAPTER_LABELS[ci]}</div>
+        <div class="chapter-info">
+          <div class="chapter-title-cn">${ch.chapter_cn}</div>
+          <div class="chapter-title-vi">${ch.chapter_vi}</div>
+        </div>
+        <div class="chapter-line"></div>
+      </div>
+      <div class="strat-grid">`;
+
+    ch.strats.forEach((s, si) => {
+      globalIndex++;
+      const delay = (ci * 6 + si) * 0.04;
+      const summary = s.meaning.split('.')[0] + '.';
+      html += `<div class="strat-card" data-id="${globalIndex}" style="animation-delay:${delay}s" onclick="toggle(this)">
+        <div class="strat-head">
+          <div class="strat-index">${globalIndex}</div>
+          <div class="strat-names">
+            <div class="strat-hanzi">${s.cn}</div>
+            <div class="strat-viet">${s.vi}</div>
+          </div>
+          <div class="strat-summary">${summary}</div>
+          <div class="strat-toggle">+</div>
+        </div>
+        <div class="strat-body">
+          <div class="strat-content">
+            <div class="strat-meaning">${s.meaning}</div>
+            <div class="strat-example">${s.example}</div>
+          </div>
+        </div>
+      </div>`;
+    });
+
+    html += `</div></section>`;
+
+    // Add divider between chapters (not after last)
+    if (ci < DATA.length - 1) {
+      html += `<div class="section-divider">
+        <div class="section-divider-line"></div>
+        ${DIVIDER_SVG}
+        <div class="section-divider-line"></div>
+      </div>`;
+    }
+  });
+
+  app.innerHTML = html;
+}
+
+function toggle(card) {
+  const wasActive = card.classList.contains('active');
+  document.querySelectorAll('.strat-card.active').forEach(c => c.classList.remove('active'));
+  if (!wasActive) {
+    card.classList.add('active');
+    setTimeout(() => {
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+  }
+}
+
+render();
+</script>
+</body>
+</html>

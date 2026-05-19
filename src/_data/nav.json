@@ -4,9 +4,16 @@
   { "url": "roadmap.html", "label": "Roadmap" },
   { "url": "quotes.html", "label": "Quotes" },
   { "url": "taothao.html", "label": "Tào Tháo" },
+  { "url": "36ke.html", "label": "36 Kế" },
   { "url": "books.html", "label": "Books" },
   { "url": "music.html", "label": "Music" },
   { "url": "games.html", "label": "Games" },
-  { "url": "links.html", "label": "Links" },
-  { "url": "guestbook.html", "label": "Guestbook" }
+  {
+    "label": "Misc",
+    "children": [
+      { "url": "pearls.html", "label": "Pearls" },
+      { "url": "page-styles.html", "label": "Style Lab" },
+      { "url": "links.html", "label": "Links" }
+    ]
+  }
 ]

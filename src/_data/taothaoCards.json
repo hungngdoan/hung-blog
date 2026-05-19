@@ -1,0 +1,205 @@
+[
+  {
+    "name": "Thế Chủ Động",
+    "type": "Tào Tháo - Doctrine",
+    "mana": 7,
+    "atk": 9,
+    "hp": 4,
+    "rarity": "legendary",
+    "set": "Tao I",
+    "ability": "Với Tào Tháo, bất cứ ai bên cạnh cũng có thể trở mặt, nên ông chọn cách sống ngờ vực, luôn giữ thế chủ động và không để bản thân bị đâm sau lưng.",
+    "flavor": "\"Thà ta phụ người trong thiên hạ, chứ đừng để người trong thiên hạ phụ ta.\"",
+    "artColors": ["#210607", "#5a1116", "#17101f"],
+    "artShapes": [
+      {
+        "bg": "radial-gradient(circle, #b8172c 0%, transparent 70%)",
+        "w": 120,
+        "h": 130,
+        "x": "52%",
+        "y": "34%"
+      },
+      {
+        "bg": "radial-gradient(circle, #f0c850 0%, transparent 65%)",
+        "w": 72,
+        "h": 72,
+        "x": "26%",
+        "y": "60%"
+      }
+    ],
+    "rune": "刃"
+  },
+  {
+    "name": "Dùng Người Phải Tin",
+    "type": "Tào Tháo - Command",
+    "mana": 4,
+    "atk": 6,
+    "hp": 8,
+    "rarity": "epic",
+    "set": "Tao I",
+    "ability": "Đây là thuật dùng người giúp ông thành công trong nhà binh: một khi đã chọn thì phải tin. Lòng tin có sức mạnh rất lớn; thắng hay bại cũng từ đó mà nên.",
+    "flavor": "\"Không tin thì không dùng, đã dùng là phải tin.\"",
+    "artColors": ["#071a24", "#123f55", "#2b2412"],
+    "artShapes": [
+      {
+        "bg": "radial-gradient(circle, #2af5d0 0%, transparent 70%)",
+        "w": 128,
+        "h": 92,
+        "x": "44%",
+        "y": "38%"
+      },
+      {
+        "bg": "radial-gradient(circle, #f0c850 0%, transparent 68%)",
+        "w": 88,
+        "h": 110,
+        "x": "68%",
+        "y": "56%"
+      }
+    ],
+    "rune": "信"
+  },
+  {
+    "name": "Không Nói Nhu Nhược",
+    "type": "Tào Tháo - Resolve",
+    "mana": 5,
+    "atk": 8,
+    "hp": 5,
+    "rarity": "rare",
+    "set": "Tao I",
+    "ability": "Điều này nói về bản lĩnh: luôn tin vào tài năng và quyết định của mình. Dù kết quả thế nào, tuyệt đối không phủ nhận những gì mình đã làm được.",
+    "flavor": "\"Kẻ nhận sai chẳng khác nào nói mình nhu nhược.\"",
+    "artColors": ["#110d1f", "#33265e", "#0f172d"],
+    "artShapes": [
+      {
+        "bg": "radial-gradient(circle, #6a4bc3 0%, transparent 70%)",
+        "w": 118,
+        "h": 118,
+        "x": "50%",
+        "y": "40%"
+      },
+      {
+        "bg": "radial-gradient(circle, #3a86ff 0%, transparent 70%)",
+        "w": 82,
+        "h": 122,
+        "x": "30%",
+        "y": "58%"
+      }
+    ],
+    "rune": "威"
+  },
+  {
+    "name": "Sửa Sai Trong Bóng Tối",
+    "type": "Tào Tháo - Adaptation",
+    "mana": 3,
+    "atk": 5,
+    "hp": 9,
+    "rarity": "epic",
+    "set": "Tao II",
+    "ability": "Không nhận sai vì như vậy là nhu nhược, nhưng phải biết điều khiến mình thất bại, khắc cốt ghi tâm và thay đổi để không đi vào vết xe đổ lần nữa.",
+    "flavor": "\"Biết sai sửa sai, nhưng không bao giờ nhận mình sai.\"",
+    "artColors": ["#141005", "#3b2c0d", "#123221"],
+    "artShapes": [
+      {
+        "bg": "radial-gradient(circle, #c9a23c 0%, transparent 70%)",
+        "w": 104,
+        "h": 104,
+        "x": "42%",
+        "y": "36%"
+      },
+      {
+        "bg": "radial-gradient(circle, #2ec47a 0%, transparent 68%)",
+        "w": 94,
+        "h": 120,
+        "x": "64%",
+        "y": "58%"
+      }
+    ],
+    "rune": "改"
+  },
+  {
+    "name": "Giấu Tâm Can",
+    "type": "Tào Tháo - Concealment",
+    "mana": 2,
+    "atk": 4,
+    "hp": 10,
+    "rarity": "rare",
+    "set": "Tao II",
+    "ability": "Tào Tháo muốn nói đừng phơi hết ruột gan cho người khác biết. Người thông minh biết giấu những điều cần giấu và không để ai thấu rõ tâm can.",
+    "flavor": "\"Tại sao lòng bàn chân lại trắng hơn mặt và tay?\"",
+    "artColors": ["#06181a", "#0d3534", "#241c0d"],
+    "artShapes": [
+      {
+        "bg": "radial-gradient(circle, #18b89a 0%, transparent 70%)",
+        "w": 130,
+        "h": 90,
+        "x": "52%",
+        "y": "42%"
+      },
+      {
+        "bg": "radial-gradient(circle, #8a6e24 0%, transparent 70%)",
+        "w": 76,
+        "h": 118,
+        "x": "28%",
+        "y": "58%"
+      }
+    ],
+    "rune": "隱"
+  },
+  {
+    "name": "Dũng Mà Cẩn",
+    "type": "Tào Tháo - Ambition",
+    "mana": 6,
+    "atk": 8,
+    "hp": 7,
+    "rarity": "legendary",
+    "set": "Tao II",
+    "ability": "Nam nhi chí lớn phải có bản lĩnh và can đảm, nhưng không được vồ vập. Điềm tĩnh suy xét, dám nghĩ dám làm mới tạo nên thành tựu sự nghiệp.",
+    "flavor": "\"Can đảm cẩn trọng, dám nghĩ dám làm mới có thể thành tựu sự nghiệp.\"",
+    "artColors": ["#1b0b04", "#4d2308", "#10213a"],
+    "artShapes": [
+      {
+        "bg": "radial-gradient(circle, #ff9f1c 0%, transparent 70%)",
+        "w": 120,
+        "h": 132,
+        "x": "46%",
+        "y": "34%"
+      },
+      {
+        "bg": "radial-gradient(circle, #4488ff 0%, transparent 65%)",
+        "w": 86,
+        "h": 106,
+        "x": "66%",
+        "y": "60%"
+      }
+    ],
+    "rune": "勇"
+  },
+  {
+    "name": "Nộ Mà Tỉnh",
+    "type": "Tào Tháo - Temperance",
+    "mana": 5,
+    "atk": 7,
+    "hp": 7,
+    "rarity": "epic",
+    "set": "Tao III",
+    "ability": "Giận dữ có thể làm mờ trí phán đoán, nhưng mất hết oán hận cũng khiến ý chí phản kích yếu đi. Người mạnh là người biết giữ lửa trong lòng mà đầu vẫn lạnh.",
+    "flavor": "\"Không được khích nộ sẽ làm giảm trí tuệ, không được oán hận sẽ giảm đi một nửa sức mạnh.\"",
+    "artColors": ["#16090d", "#5a1726", "#102834"],
+    "artShapes": [
+      {
+        "bg": "radial-gradient(circle, #d73a4a 0%, transparent 70%)",
+        "w": 126,
+        "h": 108,
+        "x": "44%",
+        "y": "36%"
+      },
+      {
+        "bg": "radial-gradient(circle, #2af5d0 0%, transparent 66%)",
+        "w": 82,
+        "h": 122,
+        "x": "66%",
+        "y": "58%"
+      }
+    ],
+    "rune": "怒"
+  }
+]

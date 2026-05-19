@@ -1,0 +1,1320 @@
+---
+layout: base.njk
+title: "36 Kế ~ Hung's Journal"
+navActive: 36ke.html
+permalink: 36ke.html
+pageClass: thirty-six-ke-page
+fontsUrl: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=VT323&family=Press+Start+2P&display=swap"
+---
+
+<style>
+  .main-content.thirty-six-ke-page {
+    gap: 0;
+  }
+
+  .thirty-six-ke-page .ke-shell {
+    --ke-bg: #080810;
+    --ke-card: #111119;
+    --ke-card-hover: #181822;
+    --ke-ink: #e8e4dc;
+    --ke-muted: #8a8578;
+    --ke-faint: #4a473f;
+    --ke-red: #c23a2e;
+    --ke-gold: #c9a84c;
+    --ke-teal: #2a6e6e;
+    position: relative;
+    overflow: hidden;
+    color: var(--ke-ink);
+    background: var(--ke-bg);
+    border: 1px solid #335;
+    border-radius: 4px;
+    font-family: 'Cormorant Garamond', 'Noto Serif', Georgia, serif;
+  }
+
+  .thirty-six-ke-page .ke-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: radial-gradient(circle at 20% 20%, rgba(201, 168, 76, 0.2), transparent 18%), radial-gradient(circle at 80% 10%, rgba(42, 110, 110, 0.18), transparent 20%);
+  }
+
+  .thirty-six-ke-page .ke-cloud-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.018;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M30 140 Q30 120 50 120 Q45 100 65 95 Q60 75 80 70 Q85 50 105 55 Q115 40 130 50 Q145 40 155 55 Q170 50 175 70 Q190 80 180 95 Q195 110 175 120 Q180 135 160 140 Z' fill='none' stroke='%23c9a84c' stroke-width='0.8'/%3E%3C/svg%3E");
+    background-size: 300px 300px;
+  }
+
+  .thirty-six-ke-page .ke-hero {
+    position: relative;
+    z-index: 1;
+    min-height: 360px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 36px 18px 30px;
+    overflow: hidden;
+  }
+
+  .thirty-six-ke-page .ke-dragon {
+    position: absolute;
+    top: -72px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 145%;
+    width: auto;
+    min-width: 50%;
+    object-fit: cover;
+    object-position: center 18%;
+    opacity: 0.34;
+    z-index: 0;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse 70% 80% at 50% 45%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 45%, black 30%, transparent 75%);
+    filter: saturate(1.05) brightness(1.05) contrast(1.08);
+    animation: keDragonPulse 10s ease-in-out infinite;
+  }
+
+  .thirty-six-ke-page .ke-hero-overlay,
+  .thirty-six-ke-page .ke-hero-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .thirty-six-ke-page .ke-hero-overlay {
+    background: radial-gradient(ellipse at 50% 30%, transparent 20%, var(--ke-bg) 75%), linear-gradient(180deg, rgba(8, 8, 16, 0.3) 0%, rgba(8, 8, 16, 0.6) 50%, var(--ke-bg) 100%);
+  }
+
+  .thirty-six-ke-page .ke-hero-glow {
+    background: radial-gradient(ellipse at 45% 35%, rgba(42, 110, 110, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 55% 25%, rgba(80, 50, 140, 0.05) 0%, transparent 40%), radial-gradient(ellipse at 50% 80%, rgba(194, 58, 46, 0.04) 0%, transparent 50%);
+  }
+
+  .thirty-six-ke-page .ke-corner {
+    position: absolute;
+    width: 62px;
+    height: 62px;
+    color: var(--ke-gold);
+    opacity: 0.2;
+    z-index: 3;
+  }
+
+  .thirty-six-ke-page .ke-corner.tl { top: 14px; left: 14px; }
+  .thirty-six-ke-page .ke-corner.tr { top: 14px; right: 14px; transform: scaleX(-1); }
+  .thirty-six-ke-page .ke-corner.bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+  .thirty-six-ke-page .ke-corner.br { bottom: 14px; right: 14px; transform: scale(-1, -1); }
+
+  .thirty-six-ke-page .ke-hero-content {
+    position: relative;
+    z-index: 4;
+    width: min(860px, 100%);
+    padding: 0 18px;
+  }
+
+  .thirty-six-ke-page .ke-title-cn {
+    margin: 8px 0 0;
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--ke-muted);
+    line-height: 1.2;
+  }
+
+  .thirty-six-ke-page .ke-title-vi {
+    margin: 0;
+    font-family: 'Cormorant Garamond', 'Noto Serif', Georgia, serif;
+    font-size: clamp(2.2rem, 6.5vw, 4.1rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: transparent;
+    background: linear-gradient(180deg, #e8d48b 0%, var(--ke-gold) 40%, var(--ke-red) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    line-height: 1.02;
+    filter: drop-shadow(0 0 34px rgba(194, 58, 46, 0.25)) drop-shadow(0 0 70px rgba(201, 168, 76, 0.12));
+    animation: keFadeInDown 1.2s ease-out;
+  }
+
+  .thirty-six-ke-page .ke-title-cn {
+    animation: keFadeInUp 1s ease-out 0.4s both;
+  }
+
+  .thirty-six-ke-page .ke-hero-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    max-width: 300px;
+    margin: 16px auto 0;
+    animation: keFadeInUp 1s ease-out 0.5s both;
+  }
+
+  .thirty-six-ke-page .ke-hero-line,
+  .thirty-six-ke-page .ke-chapter-line,
+  .thirty-six-ke-page .ke-section-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--ke-gold), transparent);
+    opacity: 0.5;
+  }
+
+  .thirty-six-ke-page .ke-hero-line,
+  .thirty-six-ke-page .ke-section-line { flex: 1; }
+
+  .thirty-six-ke-page .ke-hero-diamond {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    background: var(--ke-red);
+    transform: rotate(45deg);
+  }
+
+  .thirty-six-ke-page .ke-hero-desc {
+    max-width: 560px;
+    margin: 14px auto 0;
+    color: var(--ke-muted);
+    font-size: 0.96rem;
+    line-height: 1.55;
+    animation: keFadeInUp 1s ease-out 0.6s both;
+  }
+
+  .thirty-six-ke-page .ke-meander {
+    position: relative;
+    z-index: 1;
+    height: 20px;
+    overflow: hidden;
+    opacity: 0.1;
+  }
+
+  .thirty-six-ke-page .ke-meander::before {
+    content: "";
+    display: block;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20' viewBox='0 0 40 20'%3E%3Crect x='0' y='0' width='10' height='10' fill='none' stroke='%23c9a84c' stroke-width='1'/%3E%3Crect x='10' y='0' width='10' height='20' fill='none' stroke='%23c9a84c' stroke-width='1'/%3E%3Crect x='20' y='10' width='10' height='10' fill='none' stroke='%23c9a84c' stroke-width='1'/%3E%3Crect x='30' y='0' width='10' height='20' fill='none' stroke='%23c9a84c' stroke-width='1'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: 40px 20px;
+  }
+
+  .thirty-six-ke-page .ke-chapter {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 42px 18px 0;
+  }
+
+  .thirty-six-ke-page .ke-chapter-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 22px;
+    opacity: 0;
+    animation: keFadeInLeft 0.6s ease-out forwards;
+  }
+
+  .thirty-six-ke-page .ke-chapter-num {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--ke-red);
+    opacity: 0.48;
+  }
+
+  .thirty-six-ke-page .ke-chapter-info { flex: 1; min-width: 0; }
+
+  .thirty-six-ke-page .ke-chapter-title-cn {
+    margin: 3px 0 0;
+    color: var(--ke-muted);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+
+  .thirty-six-ke-page .ke-chapter-title-vi {
+    margin: 0;
+    color: var(--ke-gold);
+    font-size: 1.36rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .thirty-six-ke-page .ke-chapter-subtitle {
+    margin: 3px 0 0;
+    color: var(--ke-muted);
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+  }
+
+  .thirty-six-ke-page .ke-chapter-line {
+    flex: 1;
+    background: linear-gradient(90deg, var(--ke-faint), transparent);
+  }
+
+  .thirty-six-ke-page .ke-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .thirty-six-ke-page .ke-row {
+    position: relative;
+    overflow: hidden;
+    background: var(--ke-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    animation: keFadeInUp 0.5s ease-out forwards;
+  }
+
+  .thirty-six-ke-page .ke-row::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--ke-teal), var(--ke-red));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .thirty-six-ke-page .ke-row:hover {
+    background: var(--ke-card-hover);
+    border-color: rgba(255, 255, 255, 0.08);
+    transform: translateX(2px);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.38);
+  }
+
+  .thirty-six-ke-page .ke-row[open] {
+    background: var(--ke-card-hover);
+    border-color: var(--ke-red);
+    box-shadow: 0 0 0 1px var(--ke-red), 0 8px 32px rgba(194, 58, 46, 0.12);
+  }
+
+  .thirty-six-ke-page .ke-row:hover::before,
+  .thirty-six-ke-page .ke-row[open]::before { opacity: 1; }
+
+  .thirty-six-ke-page .ke-summary {
+    display: grid;
+    grid-template-columns: 34px minmax(170px, 220px) minmax(0, 1fr) 24px;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .thirty-six-ke-page .ke-summary::-webkit-details-marker { display: none; }
+
+  .thirty-six-ke-page .ke-summary:focus-visible {
+    outline: 2px solid var(--ke-gold);
+    outline-offset: -2px;
+  }
+
+  .thirty-six-ke-page .ke-index {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--ke-bg);
+    background: linear-gradient(135deg, var(--ke-gold), #b8943f);
+    box-shadow: 0 2px 8px rgba(201, 168, 76, 0.2);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .thirty-six-ke-page .ke-names,
+  .thirty-six-ke-page .ke-line { min-width: 0; }
+
+  .thirty-six-ke-page .ke-names {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .thirty-six-ke-page .ke-hanzi,
+  .thirty-six-ke-page .ke-viet,
+  .thirty-six-ke-page .ke-line {
+    display: block;
+  }
+
+  .thirty-six-ke-page .ke-hanzi {
+    order: 2;
+    color: var(--ke-muted);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+
+  .thirty-six-ke-page .ke-viet {
+    order: 1;
+    color: var(--ke-gold);
+    font-size: 0.98rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .thirty-six-ke-page .ke-line {
+    color: var(--ke-ink);
+    font-size: 0.92rem;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .thirty-six-ke-page .ke-marker::before {
+    content: "+";
+    display: inline-block;
+    color: var(--ke-faint);
+    font-size: 1.2rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .thirty-six-ke-page .ke-row[open] .ke-marker::before {
+    transform: rotate(45deg);
+    color: var(--ke-red);
+  }
+
+  .thirty-six-ke-page .ke-detail {
+    display: grid;
+    gap: 6px;
+    padding: 10px 16px 14px 64px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    animation: keRevealDetail 0.25s ease-out;
+  }
+
+  .thirty-six-ke-page .ke-detail p {
+    margin: 0;
+    color: var(--ke-ink);
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .thirty-six-ke-page .ke-detail p + p {
+    color: var(--ke-muted);
+    font-size: 0.88rem;
+  }
+
+  .thirty-six-ke-page .ke-detail strong {
+    color: var(--ke-gold);
+    font-weight: 700;
+  }
+
+  .thirty-six-ke-page .ke-section-divider {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    max-width: 600px;
+    margin: 40px auto 0;
+    padding: 0 24px;
+    color: var(--ke-gold);
+    opacity: 0.15;
+  }
+
+  .thirty-six-ke-page .ke-source {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 46px 24px 52px;
+    color: var(--ke-faint);
+    font-size: 0.85rem;
+  }
+
+  .thirty-six-ke-page .ke-footer-dragon {
+    width: 92px;
+    height: auto;
+    display: block;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    opacity: 0.08;
+    filter: saturate(0.3);
+    mask-image: radial-gradient(circle, black 40%, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle, black 40%, transparent 70%);
+  }
+
+  .thirty-six-ke-page .ke-seal {
+    margin-bottom: 8px;
+    color: var(--ke-red);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1rem;
+    opacity: 0.38;
+  }
+
+  .thirty-six-ke-page .ke-source [lang="zh-Hant"] {
+    font-size: 0.78em;
+  }
+
+  .thirty-six-ke-page .ke-chapter:nth-of-type(1) .ke-chapter-header { animation-delay: 0s; }
+  .thirty-six-ke-page .ke-chapter:nth-of-type(2) .ke-chapter-header { animation-delay: 0.1s; }
+  .thirty-six-ke-page .ke-chapter:nth-of-type(3) .ke-chapter-header { animation-delay: 0.2s; }
+  .thirty-six-ke-page .ke-chapter:nth-of-type(4) .ke-chapter-header { animation-delay: 0.3s; }
+  .thirty-six-ke-page .ke-chapter:nth-of-type(5) .ke-chapter-header { animation-delay: 0.4s; }
+  .thirty-six-ke-page .ke-chapter:nth-of-type(6) .ke-chapter-header { animation-delay: 0.5s; }
+
+  .thirty-six-ke-page .ke-row:nth-child(1) { animation-delay: 0s; }
+  .thirty-six-ke-page .ke-row:nth-child(2) { animation-delay: 0.04s; }
+  .thirty-six-ke-page .ke-row:nth-child(3) { animation-delay: 0.08s; }
+  .thirty-six-ke-page .ke-row:nth-child(4) { animation-delay: 0.12s; }
+  .thirty-six-ke-page .ke-row:nth-child(5) { animation-delay: 0.16s; }
+  .thirty-six-ke-page .ke-row:nth-child(6) { animation-delay: 0.2s; }
+
+  @keyframes keDragonPulse {
+    0%, 100% { opacity: 0.32; filter: saturate(1.05) brightness(1.05) contrast(1.08); }
+    50% { opacity: 0.42; filter: saturate(1.2) brightness(1.12) contrast(1.12); }
+  }
+
+  @keyframes keFadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes keFadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes keFadeInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes keRevealDetail {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 740px) {
+    .thirty-six-ke-page .ke-hero {
+      min-height: 300px;
+      padding: 32px 14px 26px;
+    }
+
+    .thirty-six-ke-page .ke-dragon {
+      height: 145%;
+      min-width: 100%;
+      object-position: center 18%;
+      opacity: 0.28;
+      mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, black 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, black 20%, transparent 70%);
+    }
+
+    .thirty-six-ke-page .ke-corner {
+      width: 44px;
+      height: 44px;
+    }
+
+    .thirty-six-ke-page .ke-chapter {
+      padding: 34px 12px 0;
+    }
+
+    .thirty-six-ke-page .ke-chapter-header {
+      gap: 12px;
+    }
+
+    .thirty-six-ke-page .ke-chapter-line {
+      display: none;
+    }
+
+    .thirty-six-ke-page .ke-summary {
+      grid-template-columns: 30px minmax(0, 1fr) 24px;
+      gap: 10px;
+      padding: 12px;
+    }
+
+    .thirty-six-ke-page .ke-line {
+      grid-column: 2 / 4;
+      white-space: normal;
+    }
+
+    .thirty-six-ke-page .ke-detail {
+      padding: 10px 12px 14px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .thirty-six-ke-page *,
+    .thirty-six-ke-page *::before,
+    .thirty-six-ke-page *::after {
+      animation: none !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    .thirty-six-ke-page .ke-row,
+    .thirty-six-ke-page .ke-chapter-header {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>
+
+<article class="ke-shell">
+  <div class="ke-cloud-bg" aria-hidden="true"></div>
+
+  <header class="ke-hero" id="top">
+    <img src="img/chineseDragon1.jpg" alt="" class="ke-dragon" aria-hidden="true" />
+    <div class="ke-hero-overlay"></div>
+    <div class="ke-hero-glow"></div>
+  <svg class="ke-corner tl" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M2 2 h96 v6 h-90 v84 h-6 z" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M14 14 h24 v-6 h6 v30 h-30 v-6 h24 v-12 h-24 z" stroke="currentColor" stroke-width="0.8"/>
+    <path d="M14 44 h6 v24 h24 v6 h-30 z" stroke="currentColor" stroke-width="0.8"/>
+    <circle cx="74" cy="10" r="5" stroke="currentColor" stroke-width="0.5"/>
+    <circle cx="10" cy="74" r="5" stroke="currentColor" stroke-width="0.5"/>
+  </svg>
+  <svg class="ke-corner tr" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M2 2 h96 v6 h-90 v84 h-6 z" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M14 14 h24 v-6 h6 v30 h-30 v-6 h24 v-12 h-24 z" stroke="currentColor" stroke-width="0.8"/>
+    <path d="M14 44 h6 v24 h24 v6 h-30 z" stroke="currentColor" stroke-width="0.8"/>
+    <circle cx="74" cy="10" r="5" stroke="currentColor" stroke-width="0.5"/>
+    <circle cx="10" cy="74" r="5" stroke="currentColor" stroke-width="0.5"/>
+  </svg>
+  <svg class="ke-corner bl" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M2 2 h96 v6 h-90 v84 h-6 z" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M14 14 h24 v-6 h6 v30 h-30 v-6 h24 v-12 h-24 z" stroke="currentColor" stroke-width="0.8"/>
+    <path d="M14 44 h6 v24 h24 v6 h-30 z" stroke="currentColor" stroke-width="0.8"/>
+    <circle cx="74" cy="10" r="5" stroke="currentColor" stroke-width="0.5"/>
+    <circle cx="10" cy="74" r="5" stroke="currentColor" stroke-width="0.5"/>
+  </svg>
+  <svg class="ke-corner br" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M2 2 h96 v6 h-90 v84 h-6 z" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M14 14 h24 v-6 h6 v30 h-30 v-6 h24 v-12 h-24 z" stroke="currentColor" stroke-width="0.8"/>
+    <path d="M14 44 h6 v24 h24 v6 h-30 z" stroke="currentColor" stroke-width="0.8"/>
+    <circle cx="74" cy="10" r="5" stroke="currentColor" stroke-width="0.5"/>
+    <circle cx="10" cy="74" r="5" stroke="currentColor" stroke-width="0.5"/>
+  </svg>
+    <div class="ke-hero-content">
+      <h1 class="ke-title-vi">Ba Mươi Sáu Kế</h1>
+      <p class="ke-title-cn" lang="zh-Hant">三十六計</p>
+      <div class="ke-hero-divider" aria-hidden="true">
+        <div class="ke-hero-line"></div>
+        <div class="ke-hero-diamond"></div>
+        <div class="ke-hero-line"></div>
+      </div>
+      <p class="ke-hero-desc">Bộ sưu tập 36 mưu kế kinh điển từ binh pháp cổ đại Trung Hoa, chia thành sáu chương.</p>
+    </div>
+  </header>
+
+  <div class="ke-meander" aria-hidden="true"></div>
+
+<section class="ke-chapter" aria-labelledby="ke-chapter-1">
+  <header class="ke-chapter-header">
+    <div class="ke-chapter-num" aria-hidden="true">壹</div>
+    <div class="ke-chapter-info">
+      <h2 id="ke-chapter-1" class="ke-chapter-title-vi">Thắng Chiến Kế</h2>
+      <p class="ke-chapter-title-cn" lang="zh-Hant">勝戰計</p>
+      <p class="ke-chapter-subtitle">Kế dùng khi thắng thế</p>
+    </div>
+    <div class="ke-chapter-line" aria-hidden="true"></div>
+  </header>
+  <div class="ke-list">
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">1</span>
+    <span class="ke-names">
+      <span class="ke-viet">Man thiên quá hải</span>
+      <span class="ke-hanzi" lang="zh-Hant">瞞天過海</span>
+    </span>
+    <span class="ke-line">Giấu trời qua biển.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Giấu trời qua biển. Ngụy trang hành động thật dưới vẻ ngoài bình thường, lặp đi lặp lại để đối phương mất cảnh giác, rồi bất ngờ ra tay.</p>
+    <p><strong>Ví dụ:</strong> Đường Thái Tông vượt biển đánh Cao Ly nhờ ngụy trang thuyền chiến thành tiệc rượu.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">2</span>
+    <span class="ke-names">
+      <span class="ke-viet">Vi Ngụy cứu Triệu</span>
+      <span class="ke-hanzi" lang="zh-Hant">圍魏救趙</span>
+    </span>
+    <span class="ke-line">Vây Ngụy cứu Triệu.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Vây Ngụy cứu Triệu. Thay vì đối đầu trực diện nơi địch mạnh, hãy tấn công điểm yếu buộc địch phải rút lui.</p>
+    <p><strong>Ví dụ:</strong> Tôn Tẫn vây kinh đô nước Ngụy thay vì cứu Triệu trực tiếp, buộc Bàng Quyên phải rút quân.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">3</span>
+    <span class="ke-names">
+      <span class="ke-viet">Tá đao sát nhân</span>
+      <span class="ke-hanzi" lang="zh-Hant">借刀殺人</span>
+    </span>
+    <span class="ke-line">Mượn dao giết người.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Mượn dao giết người. Dùng sức mạnh của bên thứ ba để tiêu diệt đối thủ, giữ cho mình không hao tổn.</p>
+    <p><strong>Ví dụ:</strong> Tào Tháo mượn tay Lưu Biểu giết Nễ Hành, tránh mang tiếng sát hại người tài.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">4</span>
+    <span class="ke-names">
+      <span class="ke-viet">Dĩ dật đãi lao</span>
+      <span class="ke-hanzi" lang="zh-Hant">以逸待勞</span>
+    </span>
+    <span class="ke-line">Lấy nhàn chờ mệt.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Lấy nhàn chờ mệt. Giữ sức, ổn định vị trí, để địch tự hao mòn vì hành quân và tấn công, rồi phản kích khi địch kiệt sức.</p>
+    <p><strong>Ví dụ:</strong> Gia Cát Lượng cố thủ tại Kỳ Sơn, để quân Ngụy phải hành quân đường dài mà mệt mỏi.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">5</span>
+    <span class="ke-names">
+      <span class="ke-viet">Thừa hỏa đả kiếp</span>
+      <span class="ke-hanzi" lang="zh-Hant">趁火打劫</span>
+    </span>
+    <span class="ke-line">Thừa lúc cháy nhà mà cướp.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Thừa lúc cháy nhà mà cướp. Khi đối phương gặp khó khăn hoặc hỗn loạn nội bộ, nhân cơ hội đó mà tấn công.</p>
+    <p><strong>Ví dụ:</strong> Khi nhà Đông Hán suy yếu, Tào Tháo nhân loạn mà gom quyền lực.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">6</span>
+    <span class="ke-names">
+      <span class="ke-viet">Thanh đông kích tây</span>
+      <span class="ke-hanzi" lang="zh-Hant">聲東擊西</span>
+    </span>
+    <span class="ke-line">Dương đông kích tây.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Dương đông kích tây. Tạo ra ồn ào ở một hướng để thu hút sự chú ý, nhưng tấn công thực sự ở hướng ngược lại.</p>
+    <p><strong>Ví dụ:</strong> Hàn Tín giả vờ vượt sông ở bến Lâm Tấn, nhưng đưa quân chính vượt ở Hạ Dương.</p>
+  </div>
+</details>
+  </div>
+</section>
+<div class="ke-section-divider" aria-hidden="true">
+  <div class="ke-section-line"></div>
+  <svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 2 L26 12 L20 22 L14 12 Z" stroke="currentColor" stroke-width="0.8"/>
+    <circle cx="20" cy="12" r="3" stroke="currentColor" stroke-width="0.6"/>
+  </svg>
+  <div class="ke-section-line"></div>
+</div>
+
+<section class="ke-chapter" aria-labelledby="ke-chapter-2">
+  <header class="ke-chapter-header">
+    <div class="ke-chapter-num" aria-hidden="true">貳</div>
+    <div class="ke-chapter-info">
+      <h2 id="ke-chapter-2" class="ke-chapter-title-vi">Địch Chiến Kế</h2>
+      <p class="ke-chapter-title-cn" lang="zh-Hant">敵戰計</p>
+      <p class="ke-chapter-subtitle">Kế đối phó kẻ địch</p>
+    </div>
+    <div class="ke-chapter-line" aria-hidden="true"></div>
+  </header>
+  <div class="ke-list">
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">7</span>
+    <span class="ke-names">
+      <span class="ke-viet">Vô trung sinh hữu</span>
+      <span class="ke-hanzi" lang="zh-Hant">無中生有</span>
+    </span>
+    <span class="ke-line">Từ không sinh có.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Từ không sinh có. Tạo ra ảo giác, tin đồn hoặc tình huống giả để đánh lừa đối phương, biến cái không thành có.</p>
+    <p><strong>Ví dụ:</strong> Trương Nghi dùng lời hứa giả 600 dặm đất để chia rẽ liên minh Tề-Sở.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">8</span>
+    <span class="ke-names">
+      <span class="ke-viet">Ám độ Trần Thương</span>
+      <span class="ke-hanzi" lang="zh-Hant">暗渡陳倉</span>
+    </span>
+    <span class="ke-line">Ngầm vượt Trần Thương.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Ngầm vượt Trần Thương. Công khai làm một việc để đánh lạc hướng, bí mật thực hiện kế hoạch thật ở nơi khác.</p>
+    <p><strong>Ví dụ:</strong> Hàn Tín sửa đường sạn đạo công khai nhưng bí mật đưa quân qua Trần Thương đánh Chương Hàm.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">9</span>
+    <span class="ke-names">
+      <span class="ke-viet">Cách ngạn quan hỏa</span>
+      <span class="ke-hanzi" lang="zh-Hant">隔岸觀火</span>
+    </span>
+    <span class="ke-line">Đứng bờ bên kia xem lửa cháy.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Đứng bờ bên kia xem lửa cháy. Khi nội bộ địch tự mâu thuẫn, hãy kiên nhẫn đứng ngoài quan sát, để chúng tự suy yếu.</p>
+    <p><strong>Ví dụ:</strong> Tào Tháo ngồi yên nhìn Viên Đàm và Viên Thượng tự đánh nhau sau khi Viên Thiệu mất.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">10</span>
+    <span class="ke-names">
+      <span class="ke-viet">Tiếu lý tàng đao</span>
+      <span class="ke-hanzi" lang="zh-Hant">笑裡藏刀</span>
+    </span>
+    <span class="ke-line">Cười mà giấu dao.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Cười mà giấu dao. Bên ngoài thân thiện, hòa nhã, nhưng bên trong đã chuẩn bị sẵn kế hoạch tấn công.</p>
+    <p><strong>Ví dụ:</strong> Kinh Kha cười nói vui vẻ khi dâng bản đồ cho Tần Vương, nhưng dao đã giấu trong cuộn bản đồ.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">11</span>
+    <span class="ke-names">
+      <span class="ke-viet">Lý đại đào cương</span>
+      <span class="ke-hanzi" lang="zh-Hant">李代桃僵</span>
+    </span>
+    <span class="ke-line">Mận chết thay đào.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Mận chết thay đào. Hy sinh cái nhỏ để bảo toàn cái lớn, chấp nhận mất mát có kiểm soát.</p>
+    <p><strong>Ví dụ:</strong> Trong cờ vua, hy sinh quân để đổi lấy thế trận tốt hơn là nguyên tắc cơ bản.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">12</span>
+    <span class="ke-names">
+      <span class="ke-viet">Thuận thủ khiên dương</span>
+      <span class="ke-hanzi" lang="zh-Hant">順手牽羊</span>
+    </span>
+    <span class="ke-line">Thuận tay dắt dê.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Thuận tay dắt dê. Tận dụng mọi sơ hở nhỏ của đối phương, dù nhỏ cũng tích lũy thành lợi thế lớn.</p>
+    <p><strong>Ví dụ:</strong> Trong chiến tranh, thu nhặt vũ khí và lương thực địch bỏ lại sau mỗi trận.</p>
+  </div>
+</details>
+  </div>
+</section>
+<div class="ke-section-divider" aria-hidden="true">
+  <div class="ke-section-line"></div>
+  <svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 2 L26 12 L20 22 L14 12 Z" stroke="currentColor" stroke-width="0.8"/>
+    <circle cx="20" cy="12" r="3" stroke="currentColor" stroke-width="0.6"/>
+  </svg>
+  <div class="ke-section-line"></div>
+</div>
+
+<section class="ke-chapter" aria-labelledby="ke-chapter-3">
+  <header class="ke-chapter-header">
+    <div class="ke-chapter-num" aria-hidden="true">參</div>
+    <div class="ke-chapter-info">
+      <h2 id="ke-chapter-3" class="ke-chapter-title-vi">Công Chiến Kế</h2>
+      <p class="ke-chapter-title-cn" lang="zh-Hant">攻戰計</p>
+      <p class="ke-chapter-subtitle">Kế tấn công</p>
+    </div>
+    <div class="ke-chapter-line" aria-hidden="true"></div>
+  </header>
+  <div class="ke-list">
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">13</span>
+    <span class="ke-names">
+      <span class="ke-viet">Đả thảo kinh xà</span>
+      <span class="ke-hanzi" lang="zh-Hant">打草驚蛇</span>
+    </span>
+    <span class="ke-line">Đập cỏ động rắn.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Đập cỏ động rắn. Dò xét ý đồ đối phương bằng một hành động nhỏ, quan sát phản ứng để biết kế hoạch thật của chúng.</p>
+    <p><strong>Ví dụ:</strong> Thử thăng chức cho một nhân viên đáng ngờ để xem phản ứng của phe cánh.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">14</span>
+    <span class="ke-names">
+      <span class="ke-viet">Tá thi hoàn hồn</span>
+      <span class="ke-hanzi" lang="zh-Hant">借屍還魂</span>
+    </span>
+    <span class="ke-line">Mượn xác hoàn hồn.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Mượn xác hoàn hồn. Dùng lại cái cũ, cái bị bỏ quên, hoặc người khác để phục vụ mục đích mới của mình.</p>
+    <p><strong>Ví dụ:</strong> Lưu Bị nương nhờ Lưu Biểu ở Kinh Châu, mượn đất và quân để phục hưng nhà Hán.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">15</span>
+    <span class="ke-names">
+      <span class="ke-viet">Điệu hổ ly sơn</span>
+      <span class="ke-hanzi" lang="zh-Hant">調虎離山</span>
+    </span>
+    <span class="ke-line">Dụ hổ rời núi.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Dụ hổ rời núi. Đưa đối phương ra khỏi vị trí có lợi, nơi chúng mạnh nhất, rồi mới tấn công.</p>
+    <p><strong>Ví dụ:</strong> Dụ đối thủ kinh doanh rời bỏ thị trường cốt lõi bằng cơ hội giả ở thị trường khác.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">16</span>
+    <span class="ke-names">
+      <span class="ke-viet">Dục cầm cố túng</span>
+      <span class="ke-hanzi" lang="zh-Hant">欲擒故縱</span>
+    </span>
+    <span class="ke-line">Muốn bắt phải thả.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Muốn bắt phải thả. Cố ý nới lỏng để đối phương mất cảnh giác, rồi mới bắt gọn khi chúng lộ hết yếu điểm.</p>
+    <p><strong>Ví dụ:</strong> Gia Cát Lượng bảy lần bắt bảy lần thả Mạnh Hoạch để thu phục nhân tâm.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">17</span>
+    <span class="ke-names">
+      <span class="ke-viet">Phao chuyên dẫn ngọc</span>
+      <span class="ke-hanzi" lang="zh-Hant">拋磚引玉</span>
+    </span>
+    <span class="ke-line">Ném gạch dẫn ngọc.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Ném gạch dẫn ngọc. Dùng thứ tầm thường làm mồi nhử để thu về thứ có giá trị lớn hơn.</p>
+    <p><strong>Ví dụ:</strong> Chia sẻ một ít kiến thức miễn phí để thu hút khách hàng mua sản phẩm cao cấp.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">18</span>
+    <span class="ke-names">
+      <span class="ke-viet">Cầm tặc cầm vương</span>
+      <span class="ke-hanzi" lang="zh-Hant">擒賊擒王</span>
+    </span>
+    <span class="ke-line">Bắt giặc bắt vua.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Bắt giặc bắt vua. Nhắm thẳng vào thủ lĩnh, vào cốt lõi vấn đề. Đầu rắn bị chặt thì thân tự tan.</p>
+    <p><strong>Ví dụ:</strong> Đánh thẳng vào chỉ huy sở thay vì giao tranh với từng đơn vị lẻ.</p>
+  </div>
+</details>
+  </div>
+</section>
+<div class="ke-section-divider" aria-hidden="true">
+  <div class="ke-section-line"></div>
+  <svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 2 L26 12 L20 22 L14 12 Z" stroke="currentColor" stroke-width="0.8"/>
+    <circle cx="20" cy="12" r="3" stroke="currentColor" stroke-width="0.6"/>
+  </svg>
+  <div class="ke-section-line"></div>
+</div>
+
+<section class="ke-chapter" aria-labelledby="ke-chapter-4">
+  <header class="ke-chapter-header">
+    <div class="ke-chapter-num" aria-hidden="true">肆</div>
+    <div class="ke-chapter-info">
+      <h2 id="ke-chapter-4" class="ke-chapter-title-vi">Hỗn Chiến Kế</h2>
+      <p class="ke-chapter-title-cn" lang="zh-Hant">混戰計</p>
+      <p class="ke-chapter-subtitle">Kế dùng trong hỗn loạn</p>
+    </div>
+    <div class="ke-chapter-line" aria-hidden="true"></div>
+  </header>
+  <div class="ke-list">
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">19</span>
+    <span class="ke-names">
+      <span class="ke-viet">Phủ để trừu tân</span>
+      <span class="ke-hanzi" lang="zh-Hant">釜底抽薪</span>
+    </span>
+    <span class="ke-line">Rút củi đáy nồi.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Rút củi đáy nồi. Loại bỏ nguồn lực cốt lõi của đối phương thay vì đối phó với biểu hiện bên ngoài.</p>
+    <p><strong>Ví dụ:</strong> Cắt đứt đường vận lương của quân địch thay vì giao chiến trực tiếp trên chiến trường.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">20</span>
+    <span class="ke-names">
+      <span class="ke-viet">Hỗn thủy mạc ngư</span>
+      <span class="ke-hanzi" lang="zh-Hant">混水摸魚</span>
+    </span>
+    <span class="ke-line">Đục nước bắt cá.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Đục nước bắt cá. Tạo ra hoặc lợi dụng tình huống hỗn loạn để trục lợi khi đối phương không thể phân biệt bạn thù.</p>
+    <p><strong>Ví dụ:</strong> Trong thời loạn, các lãnh chúa nhỏ thường lợi dụng sự sụp đổ để mở rộng lãnh thổ.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">21</span>
+    <span class="ke-names">
+      <span class="ke-viet">Kim thiền thoát xác</span>
+      <span class="ke-hanzi" lang="zh-Hant">金蟬脫殼</span>
+    </span>
+    <span class="ke-line">Ve sầu lột xác.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Ve sầu lột xác. Rút lui an toàn bằng cách để lại vỏ bọc giả, duy trì vẻ ngoài như vẫn còn ở vị trí cũ.</p>
+    <p><strong>Ví dụ:</strong> Gia Cát Lượng dùng tượng gỗ giả mình trên xe để quân Ngụy không dám truy đuổi.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">22</span>
+    <span class="ke-names">
+      <span class="ke-viet">Quan môn tróc tặc</span>
+      <span class="ke-hanzi" lang="zh-Hant">關門捉賊</span>
+    </span>
+    <span class="ke-line">Đóng cửa bắt giặc.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Đóng cửa bắt giặc. Bao vây hoàn toàn, cắt đứt đường lui của địch rồi mới tiêu diệt, không để lối thoát.</p>
+    <p><strong>Ví dụ:</strong> Hàn Tín bố trí phục binh vây kín quân Triệu tại trận Tỉnh Hình.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">23</span>
+    <span class="ke-names">
+      <span class="ke-viet">Viễn giao cận công</span>
+      <span class="ke-hanzi" lang="zh-Hant">遠交近攻</span>
+    </span>
+    <span class="ke-line">Xa kết bạn, gần thì đánh.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Xa kết bạn, gần thì đánh. Liên minh với kẻ ở xa để yên một mặt, tập trung sức đánh kẻ ở gần.</p>
+    <p><strong>Ví dụ:</strong> Phạm Tuy hiến kế cho Tần Chiêu Vương: kết thân với Tề, Sở ở xa để đánh Hàn, Ngụy ở gần.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">24</span>
+    <span class="ke-names">
+      <span class="ke-viet">Giả đạo phạt Quắc</span>
+      <span class="ke-hanzi" lang="zh-Hant">假道伐虢</span>
+    </span>
+    <span class="ke-line">Mượn đường diệt Quắc.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Mượn đường diệt Quắc. Mượn cớ hợp tác hoặc đi qua để rồi quay lại chiếm luôn nơi đã cho mượn.</p>
+    <p><strong>Ví dụ:</strong> Tấn Hiến Công mượn đường nước Ngu để đánh Quắc, rồi quay lại diệt luôn nước Ngu.</p>
+  </div>
+</details>
+  </div>
+</section>
+<div class="ke-section-divider" aria-hidden="true">
+  <div class="ke-section-line"></div>
+  <svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 2 L26 12 L20 22 L14 12 Z" stroke="currentColor" stroke-width="0.8"/>
+    <circle cx="20" cy="12" r="3" stroke="currentColor" stroke-width="0.6"/>
+  </svg>
+  <div class="ke-section-line"></div>
+</div>
+
+<section class="ke-chapter" aria-labelledby="ke-chapter-5">
+  <header class="ke-chapter-header">
+    <div class="ke-chapter-num" aria-hidden="true">伍</div>
+    <div class="ke-chapter-info">
+      <h2 id="ke-chapter-5" class="ke-chapter-title-vi">Tịnh Chiến Kế</h2>
+      <p class="ke-chapter-title-cn" lang="zh-Hant">並戰計</p>
+      <p class="ke-chapter-subtitle">Kế dùng khi hợp sức</p>
+    </div>
+    <div class="ke-chapter-line" aria-hidden="true"></div>
+  </header>
+  <div class="ke-list">
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">25</span>
+    <span class="ke-names">
+      <span class="ke-viet">Du lương hoán trụ</span>
+      <span class="ke-hanzi" lang="zh-Hant">偷梁換柱</span>
+    </span>
+    <span class="ke-line">Trộm rường đổi cột.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Trộm rường đổi cột. Ngầm thay đổi nội dung cốt lõi nhưng giữ nguyên hình thức bên ngoài.</p>
+    <p><strong>Ví dụ:</strong> Triệu Cao sửa di chiếu, đổi người kế vị từ Phù Tô sang Hồ Hợi mà bên ngoài vẫn hợp pháp.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">26</span>
+    <span class="ke-names">
+      <span class="ke-viet">Chỉ tang mạ hòe</span>
+      <span class="ke-hanzi" lang="zh-Hant">指桑罵槐</span>
+    </span>
+    <span class="ke-line">Chỉ dâu mắng hòe.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Chỉ dâu mắng hòe. Phê bình gián tiếp bằng cách nói về người khác, nhưng ai cũng hiểu đang ám chỉ ai.</p>
+    <p><strong>Ví dụ:</strong> Cấp trên phê bình chung trong cuộc họp nhưng mọi người đều biết đang nói về ai.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">27</span>
+    <span class="ke-names">
+      <span class="ke-viet">Giả si bất điên</span>
+      <span class="ke-hanzi" lang="zh-Hant">假痴不癲</span>
+    </span>
+    <span class="ke-line">Giả ngốc mà không điên.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Giả ngốc mà không điên. Tỏ ra ngu ngốc, không tham vọng để che giấu thực lực và ý đồ thật.</p>
+    <p><strong>Ví dụ:</strong> Tư Mã Ý giả bệnh, giả ngốc nhiều năm trước khi phát động chính biến đoạt quyền họ Tào.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">28</span>
+    <span class="ke-names">
+      <span class="ke-viet">Thượng ốc trừu thê</span>
+      <span class="ke-hanzi" lang="zh-Hant">上屋抽梯</span>
+    </span>
+    <span class="ke-line">Dụ lên mái nhà rồi rút thang.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Dụ lên mái nhà rồi rút thang. Tạo cơ hội hấp dẫn dụ đối phương vào thế không thể quay lại, rồi cắt đường lui.</p>
+    <p><strong>Ví dụ:</strong> Cho đối thủ đầu tư sâu vào dự án rồi rút hỗ trợ, khiến họ bị mắc kẹt.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">29</span>
+    <span class="ke-names">
+      <span class="ke-viet">Thụ thượng khai hoa</span>
+      <span class="ke-hanzi" lang="zh-Hant">樹上開花</span>
+    </span>
+    <span class="ke-line">Trên cây nở hoa.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Trên cây nở hoa. Tạo vẻ ngoài hoành tráng hơn thực lực, dùng hư trương thanh thế để uy hiếp đối phương.</p>
+    <p><strong>Ví dụ:</strong> Trương Phi đứng một mình trên cầu Trường Bản hét vang, khiến quân Tào tưởng có phục binh.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">30</span>
+    <span class="ke-names">
+      <span class="ke-viet">Phản khách vi chủ</span>
+      <span class="ke-hanzi" lang="zh-Hant">反客為主</span>
+    </span>
+    <span class="ke-line">Đổi khách thành chủ.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Đổi khách thành chủ. Từ vị trí phụ thuộc, từng bước giành quyền kiểm soát cho đến khi nắm quyền chủ động.</p>
+    <p><strong>Ví dụ:</strong> Lưu Bị từ khách nhờ vả ở Kinh Châu dần dần nắm quyền kiểm soát cả vùng.</p>
+  </div>
+</details>
+  </div>
+</section>
+<div class="ke-section-divider" aria-hidden="true">
+  <div class="ke-section-line"></div>
+  <svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 2 L26 12 L20 22 L14 12 Z" stroke="currentColor" stroke-width="0.8"/>
+    <circle cx="20" cy="12" r="3" stroke="currentColor" stroke-width="0.6"/>
+  </svg>
+  <div class="ke-section-line"></div>
+</div>
+
+<section class="ke-chapter" aria-labelledby="ke-chapter-6">
+  <header class="ke-chapter-header">
+    <div class="ke-chapter-num" aria-hidden="true">陸</div>
+    <div class="ke-chapter-info">
+      <h2 id="ke-chapter-6" class="ke-chapter-title-vi">Bại Chiến Kế</h2>
+      <p class="ke-chapter-title-cn" lang="zh-Hant">敗戰計</p>
+      <p class="ke-chapter-subtitle">Kế dùng khi thua thế</p>
+    </div>
+    <div class="ke-chapter-line" aria-hidden="true"></div>
+  </header>
+  <div class="ke-list">
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">31</span>
+    <span class="ke-names">
+      <span class="ke-viet">Mỹ nhân kế</span>
+      <span class="ke-hanzi" lang="zh-Hant">美人計</span>
+    </span>
+    <span class="ke-line">Kế mỹ nhân.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Kế mỹ nhân. Dùng cái đẹp, sự quyến rũ, hoặc thú vui để làm đối phương sa đọa, mất tập trung, suy yếu ý chí.</p>
+    <p><strong>Ví dụ:</strong> Vương Doãn dùng Điêu Thuyền để ly gián Đổng Trác và Lã Bố.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">32</span>
+    <span class="ke-names">
+      <span class="ke-viet">Không thành kế</span>
+      <span class="ke-hanzi" lang="zh-Hant">空城計</span>
+    </span>
+    <span class="ke-line">Kế thành trống.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Kế thành trống. Khi yếu thế tuyệt đối, hãy phô bày sự trống rỗng một cách tự tin, khiến đối phương nghi ngờ có bẫy mà rút lui.</p>
+    <p><strong>Ví dụ:</strong> Gia Cát Lượng mở toang cổng thành, ngồi gảy đàn, khiến Tư Mã Ý sợ phục binh mà rút quân.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">33</span>
+    <span class="ke-names">
+      <span class="ke-viet">Phản gián kế</span>
+      <span class="ke-hanzi" lang="zh-Hant">反間計</span>
+    </span>
+    <span class="ke-line">Kế phản gián.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Kế phản gián. Lợi dụng gián điệp của địch hoặc tung tin giả qua kênh của địch để chúng tự nghi ngờ và tiêu diệt lẫn nhau.</p>
+    <p><strong>Ví dụ:</strong> Chu Du dùng phản gián khiến Tào Tháo giết hai tướng thủy quân giỏi nhất trước trận Xích Bích.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">34</span>
+    <span class="ke-names">
+      <span class="ke-viet">Khổ nhục kế</span>
+      <span class="ke-hanzi" lang="zh-Hant">苦肉計</span>
+    </span>
+    <span class="ke-line">Kế khổ nhục.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Kế khổ nhục. Tự gây đau đớn cho bản thân để tạo lòng tin hoặc sự thương hại từ đối phương, từ đó xâm nhập hàng ngũ địch.</p>
+    <p><strong>Ví dụ:</strong> Hoàng Cái tự chịu đòn roi của Chu Du để giả hàng Tào Tháo, phóng hỏa đốt liên hoàn thuyền.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">35</span>
+    <span class="ke-names">
+      <span class="ke-viet">Liên hoàn kế</span>
+      <span class="ke-hanzi" lang="zh-Hant">連環計</span>
+    </span>
+    <span class="ke-line">Kế liên hoàn.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Kế liên hoàn. Kết hợp nhiều mưu kế lại với nhau, kế này nối kế kia, tạo thành chuỗi không thể gỡ.</p>
+    <p><strong>Ví dụ:</strong> Trận Xích Bích kết hợp phản gián, khổ nhục, hỏa công thành chuỗi liên hoàn.</p>
+  </div>
+</details>
+<details class="ke-row">
+  <summary class="ke-summary">
+    <span class="ke-index">36</span>
+    <span class="ke-names">
+      <span class="ke-viet">Tẩu vi thượng sách</span>
+      <span class="ke-hanzi" lang="zh-Hant">走為上</span>
+    </span>
+    <span class="ke-line">Chạy là thượng sách.</span>
+    <span class="ke-marker" aria-hidden="true"></span>
+  </summary>
+  <div class="ke-detail">
+    <p><strong>Ý nghĩa:</strong> Chạy là thượng sách. Khi không thể thắng, rút lui là lựa chọn khôn ngoan nhất. Bảo toàn lực lượng để chiến đấu ngày khác.</p>
+    <p><strong>Ví dụ:</strong> Lưu Bị nhiều lần rút lui để bảo toàn lực lượng, cuối cùng xây dựng được nhà Thục Hán.</p>
+  </div>
+</details>
+  </div>
+</section>
+
+  <div class="ke-meander" aria-hidden="true"></div>
+
+  <footer class="ke-source">
+    <img src="img/chineseDragon1.jpg" alt="" class="ke-footer-dragon" aria-hidden="true" />
+    <div class="ke-seal" aria-hidden="true">兵</div>
+    Nguồn gốc: Binh pháp cổ đại Trung Hoa &middot; <span lang="zh-Hant">三十六計</span>
+  </footer>
+</article>
+
+<script>
+  (function () {
+    var root = document.querySelector(".thirty-six-ke-page .ke-shell");
+    if (!root) return;
+
+    var rows = Array.prototype.slice.call(root.querySelectorAll(".ke-row"));
+
+    rows.forEach(function (row) {
+      row.addEventListener("click", function (event) {
+        if (event.target.closest(".ke-summary")) return;
+        if (row.open) row.open = false;
+      });
+
+      row.addEventListener("toggle", function () {
+        if (!row.open) return;
+
+        rows.forEach(function (other) {
+          if (other !== row) other.open = false;
+        });
+
+        window.setTimeout(function () {
+          row.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 100);
+      });
+    });
+  })();
+</script>
