@@ -28,7 +28,7 @@ A personal corner of the internet where I write about whatever I feel like:
 
 ```bash
 npm install          # install dependencies (first time only)
-npm start            # dev server with live reload (for local development)
+npm start            # dev server at http://localhost:8080/
 npm run build        # build to _site/ (used by CI for deployment)
 ```
 
