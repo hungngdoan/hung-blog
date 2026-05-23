@@ -24,6 +24,28 @@ A personal corner of the internet where I write about whatever I feel like:
 - Fonts: VT323, Press Start 2P
 - Deployed via GitHub Actions to GitHub Pages
 
+## Nostalgic 9x Vietnamese text style
+
+For a nostalgic Vietnamese 9x/Y2K mood, the site can use decorative Unicode text like:
+
+`ᥫ᭡Trͬướcͨ saͣuͧ nhͪư mͫộtͭ mͫộtͭ mͫìnhͪ aͣnhͪᥫ᭡`
+
+This is not a standalone font. It is regular text styled with Unicode decoration characters and combining marks, similar to Zalgo or fancy Unicode text. The base letters still render with the reader's normal font, while marks such as `ͬ`, `ͨ`, `ͣ`, `ͧ`, `ͪ`, `ͫ`, and `ͭ` create the nostalgic embellished look.
+
+Useful generators for this style:
+
+- LingoJam Zalgo Text Generator -- best match for floating marks above letters, with a "crazy" intensity slider.
+- LingoJam Glitch Text Generator -- good for distorted, noisy, broken-letter effects.
+- LingoJam Fancy Text Generator -- useful for softer decorative Unicode variants.
+- FSymbols Font Generator -- useful for extra symbols and wrappers.
+- CoolSymbol Fancy Text Generator -- useful for hearts, stars, flowers, and other sentence decorations.
+
+Basic workflow:
+
+1. Type the normal Vietnamese sentence.
+2. Choose a Zalgo or Glitch style and copy the generated Unicode result.
+3. Use FSymbols or CoolSymbol to add decorations around the sentence, such as `ᥫ᭡`, `♡`, `✿`, `☆`, `ꕤ`, `ღ`, `✧`, or `༺༻`.
+
 ## Getting Started
 
 ```bash
