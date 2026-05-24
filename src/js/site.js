@@ -118,3 +118,62 @@
     closeDropdowns();
   });
 })();
+
+(function () {
+  var topButton = document.querySelector("[data-to-top]");
+  var bottomButton = document.querySelector("[data-to-bottom]");
+  var visibleClass = "is-visible";
+  var revealOffset = 420;
+  var edgeOffset = 80;
+  var prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  );
+
+  if (!topButton || !bottomButton) {
+    return;
+  }
+
+  function getScrollMax() {
+    return Math.max(
+      0,
+      document.documentElement.scrollHeight - window.innerHeight
+    );
+  }
+
+  function setVisibility(button, isVisible) {
+    button.classList.toggle(visibleClass, isVisible);
+    button.setAttribute("aria-hidden", String(!isVisible));
+    button.tabIndex = isVisible ? 0 : -1;
+  }
+
+  function updateVisibility() {
+    var scrollMax = getScrollMax();
+    var hasRoomToScroll = scrollMax > revealOffset;
+
+    setVisibility(topButton, window.scrollY > revealOffset);
+    setVisibility(
+      bottomButton,
+      hasRoomToScroll && window.scrollY < scrollMax - edgeOffset
+    );
+  }
+
+  topButton.addEventListener("click", function () {
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+    });
+  });
+
+  bottomButton.addEventListener("click", function () {
+    window.scrollTo({
+      top: getScrollMax(),
+      behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+    });
+  });
+
+  window.addEventListener("scroll", updateVisibility, { passive: true });
+  window.addEventListener("resize", updateVisibility);
+  document.addEventListener("hung:pjax-complete", updateVisibility);
+
+  updateVisibility();
+})();

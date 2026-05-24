@@ -25,6 +25,30 @@
       </div>
       {% include "partials/footer.njk" %}
     </div>
+    <div class="scroll-jump-controls" aria-label="Page scroll controls">
+      <button
+        type="button"
+        class="scroll-jump-button"
+        data-to-top
+        aria-label="Back to top"
+        aria-hidden="true"
+        tabindex="-1"
+        title="Back to top"
+      >
+        &#9650;
+      </button>
+      <button
+        type="button"
+        class="scroll-jump-button"
+        data-to-bottom
+        aria-label="Go to bottom"
+        aria-hidden="true"
+        tabindex="-1"
+        title="Go to bottom"
+      >
+        &#9660;
+      </button>
+    </div>
     {% include "partials/music-player-script.njk" %}
     <script src="js/page-transitions.js" defer></script>
   </body>
