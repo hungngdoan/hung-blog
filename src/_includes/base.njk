@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ title }}</title>
+    <title>Hung's journal</title>
     <link
       data-page-fonts
       href="{{ fontsUrl if fontsUrl else site.defaultFontsUrl }}"
@@ -31,8 +31,8 @@
         class="scroll-jump-button"
         data-to-top
         aria-label="Back to top"
-        aria-hidden="true"
-        tabindex="-1"
+        aria-disabled="true"
+        disabled
         title="Back to top"
       >
         &#9650;
@@ -42,8 +42,8 @@
         class="scroll-jump-button"
         data-to-bottom
         aria-label="Go to bottom"
-        aria-hidden="true"
-        tabindex="-1"
+        aria-disabled="true"
+        disabled
         title="Go to bottom"
       >
         &#9660;

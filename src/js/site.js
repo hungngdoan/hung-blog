@@ -122,9 +122,7 @@
 (function () {
   var topButton = document.querySelector("[data-to-top]");
   var bottomButton = document.querySelector("[data-to-bottom]");
-  var visibleClass = "is-visible";
-  var revealOffset = 420;
-  var edgeOffset = 80;
+  var edgeOffset = 32;
   var prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   );
@@ -140,20 +138,22 @@
     );
   }
 
-  function setVisibility(button, isVisible) {
-    button.classList.toggle(visibleClass, isVisible);
-    button.setAttribute("aria-hidden", String(!isVisible));
-    button.tabIndex = isVisible ? 0 : -1;
+  function setEnabled(button, isEnabled) {
+    button.disabled = !isEnabled;
+    button.setAttribute("aria-disabled", String(!isEnabled));
   }
 
   function updateVisibility() {
     var scrollMax = getScrollMax();
-    var hasRoomToScroll = scrollMax > revealOffset;
+    var activeEdgeOffset = Math.min(
+      edgeOffset,
+      Math.max(1, Math.floor(scrollMax / 2))
+    );
 
-    setVisibility(topButton, window.scrollY > revealOffset);
-    setVisibility(
+    setEnabled(topButton, scrollMax > 0 && window.scrollY > activeEdgeOffset);
+    setEnabled(
       bottomButton,
-      hasRoomToScroll && window.scrollY < scrollMax - edgeOffset
+      scrollMax > 0 && window.scrollY < scrollMax - activeEdgeOffset
     );
   }
 
