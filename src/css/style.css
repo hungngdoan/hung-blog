@@ -1220,11 +1220,14 @@ body::before {
   font-size: 20px;
   color: var(--text-main);
   margin: 6px 0;
+  position: relative;
 }
 
-.page-section ul li::marker {
-  content: "\2605  ";
+.page-section ul li::before {
+  content: "\2605";
   color: var(--accent-gold);
+  position: absolute;
+  left: -21px;
 }
 
 .page-section a {
