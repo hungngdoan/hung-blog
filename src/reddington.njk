@@ -1,0 +1,138 @@
+---
+layout: base.njk
+title: "Raymond Reddington Quotes ~ Hung's Journal"
+navActive: reddington.html
+permalink: reddington.html
+pageClass: reddington-page
+---
+
+<style>
+  .reddington-page .reddington-tools {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    margin: 16px 0 18px;
+  }
+
+  .reddington-page .reddington-search {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 12px;
+    border: 1px solid var(--accent-cyan);
+    border-radius: 4px;
+    background: #0a0a1f;
+    color: var(--text-main);
+    font-family: var(--font-pixel);
+    font-size: 19px;
+  }
+
+  .reddington-page .reddington-search:focus {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+  }
+
+  .reddington-page .reddington-count {
+    color: var(--accent-gold);
+    font-family: var(--font-pixel);
+    font-size: 18px;
+    white-space: nowrap;
+  }
+
+  .reddington-page .reddington-index {
+    color: var(--accent-gold);
+  }
+
+  .reddington-page .reddington-empty {
+    display: none;
+    color: var(--text-dim);
+  }
+
+  .reddington-page .reddington-empty.visible {
+    display: block;
+  }
+
+  .reddington-page .reddington-quote.hidden {
+    display: none;
+  }
+
+  .reddington-page .reddington-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 560px) {
+    .reddington-page .reddington-tools {
+      grid-template-columns: 1fr;
+    }
+
+    .reddington-page .reddington-count {
+      white-space: normal;
+    }
+  }
+</style>
+
+<section class="page-section quotes-section">
+  <h2>Raymond Reddington Quotes</h2>
+  <p>A cleaned collection of sharp, strategic, and dangerous lines from Raymond "Red" Reddington.</p>
+  <p>Origin: Raymond "Red" Reddington from The Blacklist TV series.</p>
+
+  <div class="reddington-tools">
+    <label class="reddington-sr-only" for="reddingtonSearch">Search Raymond Reddington quotes</label>
+    <input
+      class="reddington-search"
+      id="reddingtonSearch"
+      type="search"
+      autocomplete="off"
+      placeholder="Search quotes"
+    />
+    <div class="reddington-count" id="reddingtonCount">{{ reddingtonQuotes | length }} quotes</div>
+  </div>
+
+  <div class="quote-list" id="reddingtonList" aria-label="Raymond Reddington quotes">
+    {%- for quote in reddingtonQuotes %}
+    <blockquote class="quote-item reddington-quote" data-quote="{{ quote | lower }}">
+      <p><span class="reddington-index">{{ loop.index }}.</span> "{{ quote }}"</p>
+    </blockquote>
+    {%- endfor %}
+  </div>
+
+  <p class="reddington-empty" id="reddingtonEmpty">No quotes found.</p>
+</section>
+
+<script>
+(function () {
+  "use strict";
+
+  var input = document.getElementById("reddingtonSearch");
+  var count = document.getElementById("reddingtonCount");
+  var empty = document.getElementById("reddingtonEmpty");
+  var quotes = Array.prototype.slice.call(document.querySelectorAll(".reddington-quote"));
+
+  if (!input || !count || !empty || !quotes.length) return;
+
+  function filterQuotes() {
+    var term = input.value.trim().toLowerCase();
+    var visible = 0;
+
+    quotes.forEach(function (quote) {
+      var match = !term || quote.getAttribute("data-quote").indexOf(term) !== -1;
+      quote.classList.toggle("hidden", !match);
+      if (match) visible += 1;
+    });
+
+    count.textContent = visible + " / " + quotes.length + " quotes";
+    empty.classList.toggle("visible", visible === 0);
+  }
+
+  input.addEventListener("input", filterQuotes);
+  filterQuotes();
+})();
+</script>

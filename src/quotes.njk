@@ -5,9 +5,92 @@ navActive: quotes.html
 permalink: quotes.html
 ---
 
+<style>
+  .quotes-section .quotes-tools {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    margin: 16px 0 18px;
+  }
+
+  .quotes-section .quotes-search {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 12px;
+    border: 1px solid var(--accent-cyan);
+    border-radius: 4px;
+    background: #0a0a1f;
+    color: var(--text-main);
+    font-family: var(--font-pixel);
+    font-size: 19px;
+  }
+
+  .quotes-section .quotes-search:focus {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+  }
+
+  .quotes-section .quotes-count {
+    color: var(--accent-gold);
+    font-family: var(--font-pixel);
+    font-size: 18px;
+    white-space: nowrap;
+  }
+
+  .quotes-section .quotes-empty {
+    display: none;
+    color: var(--text-dim);
+  }
+
+  .quotes-section .quotes-empty.visible {
+    display: block;
+  }
+
+  .quotes-section .quotes-search-hidden {
+    display: none;
+  }
+
+  .quotes-section .quotes-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 560px) {
+    .quotes-section .quotes-tools {
+      grid-template-columns: 1fr;
+    }
+
+    .quotes-section .quotes-count {
+      white-space: normal;
+    }
+  }
+</style>
+
 <section class="page-section quotes-section">
   <h2>Quotes</h2>
   <p>🕯️Words I keep around🕯️</p>
+
+  <div class="quotes-tools">
+    <label class="quotes-sr-only" for="quotesSearch">Search quotes</label>
+    <input
+      class="quotes-search"
+      id="quotesSearch"
+      type="search"
+      autocomplete="off"
+      placeholder="Search quotes"
+    />
+    <div class="quotes-count" id="quotesCount">Search entries</div>
+  </div>
+
+  <p class="quotes-empty" id="quotesEmpty">No quotes found.</p>
 
   <h2>English Collection</h2>
   <div class="quote-list" aria-label="English quotes">
@@ -649,3 +732,38 @@ permalink: quotes.html
     </article>
   </div>
 </section>
+
+<script>
+(function () {
+  "use strict";
+
+  var input = document.getElementById("quotesSearch");
+  var count = document.getElementById("quotesCount");
+  var empty = document.getElementById("quotesEmpty");
+  var items = Array.prototype.slice.call(document.querySelectorAll(
+    ".quotes-section .quote-item, " +
+    ".quotes-section .quote-featured, " +
+    ".quotes-section .stratagem-card, " +
+    ".quotes-section .troll-feature"
+  ));
+
+  if (!input || !count || !empty || !items.length) return;
+
+  function filterQuotes() {
+    var term = input.value.trim().toLowerCase();
+    var visible = 0;
+
+    items.forEach(function (item) {
+      var match = !term || item.textContent.toLowerCase().indexOf(term) !== -1;
+      item.classList.toggle("quotes-search-hidden", !match);
+      if (match) visible += 1;
+    });
+
+    count.textContent = visible + " / " + items.length + " entries";
+    empty.classList.toggle("visible", visible === 0);
+  }
+
+  input.addEventListener("input", filterQuotes);
+  filterQuotes();
+})();
+</script>

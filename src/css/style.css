@@ -704,6 +704,24 @@ body::before {
   margin-bottom: 10px;
 }
 
+.post-dialogue {
+  margin: 14px 0 4px;
+  padding: 12px 14px;
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: 0 4px 4px 0;
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.08), rgba(255, 105, 180, 0.04)),
+    rgba(0, 0, 50, 0.32);
+}
+
+.post-dialogue p {
+  margin: 0;
+}
+
+.post-dialogue p + p {
+  margin-top: 6px;
+}
+
 .book-quote {
   margin: 14px 0 4px;
   padding: 12px 14px;
