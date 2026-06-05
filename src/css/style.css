@@ -1189,6 +1189,12 @@ body::before {
   font-size: 12px;
 }
 
+.footer-disclaimer {
+  margin-top: 6px;
+  font-size: 10px;
+  opacity: 0.7;
+}
+
 .gb-note {
   font-family: var(--font-pixel);
   font-size: 13px;
