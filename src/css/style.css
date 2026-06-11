@@ -839,7 +839,6 @@ body.is-inner .banner-wrap {
 
 .post-opener {
   color: var(--accent-gold);
-  font-weight: 700;
   text-shadow: 0 0 8px rgba(255, 215, 0, 0.35);
 }
 
