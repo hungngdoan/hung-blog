@@ -3,7 +3,139 @@ layout: base.njk
 title: "Games ~ Hung's Journal"
 navActive: games.html
 permalink: games.html
+pageClass: games-page
 ---
+
+<style>
+{% include "css/games.css" %}</style>
+
+<section class="page-section">
+  <h2>
+    <span class="game-section-icon" aria-hidden="true">&#127917;</span>
+    Favorite Character Quotes
+  </h2>
+</section>
+
+<div class="dialogue-wrap">
+  <div
+    class="dialogue-box"
+    id="dialogueBox"
+    role="button"
+    tabindex="0"
+    aria-label="Favorite character quotes. Activate to reveal the next quote."
+  >
+    <span class="dialogue-name" id="dialogueName">???</span>
+    <div class="dialogue-body">
+      <img class="dialogue-portrait" id="dialoguePortrait" src="" alt="" hidden />
+      <p class="dialogue-text" aria-hidden="true"><span id="dialogueText"></span><span class="dialogue-cursor"></span></p>
+    </div>
+    <div class="dialogue-footer">
+      <span class="dialogue-source" id="dialogueSource"></span>
+      <span class="dialogue-next" aria-hidden="true">&#9660; NEXT</span>
+    </div>
+  </div>
+  <p class="dialogue-hint">Click the box: once to finish the line, again for the next quote.</p>
+  <p class="games-sr-only" aria-live="polite" id="dialogueLive"></p>
+</div>
+
+<script type="application/json" id="dialogueData">{{ characterQuotes | dump | safe }}</script>
+<script>
+(function () {
+  "use strict";
+
+  var box = document.getElementById("dialogueBox");
+  var nameEl = document.getElementById("dialogueName");
+  var textEl = document.getElementById("dialogueText");
+  var sourceEl = document.getElementById("dialogueSource");
+  var liveEl = document.getElementById("dialogueLive");
+  var dataEl = document.getElementById("dialogueData");
+
+  if (!box || !nameEl || !textEl || !sourceEl || !dataEl) return;
+
+  var quotes;
+  try {
+    quotes = JSON.parse(dataEl.textContent);
+  } catch (err) {
+    return;
+  }
+  if (!quotes || !quotes.length) return;
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var index = 0;
+  var timer = null;
+  var typing = false;
+
+  function stopTimer() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  function finishLine(quote) {
+    stopTimer();
+    typing = false;
+    textEl.textContent = '"' + quote.text + '"';
+    box.classList.add("is-done");
+  }
+
+  function showQuote(i) {
+    var quote = quotes[i];
+    stopTimer();
+    box.classList.remove("is-done");
+    nameEl.textContent = quote.character || "???";
+    sourceEl.textContent = quote.source || "";
+    var portrait = document.getElementById("dialoguePortrait");
+    if (portrait) {
+      if (quote.icon) {
+        portrait.src = quote.icon;
+        portrait.alt = quote.character ? quote.character + " portrait" : "Character portrait";
+        portrait.hidden = false;
+      } else {
+        portrait.hidden = true;
+        portrait.removeAttribute("src");
+      }
+    }
+    liveEl.textContent = '"' + quote.text + '"' + (quote.character ? " - " + quote.character : "");
+    if (reduceMotion) {
+      finishLine(quote);
+      return;
+    }
+    typing = true;
+    textEl.textContent = '"';
+    var chars = Array.from(quote.text + '"');
+    var pos = 0;
+    timer = setInterval(function () {
+      if (!document.body.contains(box)) {
+        stopTimer();
+        return;
+      }
+      textEl.textContent += chars[pos];
+      pos += 1;
+      if (pos >= chars.length) finishLine(quote);
+    }, 30);
+  }
+
+  function advance() {
+    if (typing) {
+      finishLine(quotes[index]);
+      return;
+    }
+    index = (index + 1) % quotes.length;
+    showQuote(index);
+  }
+
+  box.addEventListener("click", advance);
+  box.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+      event.preventDefault();
+      advance();
+    }
+  });
+
+  showQuote(0);
+})();
+</script>
 
 <section class="page-section">
   <h2>
