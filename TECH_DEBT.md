@@ -6,8 +6,8 @@
 | # | Item | Severity | Status |
 |---|------|----------|--------|
 | 1 | Inner pages pay full header tax | High | FIXED 2026-06-11 |
-| 2 | Pixel font used for long-form prose | High | OPEN |
-| 3 | Accent colors have no assigned roles | Medium | OPEN |
+| 2 | Pixel font used for long-form prose | - | CLOSED 2026-06-11, decision: pixel font everywhere is deliberate |
+| 3 | Accent colors have no assigned roles | Medium | FIXED 2026-06-11, partial by owner choice |
 | 4 | No global motion policy | Medium | OPEN |
 | 5 | Sidebar identical on every page | Medium | OPEN |
 | 6 | Mobile nav takes four rows | Low | OPEN |
@@ -25,16 +25,17 @@
 - To re-enable the marquee on inner pages, remove `.marquee-bar` from the `body.is-inner` rule.
 - Follow-up (same day): inner-to-inner navigation was also abrupt because the PJAX swap replaced `.main-content` in one frame. `page-transitions.js` now crossfades (180ms out, swap while invisible, 180ms in), scrolls to top during the invisible window on forward navigation, and `html { scrollbar-gutter: stable }` stops the width jolt when the scrollbar appears or disappears. Rapid clicks are guarded by a navigation token; the latest click wins.
 
-## 2. Pixel font used for long-form prose
+## 2. Pixel font used for long-form prose (CLOSED 2026-06-11)
 
-- VT323 at 20px across full column width is hostile for sustained reading. Books and Roadmap have multi-paragraph passages in it with 90+ character lines.
-- `.music-page` already swaps to Segoe UI (style.css ~line 676), so the codebase is inconsistent about its own rule.
-- Plan: pixel fonts for chrome, headings, labels, and one-liners. A readable body face for any prose over two sentences. Cap prose blocks at ~70ch.
+- A readable prose font was implemented, reviewed, and rejected. Decision: the all-pixel typography is part of the site's identity and stays, accepting the readability cost on long passages. Do not re-raise without new evidence (e.g. reader complaints).
 
-## 3. Accent colors have no assigned roles
+## 3. Accent colors have no assigned roles (DOCUMENTED 2026-06-11)
 
-- Cyan, pink, gold, lime, and red are used decoratively. About mixes cyan, gold, and lime headings on one screen. Home sets a motivational quote in red, which reads as an error.
-- Plan: assign roles, then audit each page. Cyan = headings and links. Gold = identity and highlights. Pink = hover and interactive states. Lime = status. Red = warnings only.
+- The role map is documented at the top of `style.css` above `:root`, as guidance for new styles: cyan = structure, gold = identity/highlights, pink = interaction, lime = signals and tags, red = warnings only.
+- Audit findings (computed styles, not eyeballed): the original claim that About mixes heading colors was wrong; all its headings are cyan. Exactly two existing violations were found:
+  - `.post-opener` on Home renders a motivational quote in red (#ff5c5c), the only red on the site, conventionally an error/danger signal.
+  - `.tracker-beacon-tag` on Roadmap uses gold chips while every other topic chip site-wide (`.tag`) is lime.
+- Owner decisions after visual review: the Home quote fix is in (now gold with a soft glow, red freed up for real warnings). The Roadmap beacon chips stay gold deliberately; the owner prefers gold there, so gold chips on the beacon are an accepted exception to the lime tag rule.
 
 ## 4. No global motion policy
 

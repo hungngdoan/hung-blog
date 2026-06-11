@@ -1,3 +1,9 @@
+/* Accent color roles. New styles must pick by role, not by taste:
+   cyan = structure (headings, links, borders, platform chips)
+   gold = identity and highlights (marquee, moods, nameplates, featured)
+   pink = interaction (hover, active states)
+   lime = signals and tags (live dots, counters, status, topic chips)
+   red  = warnings and errors only */
 :root {
   --bg-main: #1a0a2e;
   --bg-panel: #0d0d2b;
@@ -832,8 +838,9 @@ body.is-inner .banner-wrap {
 }
 
 .post-opener {
-  color: #ff5c5c;
+  color: var(--accent-gold);
   font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.35);
 }
 
 .post-body a {
