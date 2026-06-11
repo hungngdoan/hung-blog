@@ -1695,3 +1695,52 @@ body.is-inner .banner-wrap {
     margin-left: auto;
   }
 }
+
+/* Tech debt #4: global motion policy. Visitors whose OS requests reduced
+   motion get the site with decorative animations frozen. Everyone else
+   sees motion exactly as designed. Frozen states stay informative: the
+   marquee text sits readable, stars stay visible, the playing button and
+   LIVE dot keep their color. */
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  .marquee-content,
+  .site-title,
+  .music-title-scroll,
+  .music-btn.playing,
+  .footer-icons,
+  .blink,
+  .warp-zone,
+  .tracker-beacon,
+  .tracker-beacon-dot {
+    animation: none;
+  }
+}
+
+/* Tech debt #6: phone-width nav diet. Tighter links, no reserved space for
+   the hover arrow (hover does not exist on touch), and on Home the warp
+   zone moves below the first post so content leads. Desktop unchanged. */
+@media (max-width: 560px) {
+  .nav-bar {
+    gap: 4px;
+    padding: 8px 6px;
+  }
+
+  .nav-bar a,
+  .nav-dropdown-toggle {
+    font-size: 17px;
+    padding: 3px 8px;
+  }
+
+  .nav-bar a::before,
+  .nav-dropdown-toggle::before {
+    display: none;
+  }
+
+  body.is-home .main-content > .blog-post:first-of-type {
+    order: -2;
+  }
+
+  body.is-home .warp-zone {
+    order: -1;
+  }
+}
