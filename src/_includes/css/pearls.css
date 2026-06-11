@@ -1,0 +1,118 @@
+  .main-content.pearls-page {
+    gap: 0;
+  }
+
+  .pearls-page .pearl-stage {
+    min-height: 72vh;
+    padding: clamp(1.25rem, 4vw, 3rem);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid rgba(73, 198, 229, 0.24);
+    border-radius: 4px;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(73, 198, 229, 0.14), transparent 36%),
+      linear-gradient(145deg, #080b12 0%, #121624 46%, #090b10 100%);
+  }
+
+  .pearls-page .pearl-grid {
+    width: min(900px, 100%);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(116px, 1fr));
+    gap: clamp(1.1rem, 3vw, 2rem) clamp(0.8rem, 2.4vw, 1.6rem);
+    align-items: start;
+    justify-items: center;
+  }
+
+  .pearls-page .pearl-swatch {
+    width: 116px;
+    min-height: 104px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.55rem;
+  }
+
+  .pearls-page .pearl-cell {
+    position: relative;
+    width: 44px;
+    height: 44px;
+  }
+
+  .pearls-page .tt-gem {
+    position: absolute;
+    width: 44px; height: 44px;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pearls-page .tt-gem-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2.5px solid #c9a23c;
+    background: radial-gradient(circle, var(--gem-inner) 30%, var(--gem-outer) 70%, #8a6e24 100%);
+    box-shadow: 0 0 12px var(--gem-glow), inset 0 -2px 4px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.15);
+  }
+
+  .pearls-page .tt-gem-bg::before {
+    content: "";
+    position: absolute;
+    top: 4px; left: 6px;
+    width: 12px; height: 8px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    transform: rotate(-20deg);
+  }
+
+  .pearls-page .tt-gem-num {
+    position: relative;
+    z-index: 2;
+    font-family: "Cinzel Decorative", serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  }
+
+  .pearls-page .pearl-label {
+    width: 100%;
+    display: grid;
+    gap: 0.12rem;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  .pearls-page .pearl-name,
+  .pearls-page .pearl-code {
+    overflow-wrap: anywhere;
+  }
+
+  .pearls-page .pearl-name {
+    color: var(--text-main);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .pearls-page .pearl-code {
+    color: var(--text-dim);
+    font-family: var(--font-pixel);
+    font-size: 1rem;
+    letter-spacing: 0;
+  }
+
+  @media (max-width: 560px) {
+    .pearls-page .pearl-stage {
+      min-height: 66vh;
+      padding: 1.25rem;
+    }
+
+    .pearls-page .pearl-grid {
+      grid-template-columns: repeat(2, minmax(116px, 1fr));
+      gap: 1.05rem;
+    }
+  }
