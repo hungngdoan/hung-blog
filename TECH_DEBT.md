@@ -8,9 +8,9 @@
 | 1 | Inner pages pay full header tax | High | FIXED 2026-06-11 |
 | 2 | Pixel font used for long-form prose | - | CLOSED 2026-06-11, decision: pixel font everywhere is deliberate |
 | 3 | Accent colors have no assigned roles | Medium | FIXED 2026-06-11, partial by owner choice |
-| 4 | No global motion policy | Medium | OPEN |
-| 5 | Sidebar identical on every page | Medium | OPEN |
-| 6 | Mobile nav takes four rows | Low | OPEN |
+| 4 | No global motion policy | Medium | FIXED 2026-06-11 |
+| 5 | Sidebar identical on every page | - | CLOSED 2026-06-11, decision: deliberate identity |
+| 6 | Mobile nav takes four rows | Low | FIXED 2026-06-11 |
 | 7 | Scroll-jump buttons overlapped content on mobile | High | FIXED 2026-06-11 |
 | 8 | Quote box polish backlog | Low | OPEN |
 
@@ -37,23 +37,27 @@
   - `.tracker-beacon-tag` on Roadmap uses gold chips while every other topic chip site-wide (`.tag`) is lime.
 - Owner decisions after visual review: the Home quote fix is in (now gold with a soft glow, red freed up for real warnings). The Roadmap beacon chips stay gold deliberately; the owner prefers gold there, so gold chips on the beacon are an accepted exception to the lime tag rule.
 
-## 4. No global motion policy
+## 4. No global motion policy (FIXED 2026-06-11)
 
-- Marquee, twinkling stars, rainbow footer icons, and the quote box typewriter all animate permanently. Only the quote box respects `prefers-reduced-motion`.
-- Plan: one site-wide `@media (prefers-reduced-motion: reduce)` block in style.css that stops the marquee scroll, star twinkle, and rainbow cycle.
+- The full audit found ten infinite animations in style.css, not four: stars twinkle, marquee scroll, title glow, music title scroll, playing-button glow, footer rainbow, blink class, warp zone glow, tracker beacon border, and LIVE dot.
+- Fix: one `@media (prefers-reduced-motion: reduce)` block at the end of style.css sets `animation: none` on all ten. Page-local CSS (games, 36ke, taothao) already had its own reduce blocks.
+- Zero change for normal visitors, verified both ways in the browser: a reduced-motion context computes `animationName: none` everywhere; a default context still runs twinkle, marquee, glow-pulse, and rainbow.
+- Frozen states remain informative: marquee text sits readable, the playing button keeps its pink border, the LIVE dot stays lit.
 
-## 5. Sidebar identical on every page
+## 5. Sidebar identical on every page (CLOSED 2026-06-11)
 
-- Profile, Now Playing, Stats, Hangouts repeat on all ten pages. Costs about a quarter of the content grid while adding nothing after the first page.
-- Options, pick one consciously:
-  - Contextual sidebar: Books shows currently reading, Games shows now playing.
-  - Slim sidebar on inner pages: profile and music player only.
-  - Accept as deliberate GeoCities identity and close this item.
+- Profile, Now Playing, Stats, Hangouts repeat on all ten pages, costing about a quarter of the content grid.
+- Owner decision: this is deliberate GeoCities-style identity and stays as is. The consistent sidebar is part of the site's character, not an oversight. Do not re-raise.
 
-## 6. Mobile nav takes four rows
+## 6. Mobile nav takes four rows (FIXED 2026-06-11)
 
-- On a 375px screen, nav plus the Warp Zone banner pushes all content below the fold.
-- Options: tighter padding (three rows), or a horizontal scroll-snap chip row (one row, items hidden off-screen).
+- Measured baseline at 375x760: nav block 216px tall, first post started at y=586, Warp Zone above all content.
+- Fix, all inside a `@media (max-width: 560px)` block so desktop is untouched:
+  - Nav links: font 21px to 17px, tighter padding and gap.
+  - Removed the invisible reserved space for the `>>` hover arrow on touch widths (it was `opacity: 0`, still costing ~25px per link; hover does not exist on touch).
+  - On Home only (`body.is-home`), flex `order` moves the Warp Zone below the first post so content leads.
+- Measured after: nav 110px (two rows), first post starts at y=348. The full first post including tags fits in the first screenful. Games page element order verified unaffected.
+- All nav items remain visible; the scroll-snap chip row option was rejected for hiding links off-screen.
 
 ## 7. Scroll-jump buttons overlapped content on mobile (FIXED 2026-06-11)
 
