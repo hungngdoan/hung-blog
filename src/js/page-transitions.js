@@ -1,4 +1,8 @@
 (function () {
+  var FADE_MS = 180;
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var navToken = 0;
+
   function activateScripts(container) {
     container.querySelectorAll("script").forEach(function (old) {
       if (old.type && old.type !== "text/javascript") return;
@@ -56,6 +60,16 @@
     return response.text();
   }
 
+  function fadeOutMain() {
+    var main = document.querySelector(".main-content");
+    if (!main || reduceMotion) return Promise.resolve();
+
+    main.classList.add("pjax-hidden");
+    return new Promise(function (resolve) {
+      setTimeout(resolve, FADE_MS);
+    });
+  }
+
   function swapMain(html) {
     var parser = new DOMParser();
     var doc = parser.parseFromString(html, "text/html");
@@ -66,12 +80,41 @@
       throw new Error("PJAX page content missing");
     }
 
+    if (!reduceMotion) newMain.classList.add("pjax-hidden");
     currentMain.replaceWith(newMain);
     syncPageFonts(doc);
     activateScripts(newMain);
     document.title = doc.title;
+    document.body.className = doc.body.className;
+
+    if (!reduceMotion) {
+      // double rAF so the hidden state is painted before the fade-in starts
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          newMain.classList.remove("pjax-hidden");
+        });
+      });
+    }
 
     return doc;
+  }
+
+  function navigate(url, pushHistory) {
+    var token = ++navToken;
+
+    Promise.all([fetch(url).then(readPage), fadeOutMain()])
+      .then(function (results) {
+        if (token !== navToken) return;
+
+        swapMain(results[0]);
+        if (pushHistory) window.scrollTo(0, 0);
+        setActiveNav(url);
+        if (pushHistory) history.pushState(null, "", url);
+        completePjax();
+      })
+      .catch(function () {
+        window.location.href = url;
+      });
   }
 
   document.addEventListener("click", function (e) {
@@ -79,32 +122,10 @@
     if (!link || link.origin !== location.origin) return;
     e.preventDefault();
 
-    fetch(link.href)
-      .then(readPage)
-      .then(function (html) {
-        swapMain(html);
-
-        setActiveNav(link.href);
-
-        history.pushState(null, "", link.href);
-        completePjax();
-      })
-      .catch(function () {
-        window.location.href = link.href;
-      });
+    navigate(link.href, true);
   });
 
   window.addEventListener("popstate", function () {
-    fetch(location.href)
-      .then(readPage)
-      .then(function (html) {
-        swapMain(html);
-
-        setActiveNav(location.href);
-        completePjax();
-      })
-      .catch(function () {
-        window.location.href = location.href;
-      });
+    navigate(location.href, false);
   });
 })();

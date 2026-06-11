@@ -1,3 +1,11 @@
+  .games-page .page-section {
+    padding: 13px 20px;
+  }
+
+  .games-page .page-section h2 {
+    margin-bottom: 0;
+  }
+
   .games-page .dialogue-wrap {
     margin: 20px 0 28px;
   }
