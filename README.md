@@ -72,18 +72,46 @@ src/
   _includes/
     base.njk                  # Shared HTML layout
     partials/                 # marquee, header, nav, sidebar, footer, music player
+    css/                      # Per-page CSS, inlined at build time via include
   _data/
-    site.json                 # Site metadata
+    site.json                 # Site metadata (title, url, description, banner)
     nav.json                  # Navigation items
-  index.njk, about.njk, ...  # Pages (front matter + unique content only)
-  css/style.css               # Stylesheet
+  posts/                      # One file per journal post, rendered on the homepage
+    posts.json                # Shared post settings (tags, no standalone pages)
+  index.njk                   # Homepage: warp zone + post loop + guestbook teaser
+  about.njk, ...              # Other pages (front matter + unique content only)
+  404.njk                     # Self-contained 404 page (works at any URL depth)
+  css/style.css               # Global stylesheet
   js/site.js                  # Last-updated script
   js/page-transitions.js      # PJAX content swapping
-  img/                        # Images
+  img/                        # Published images only (referenced by the site)
   music/                      # Published audio files
+assets-work/                  # Local-only working files (gitignored): image
+                              # sources, debug crops, extraction scripts, old
+                              # prototypes (former plan_sample/)
 _site/                        # Build output (gitignored)
 .eleventy.js                  # Eleventy config
 ```
+
+## Writing a new post
+
+Add a file to `src/posts/` named `YYYY-MM-DD-slug.njk` with front matter and
+the usual `<article class="blog-post">` markup:
+
+```
+---
+title: "Post Title"
+date: 2026-06-10T12:00:00Z
+---
+<article class="blog-post">
+  ...
+</article>
+```
+
+The homepage lists all posts newest-first using the `date` field. For multiple
+posts on the same day, give the post that should appear higher a later time.
+Posts do not get standalone pages (`permalink: false` in `posts.json`), so the
+published site structure is unchanged.
 
 ## Music and NCS tracks
 
@@ -98,7 +126,8 @@ For any NCS song used on this site:
 
 Current music-player track:
 
-- `src/music/Tobu-Cloud9.mp3` -- copied to `_site/music/Tobu-Cloud9.mp3` by Eleventy. Verify the exact official title, artist credit, and current NCS availability before changing or deploying the MP3.
+- `src/music/Mạnh Bà 2.opus` ("Mạnh Bà" by Linh Hương Luz) -- committed to the repo and copied to `_site/music/` by Eleventy. The player is wired up in `src/_includes/partials/sidebar-music.njk`.
+- `src/music/Tobu-Cloud9.mp3` is a local-only leftover; `.mp3` files are gitignored, so it is neither committed nor deployed. Verify exact official title, artist credit, and current NCS availability before publishing any NCS MP3.
 
 ## Fan art and nostalgia assets
 
