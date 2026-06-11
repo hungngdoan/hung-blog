@@ -6,3 +6,9 @@ _site/
 # Audio assets hosted via GitHub Releases
 music/*.mp3
 src/music/*.mp3
+
+# Local working files (image sources, prototypes, scratch) -- never published
+assets-work/
+movies.sqlite
+.pytest_cache/
+.ruff_cache/

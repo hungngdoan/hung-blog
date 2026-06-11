@@ -1,0 +1,70 @@
+  .reddington-page .reddington-tools {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    margin: 16px 0 18px;
+  }
+
+  .reddington-page .reddington-search {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 12px;
+    border: 1px solid var(--accent-cyan);
+    border-radius: 4px;
+    background: #0a0a1f;
+    color: var(--text-main);
+    font-family: var(--font-pixel);
+    font-size: 19px;
+  }
+
+  .reddington-page .reddington-search:focus {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+  }
+
+  .reddington-page .reddington-count {
+    color: var(--accent-gold);
+    font-family: var(--font-pixel);
+    font-size: 18px;
+    white-space: nowrap;
+  }
+
+  .reddington-page .reddington-index {
+    color: var(--accent-gold);
+  }
+
+  .reddington-page .reddington-empty {
+    display: none;
+    color: var(--text-dim);
+  }
+
+  .reddington-page .reddington-empty.visible {
+    display: block;
+  }
+
+  .reddington-page .reddington-quote.hidden {
+    display: none;
+  }
+
+  .reddington-page .reddington-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 560px) {
+    .reddington-page .reddington-tools {
+      grid-template-columns: 1fr;
+    }
+
+    .reddington-page .reddington-count {
+      white-space: normal;
+    }
+  }

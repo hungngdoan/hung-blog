@@ -29,7 +29,7 @@ The site is not a product dashboard or CMS. It is a personal web space with a re
 - `pearls.html` and `guestbook.html` are intentionally built but hidden from the top nav.
 - Static assets are copied through from `src/css`, `src/js`, `src/img`, and `src/music`.
 - GitHub Actions builds and deploys `_site/` to GitHub Pages on pushes to `main`.
-- The old `plan_sample/` prototype is no longer required by the built app. The 36 Ke experience now lives in `src/36ke.njk` with its image in `src/img/chineseDragon1.jpg`.
+- The old `plan_sample/` prototype is no longer required by the built app and has been moved to the gitignored `assets-work/plan_sample/`. The 36 Ke experience now lives in `src/36ke.njk` with its image in `src/img/chineseDragon1.jpg`.
 
 ---
 
@@ -87,7 +87,7 @@ src/
   *.njk                            # Page templates
 
 _site/                             # Build output, not source of truth
-plan_sample/                       # Legacy prototype folder, not app runtime
+assets-work/                       # Local-only working files (gitignored)
 ```
 
 ---
@@ -318,7 +318,7 @@ Before deploying meaningful changes:
 - No CMS.
 - No analytics by default.
 - No client-side app framework.
-- No dependency on `plan_sample/` for production output.
+- No dependency on legacy prototypes (`assets-work/plan_sample/`) for production output.
 - No dynamic guestbook submissions unless a separate design introduces a hosted comment system.
 
 ---

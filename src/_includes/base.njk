@@ -3,7 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hung's journal</title>
+    <title>{{ title or site.title }}</title>
+    <meta name="description" content="{{ description or site.description }}" />
+    <meta property="og:title" content="{{ title or site.title }}" />
+    <meta property="og:description" content="{{ description or site.description }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
+    <meta property="og:image" content="{{ site.url }}/{{ site.bannerSrc }}" />
     <link
       data-page-fonts
       href="{{ fontsUrl if fontsUrl else site.defaultFontsUrl }}"
