@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/site.js" defer></script>
   </head>
-  <body>
+  <body class="{% if navActive == 'index.html' %}is-home{% else %}is-inner{% endif %}">
     {% include "partials/marquee.njk" %}
     <div class="page-wrapper">
       {% include "partials/header.njk" %}

@@ -61,9 +61,15 @@ pageClass: games-page
   if (!quotes || !quotes.length) return;
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var index = 0;
+  var index = Math.floor(Math.random() * quotes.length);
   var timer = null;
   var typing = false;
+
+  function pickNextIndex() {
+    if (quotes.length < 2) return index;
+    var next = Math.floor(Math.random() * (quotes.length - 1));
+    return next >= index ? next + 1 : next;
+  }
 
   function stopTimer() {
     if (timer) {
@@ -121,7 +127,7 @@ pageClass: games-page
       finishLine(quotes[index]);
       return;
     }
-    index = (index + 1) % quotes.length;
+    index = pickNextIndex();
     showQuote(index);
   }
 
@@ -133,7 +139,7 @@ pageClass: games-page
     }
   });
 
-  showQuote(0);
+  showQuote(index);
 })();
 </script>
 
