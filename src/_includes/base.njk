@@ -9,7 +9,11 @@
     <meta property="og:description" content="{{ description or site.description }}" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
-    <meta property="og:image" content="{{ site.url }}/{{ site.bannerSrc }}" />
+    <meta property="og:image" content="{{ site.url }}/{{ site.shareCardSrc }}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="{{ site.shareCardAlt }}" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link
       data-page-fonts
       href="{{ fontsUrl if fontsUrl else site.defaultFontsUrl }}"

@@ -12,7 +12,14 @@
 | 5 | Sidebar identical on every page | - | CLOSED 2026-06-11, decision: deliberate identity |
 | 6 | Mobile nav takes four rows | Low | FIXED 2026-06-11 |
 | 7 | Scroll-jump buttons overlapped content on mobile | High | FIXED 2026-06-11 |
-| 8 | Quote box polish backlog | Low | OPEN |
+| 8 | Quote box polish backlog | Low | FIXED 2026-06-11 |
+| 9 | Link previews: og:image too small for chat apps | Medium | FIXED 2026-06-11 |
+| 10 | Audio policy in .gitignore was never implemented | Low | OPEN |
+| 11 | Stray working file Kayle.jpg tracked at repo root | Low | OPEN |
+| 12 | Flat-URL layout is an unstated invariant | Medium | OPEN |
+| 13 | Posts have no individual URLs and no RSS feed | Low | OPEN |
+| 14 | No build check before merge; breakage found at deploy | Low | OPEN |
+| 15 | Oversized sidebar avatar shipped at source resolution | Low | OPEN |
 
 ---
 
@@ -64,9 +71,51 @@
 - At <=800px the fixed scroll buttons sat at `bottom: +100px`, floating mid-screen over interactive content (covered the quote box NEXT indicator).
 - Fix: tucked to bottom corner (`bottom: +12px`), shrunk to 36px. Nothing else occupies the bottom edge.
 
-## 8. Quote box polish backlog (games page)
+## 8. Quote box polish backlog (FIXED 2026-06-11)
 
-- Short quotes leave the box two-thirds empty; min-height is sized for the longest quote. Consider min-height matched to the 84px portrait, letting the box grow.
-- The hint line under the box is documentation for a one-click interaction. Consider deleting it or replacing with a console-style prompt in the footer.
-- Typewriter replays on every PJAX revisit (2 to 4 seconds before readable). Consider sessionStorage to animate once per session, and ~22ms per character instead of 30ms.
-- Component uses four accent colors (cyan border, gold frame, lime NEXT, pink hover). Consider holding to two.
+All four backlog items addressed in `games.njk` and `games.css`:
+
+- Min-height: `.dialogue-text` now uses `min-height: 84px` (matches the portrait) instead of `4.35em` sized for the longest quote; `60px` at phone widths where the portrait is 60px. The box grows for longer quotes.
+- Hint line deleted, including its CSS. The bouncing NEXT prompt, `role="button"`, and the aria-label already document the interaction; the hint was redundant prose.
+- Typewriter: the on-load quote animates only once per session (`sessionStorage` key `hungDialogueTyped`); PJAX revisits render the quote finished immediately. Click-driven quotes still animate, at 22ms per character (was 30ms). `sessionStorage` calls are try/catch-wrapped for private-mode browsers.
+- Colors: held to the role map from item 3 rather than a strict count of two. The lime NEXT prompt (a role violation: lime is for tags/signals, NEXT is interaction) and the gold focus outline both became pink, unifying every interaction cue (hover, focus, NEXT) on pink. Cyan stays on structure (border, cursor), gold stays on identity (name tag, portrait frame). Three colors remain, each role-correct. If the owner wants a strict two, the next cut is gold-to-cyan on the name tag and portrait frame.
+
+## 9. Link previews: og:image too small for chat apps (FIXED 2026-06-11)
+
+- Original finding (2026-06-11, same OG pass as BiKipCuaGai): the OG plumbing in `base.njk` was correct, but og:image pointed at `img/banner.gif` (597x50, 770 KB). Facebook, Messenger, and Zalo require roughly 200x200 minimum, so shares rendered as text-only cards. No `twitter:card` tag, so X showed no card at all.
+- Fix: dedicated static share card at `src/img/share-card.png` (1200x630, 60 KB PNG) built from the site palette, the two site fonts, and a 2x nearest-neighbor first frame of the banner GIF. og:image now points at it via `site.shareCardSrc` in `site.json`; added `og:image:width`, `og:image:height`, `og:image:alt`, and `twitter:card` (`summary_large_image`). og:url unchanged. The banner GIF stays in the page header.
+- The card generator is `assets-work/img/make-share-card.py` (not published; needs Pillow plus the two TTFs noted in its header). Rerun it after palette or title changes.
+- After deploy, run the card through the Facebook Sharing Debugger once to flush the old cached scrape.
+
+## 10. Audio policy in .gitignore was never implemented (OPEN)
+
+- `.gitignore` excludes `src/music/*.mp3` with the comment "Audio assets hosted via GitHub Releases", but both audio files were committed before the rule was added, so git still tracks them: `Tobu-Cloud9.mp3` (4.3 MB) and `Mạnh Bà 2.opus` (3.7 MB, not covered by the mp3-only rule anyway). 8 MB of binaries sit in every clone, and the stated Releases hosting does not exist.
+- The deployed site works only because the rule never took effect; if anyone runs `git rm --cached` to "clean up", production audio silently breaks at the next deploy.
+- Decide one way: either actually host audio via Releases (or another CDN) and untrack, or accept in-repo audio and delete the misleading ignore rule and comment.
+- Minor: the non-ASCII filename `Mạnh Bà 2.opus` survives GitHub Pages today but is fragile across hosts and tooling; an ASCII slug filename would be safer.
+
+## 11. Stray working file Kayle.jpg tracked at repo root (OPEN)
+
+- `Kayle.jpg` (40 KB) sits tracked at the repo root. Nothing references it; the published portrait is `src/img/kayle.png`. The repo convention (commit 8345cc6) is that source/working images live in `assets-work/` and are never committed.
+- Fix: `git rm --cached Kayle.jpg` and move it into `assets-work/img/`, or delete it.
+
+## 12. Flat-URL layout is an unstated invariant (OPEN)
+
+- Every page declares a root-level permalink (`games.html`, `about.html`, ...) and `base.njk` loads assets with relative paths (`css/style.css`, `js/site.js`, `img/...`). This is deliberate: the site lives under `/hung-blog/` on GitHub Pages, and relative paths avoid path-prefix handling.
+- The trap: any future page at a nested URL (for example individual post pages under `posts/...`) silently loses all CSS, JS, and images, and `page-transitions.js` (`getPageName` splits on the last path segment) misidentifies nav state. Nothing in the repo documents this constraint.
+- Fix: document the invariant in DESIGN.md ("all pages must emit at site root"), or migrate to Eleventy's `HtmlBasePlugin` with a configured path prefix if nested URLs are ever wanted. Blocks item 13.
+
+## 13. Posts have no individual URLs and no RSS feed (OPEN)
+
+- `posts.json` sets `permalink: false`: posts exist only as collection items rendered on the home page. No post can be deep-linked or shared individually, and there is no RSS/Atom feed for readers to subscribe.
+- May be deliberate (single-page journal identity, like the sidebar decision in item 5). Needs an owner decision, not silent fixing. If wanted later: individual post pages require resolving item 12 first; a feed via `@11ty/eleventy-plugin-rss` does not (feed XML can live at root).
+
+## 14. No build check before merge (OPEN)
+
+- `deploy.yml` runs only on push to main. A template error merged from a branch is discovered when the deploy job fails, after merge.
+- Fix: add `pull_request` trigger running just `npm ci && npm run build` (no deploy steps), or a separate minimal build-check workflow.
+
+## 15. Oversized sidebar avatar shipped at source resolution (OPEN)
+
+- `src/img/avatar-zero-saber.png` is 831x687 and 540 KB but renders as a small sidebar profile image on every page. Together with the 756 KB banner GIF that is ~1.3 MB of imagery per first visit, mostly wasted pixels on the avatar.
+- Fix: export the avatar at 2x its rendered size (likely lands around 20-40 KB for pixel art with a reduced palette); keep the source in `assets-work/`. The banner GIF is the site's identity and stays as is.

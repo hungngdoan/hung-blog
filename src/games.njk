@@ -34,7 +34,6 @@ pageClass: games-page
       <span class="dialogue-next" aria-hidden="true">&#9660; NEXT</span>
     </div>
   </div>
-  <p class="dialogue-hint">Click the box: once to finish the line, again for the next quote.</p>
   <p class="games-sr-only" aria-live="polite" id="dialogueLive"></p>
 </div>
 
@@ -64,6 +63,11 @@ pageClass: games-page
   var index = Math.floor(Math.random() * quotes.length);
   var timer = null;
   var typing = false;
+  var TYPED_KEY = "hungDialogueTyped";
+  var typedThisSession = false;
+  try {
+    typedThisSession = sessionStorage.getItem(TYPED_KEY) === "1";
+  } catch (err) {}
 
   function pickNextIndex() {
     if (quotes.length < 2) return index;
@@ -85,7 +89,7 @@ pageClass: games-page
     box.classList.add("is-done");
   }
 
-  function showQuote(i) {
+  function showQuote(i, instant) {
     var quote = quotes[i];
     stopTimer();
     box.classList.remove("is-done");
@@ -103,7 +107,7 @@ pageClass: games-page
       }
     }
     liveEl.textContent = '"' + quote.text + '"' + (quote.character ? " - " + quote.character : "");
-    if (reduceMotion) {
+    if (reduceMotion || instant) {
       finishLine(quote);
       return;
     }
@@ -119,7 +123,7 @@ pageClass: games-page
       textEl.textContent += chars[pos];
       pos += 1;
       if (pos >= chars.length) finishLine(quote);
-    }, 30);
+    }, 22);
   }
 
   function advance() {
@@ -139,7 +143,12 @@ pageClass: games-page
     }
   });
 
-  showQuote(index);
+  // The on-load quote animates only once per session; PJAX revisits render
+  // it finished. Click-driven quotes always animate (user asked for them).
+  showQuote(index, typedThisSession);
+  try {
+    sessionStorage.setItem(TYPED_KEY, "1");
+  } catch (err) {}
 })();
 </script>
 
