@@ -14,8 +14,8 @@
 | 7 | Scroll-jump buttons overlapped content on mobile | High | FIXED 2026-06-11 |
 | 8 | Quote box polish backlog | Low | FIXED 2026-06-11 |
 | 9 | Link previews: og:image too small for chat apps | Medium | FIXED 2026-06-11 |
-| 10 | Audio policy in .gitignore was never implemented | Low | OPEN |
-| 11 | Stray working file Kayle.jpg tracked at repo root | Low | OPEN |
+| 10 | Audio policy in .gitignore was never implemented | Low | FIXED 2026-06-12 |
+| 11 | Stray working file Kayle.jpg tracked at repo root | Low | FIXED 2026-06-12 |
 | 12 | Flat-URL layout is an unstated invariant | Medium | OPEN |
 | 13 | Posts have no individual URLs and no RSS feed | Low | OPEN |
 | 14 | No build check before merge; breakage found at deploy | Low | OPEN |
@@ -87,17 +87,22 @@ All four backlog items addressed in `games.njk` and `games.css`:
 - The card generator is `assets-work/img/make-share-card.py` (not published; needs Pillow plus the two TTFs noted in its header). Rerun it after palette or title changes.
 - After deploy, run the card through the Facebook Sharing Debugger once to flush the old cached scrape.
 
-## 10. Audio policy in .gitignore was never implemented (OPEN)
+## 10. Audio policy in .gitignore was never implemented (FIXED 2026-06-12)
 
-- `.gitignore` excludes `src/music/*.mp3` with the comment "Audio assets hosted via GitHub Releases", but both audio files were committed before the rule was added, so git still tracks them: `Tobu-Cloud9.mp3` (4.3 MB) and `Mạnh Bà 2.opus` (3.7 MB, not covered by the mp3-only rule anyway). 8 MB of binaries sit in every clone, and the stated Releases hosting does not exist.
-- The deployed site works only because the rule never took effect; if anyone runs `git rm --cached` to "clean up", production audio silently breaks at the next deploy.
-- Decide one way: either actually host audio via Releases (or another CDN) and untrack, or accept in-repo audio and delete the misleading ignore rule and comment.
-- Minor: the non-ASCII filename `Mạnh Bà 2.opus` survives GitHub Pages today but is fragile across hosts and tooling; an ASCII slug filename would be safer.
+- Original finding: `.gitignore` excluded `src/music/*.mp3` with the comment "Audio assets hosted via GitHub Releases", but both audio files were committed before the rule was added, so git still tracked them: `Tobu-Cloud9.mp3` (4.3 MB) and `Mạnh Bà 2.opus` (3.7 MB, not covered by the mp3-only rule anyway). The stated Releases hosting never existed.
+- Worse than the clone weight: because the mp3 was tracked and `src/music/` is passthrough-copied, the unreferenced NCS mp3 with unverified licensing was being deployed to the public site on every build, while README claimed it was "neither committed nor deployed".
+- Decision: published audio stays in the repo. Releases/CDN hosting was rejected: the blobs stay in clone history regardless of untracking, and it adds a deploy-time fetch dependency for zero user-facing gain.
+- Fix:
+  - `Tobu-Cloud9.mp3` untracked and moved to `assets-work/music/` (gitignored), implementing the README's stated intent. It no longer deploys. The blob remains in old history; rewriting history was not worth it for 4 MB.
+  - `Mạnh Bà 2.opus` renamed to `manh-ba-2.opus` (ASCII slug, kills the URL-encoding fragility); player `src` updated in `sidebar-music.njk`. Display title and credit link keep the Vietnamese name.
+  - `.gitignore` comment rewritten to state the real policy (opus committed and deployed, mp3 local-only); stale `music/*.mp3` line for a nonexistent root dir dropped.
+  - README "Music and NCS tracks" and DESIGN.md audio section updated to match reality.
+- Note: the live audio URL changed (`music/M%E1%BA%A1nh%20B%C3%A0%202.opus` to `music/manh-ba-2.opus`). The file is loaded only by the sidebar player, never linked externally, so no redirect is needed.
 
-## 11. Stray working file Kayle.jpg tracked at repo root (OPEN)
+## 11. Stray working file Kayle.jpg tracked at repo root (FIXED 2026-06-12)
 
-- `Kayle.jpg` (40 KB) sits tracked at the repo root. Nothing references it; the published portrait is `src/img/kayle.png`. The repo convention (commit 8345cc6) is that source/working images live in `assets-work/` and are never committed.
-- Fix: `git rm --cached Kayle.jpg` and move it into `assets-work/img/`, or delete it.
+- `Kayle.jpg` (40 KB) sat tracked at the repo root. Nothing referenced it; the published portrait is `src/img/kayle.png` (24 KB, verified present). The repo convention (commit 8345cc6) is that source/working images live in `assets-work/` and are never committed.
+- Fix: moved to `assets-work/img/Kayle.jpg` (gitignored), untracked from the repo. The file is preserved locally as the source image and remains recoverable from git history.
 
 ## 12. Flat-URL layout is an unstated invariant (OPEN)
 
