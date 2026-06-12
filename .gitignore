@@ -3,8 +3,8 @@ engineer_principle_local.md
 node_modules/
 _site/
 
-# Audio assets hosted via GitHub Releases
-music/*.mp3
+# Published audio (.opus) is committed and deployed. MP3s are local working
+# files only (licensing unverified, see README "Music and NCS tracks") -- never publish.
 src/music/*.mp3
 
 # Local working files (image sources, prototypes, scratch) -- never published

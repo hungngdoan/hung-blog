@@ -190,7 +190,7 @@ Current behavior:
 - Volume slider and mute toggle.
 - Error state if audio cannot load.
 
-Audio under `src/music/` is copied into `_site/music/`. Large MP3 files are ignored by git and should be hosted outside git history when practical. The current published local audio is an `.opus` file.
+Audio under `src/music/` is copied into `_site/music/`, so everything in that directory is published. Policy (decided 2026-06-12): published audio is committed to the repo as `.opus` with an ASCII slug filename; MP3 working files are gitignored and live in `assets-work/music/`, never in `src/music/`. The current published track is `src/music/manh-ba-2.opus`.
 
 ### Last updated display
 

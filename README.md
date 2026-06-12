@@ -126,8 +126,8 @@ For any NCS song used on this site:
 
 Current music-player track:
 
-- `src/music/Mạnh Bà 2.opus` ("Mạnh Bà" by Linh Hương Luz) -- committed to the repo and copied to `_site/music/` by Eleventy. The player is wired up in `src/_includes/partials/sidebar-music.njk`.
-- `src/music/Tobu-Cloud9.mp3` is a local-only leftover; `.mp3` files are gitignored, so it is neither committed nor deployed. Verify exact official title, artist credit, and current NCS availability before publishing any NCS MP3.
+- `src/music/manh-ba-2.opus` ("Mạnh Bà" by Linh Hương Luz) -- committed to the repo and copied to `_site/music/` by Eleventy. The player is wired up in `src/_includes/partials/sidebar-music.njk`. Audio filenames stay ASCII slugs; the display title and credit link carry the real name.
+- MP3s are local working files only: `src/music/*.mp3` is gitignored, so they are neither committed nor deployed. Keep them in `assets-work/music/`. Verify exact official title, artist credit, and current NCS availability before publishing any NCS MP3.
 
 ## Fan art and nostalgia assets
 
