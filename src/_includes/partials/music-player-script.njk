@@ -1,107 +1,299 @@
 <script>
   (function () {
-    var audio = document.getElementById("musicAudio");
-    var btn = document.getElementById("musicPlayBtn");
-    var bar = document.getElementById("musicProgressBar");
-    var wrap = document.getElementById("musicProgressWrap");
-    var time = document.getElementById("musicTime");
-    var vol = document.getElementById("musicVolSlider");
-    var volIcon = document.getElementById("musicVolIcon");
-    var prevVol = 0.5;
-    var PLAY_ICON = "\u25b6";
-    var PAUSE_ICON = "\u275a\u275a";
-    var MUSIC_ICON = "\u266a";
-    var MUTE_ICON = "\u2715";
+    "use strict";
 
-    if (!audio || !btn || !bar || !wrap || !time || !vol || !volIcon) {
-      return;
+    var player = document.getElementById("musicPlayer");
+    // No player on this page (e.g. the self-contained 404), or already wired.
+    if (!player || player.dataset.bound === "true") return;
+
+    var audio = document.getElementById("musicAudio");
+    var listEl = document.getElementById("musicList");
+    var playBtn = document.getElementById("musicPlay");
+    var prevBtn = document.getElementById("musicPrev");
+    var nextBtn = document.getElementById("musicNext");
+    var modeBtn = document.getElementById("musicMode");
+    var seekEl = document.getElementById("musicSeek");
+    var currentEl = document.getElementById("musicCurrent");
+    var durationEl = document.getElementById("musicDuration");
+    var titleEl = document.getElementById("musicTitle");
+    var volIcon = document.getElementById("musicVolIcon");
+    var volEl = document.getElementById("musicVol");
+    var creditEl = document.getElementById("musicCredit");
+
+    if (!audio || !listEl || !playBtn || !seekEl || !volEl) return;
+    player.dataset.bound = "true";
+
+    var PLAY = "▶"; // ▶
+    var PAUSE = "❚❚"; // ❚❚
+    var NOTE = "♪"; // ♪
+    var MUTE = "✕"; // ✕
+    var VOL_KEY = "hungPlayerVolume";
+    var MODE_KEY = "hungPlayerMode";
+
+    // One button cycles three modes: loop the whole list (default), loop one
+    // song (native audio.loop, gapless), shuffle (random other track, never
+    // the same one twice in a row).
+    var MODES = ["all", "one", "shuffle"];
+    var MODE_GLYPH = { all: "↻", one: "↻¹", shuffle: "⇆" }; // ↻ ↻¹ ⇆
+    var MODE_LABEL = { all: "Repeat all", one: "Repeat one", shuffle: "Shuffle" };
+    var mode = "all";
+    try {
+      var storedMode = localStorage.getItem(MODE_KEY);
+      if (MODES.indexOf(storedMode) !== -1) mode = storedMode;
+    } catch (e) {}
+
+    function applyMode() {
+      player.dataset.mode = mode;
+      audio.loop = mode === "one";
+      if (modeBtn) {
+        modeBtn.textContent = MODE_GLYPH[mode];
+        modeBtn.setAttribute("aria-label", MODE_LABEL[mode]);
+        modeBtn.title = MODE_LABEL[mode];
+      }
     }
 
-    audio.volume = 0.5;
+    var tracks = Array.prototype.map.call(
+      listEl.querySelectorAll("a"),
+      function (a) {
+        return {
+          src: a.href, // DOM-resolved to absolute: prefix-safe
+          title: a.dataset.title || a.textContent.trim(),
+          artist: a.dataset.artist || "",
+          credit: a.dataset.credit || "",
+          creditLabel: a.dataset.creditLabel || "",
+          row: a,
+        };
+      }
+    );
+    if (!tracks.length) return;
+
+    var index = 0;
+    var seeking = false;
 
     function fmt(s) {
+      if (!isFinite(s) || s < 0) return "--:--";
       var m = Math.floor(s / 60);
       var sec = Math.floor(s % 60);
       return m + ":" + (sec < 10 ? "0" : "") + sec;
     }
 
-    function setPlaying(isPlaying) {
-      btn.textContent = isPlaying ? PAUSE_ICON : PLAY_ICON;
-      btn.classList.toggle("playing", isPlaying);
-      btn.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
-      btn.title = isPlaying ? "Pause" : "Play";
+    function setFill(range, pct) {
+      range.style.setProperty("--fill", pct + "%");
     }
 
-    function showAudioError() {
-      setPlaying(false);
-      btn.disabled = false;
-      btn.setAttribute("aria-label", "Audio unavailable");
-      btn.title = "Audio unavailable";
-      time.textContent = "error";
+    function pickShuffle() {
+      if (tracks.length < 2) return index;
+      var i;
+      do {
+        i = Math.floor(Math.random() * tracks.length);
+      } while (i === index);
+      return i;
     }
 
-    btn.addEventListener("click", function () {
-      if (audio.paused) {
-        btn.disabled = true;
-        btn.title = "Loading";
-
-        var playAttempt = audio.play();
-        if (playAttempt && typeof playAttempt.then === "function") {
-          playAttempt
-            .then(function () {
-              btn.disabled = false;
-              setPlaying(true);
-            })
-            .catch(showAudioError);
-        } else {
-          btn.disabled = false;
-          setPlaying(true);
-        }
-      } else {
-        audio.pause();
-        setPlaying(false);
+    function playCurrent() {
+      var attempt = audio.play();
+      if (attempt && typeof attempt.then === "function") {
+        attempt.catch(function () {
+          titleEl.textContent = "Audio unavailable";
+        });
       }
+    }
+
+    function updateMediaSession() {
+      if (!("mediaSession" in navigator)) return;
+      var t = tracks[index];
+      try {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: t.title,
+          artist: t.artist,
+          album: "Hung's Journal",
+        });
+      } catch (e) {}
+    }
+
+    function updateCredit() {
+      var t = tracks[index];
+      if (!creditEl) return;
+      if (t.credit) {
+        creditEl.href = t.credit;
+        creditEl.textContent = "credit: " + (t.creditLabel || t.title);
+        creditEl.hidden = false;
+      } else {
+        creditEl.hidden = true;
+      }
+    }
+
+    function loadTrack(i, autoplay) {
+      index = (i + tracks.length) % tracks.length;
+      var t = tracks[index];
+      audio.src = t.src; // preload="none": nothing downloads until play
+      titleEl.textContent = t.title + " · " + t.artist;
+      seeking = false;
+      seekEl.value = "0";
+      setFill(seekEl, 0);
+      currentEl.textContent = "0:00";
+      durationEl.textContent = "--:--";
+      tracks.forEach(function (track, n) {
+        track.row.classList.toggle("is-active", n === index);
+        if (n === index) track.row.setAttribute("aria-current", "true");
+        else track.row.removeAttribute("aria-current");
+      });
+      updateMediaSession();
+      updateCredit();
+      if (autoplay) playCurrent();
+    }
+
+    function nextTrack() {
+      loadTrack(mode === "shuffle" ? pickShuffle() : index + 1, !audio.paused);
+    }
+
+    // Early in a track, prev = previous track; further in, prev = restart it.
+    function prevTrack() {
+      if (audio.currentTime > 3) {
+        audio.currentTime = 0;
+        return;
+      }
+      loadTrack(index - 1, !audio.paused);
+    }
+
+    // Restore volume across visits (a full reload stops audio, but the chosen
+    // loudness should persist with it).
+    var startVol = 0.6;
+    try {
+      var stored = parseFloat(localStorage.getItem(VOL_KEY));
+      if (isFinite(stored)) startVol = Math.min(1, Math.max(0, stored));
+    } catch (e) {}
+    audio.volume = startVol;
+    volEl.value = String(Math.round(startVol * 100));
+    setFill(volEl, Math.round(startVol * 100));
+
+    playBtn.addEventListener("click", function () {
+      if (audio.paused) playCurrent();
+      else audio.pause();
+    });
+    if (nextBtn) nextBtn.addEventListener("click", nextTrack);
+    if (prevBtn) prevBtn.addEventListener("click", prevTrack);
+
+    // Playlist row click: play that track; clicking the active row toggles
+    // play/pause. preventDefault stops navigation to the audio file.
+    listEl.addEventListener("click", function (event) {
+      var a = event.target.closest("a");
+      if (!a) return;
+      event.preventDefault();
+      var i = tracks.findIndex(function (t) {
+        return t.row === a;
+      });
+      if (i === -1) return;
+      if (i === index) {
+        if (audio.paused) playCurrent();
+        else audio.pause();
+      } else {
+        loadTrack(i, true);
+      }
+    });
+
+    // Track end: roll on per mode. In loop-one this never fires (audio.loop
+    // repeats natively, gapless).
+    audio.addEventListener("ended", function () {
+      loadTrack(mode === "shuffle" ? pickShuffle() : index + 1, true);
+    });
+
+    if (modeBtn) {
+      modeBtn.addEventListener("click", function () {
+        mode = MODES[(MODES.indexOf(mode) + 1) % MODES.length];
+        try {
+          localStorage.setItem(MODE_KEY, mode);
+        } catch (e) {}
+        applyMode();
+      });
+    }
+
+    // Lock-screen / headphone / media-key controls.
+    if ("mediaSession" in navigator) {
+      try {
+        navigator.mediaSession.setActionHandler("play", playCurrent);
+        navigator.mediaSession.setActionHandler("pause", function () {
+          audio.pause();
+        });
+        navigator.mediaSession.setActionHandler("previoustrack", prevTrack);
+        navigator.mediaSession.setActionHandler("nexttrack", nextTrack);
+      } catch (e) {}
+    }
+
+    audio.addEventListener("play", function () {
+      player.classList.add("is-playing");
+      playBtn.textContent = PAUSE;
+      playBtn.setAttribute("aria-label", "Pause");
+      playBtn.title = "Pause";
+    });
+    audio.addEventListener("pause", function () {
+      player.classList.remove("is-playing");
+      playBtn.textContent = PLAY;
+      playBtn.setAttribute("aria-label", "Play");
+      playBtn.title = "Play";
+    });
+    audio.addEventListener("error", function () {
+      titleEl.textContent = "Audio unavailable";
+      player.classList.remove("is-playing");
+    });
+    audio.addEventListener("loadedmetadata", function () {
+      durationEl.textContent = fmt(audio.duration);
     });
 
     audio.addEventListener("timeupdate", function () {
-      if (audio.duration) {
-        bar.style.width = (audio.currentTime / audio.duration) * 100 + "%";
-        time.textContent = fmt(audio.currentTime);
+      currentEl.textContent = fmt(audio.currentTime);
+      if (!seeking && isFinite(audio.duration) && audio.duration > 0) {
+        var pct = (audio.currentTime / audio.duration) * 100;
+        seekEl.value = String(pct);
+        setFill(seekEl, pct);
       }
     });
 
-    audio.addEventListener("ended", function () {
-      setPlaying(false);
-      bar.style.width = "0%";
-      time.textContent = "0:00";
-    });
-
-    audio.addEventListener("error", showAudioError);
-
-    wrap.addEventListener("click", function (e) {
-      if (audio.duration) {
-        var rect = wrap.getBoundingClientRect();
-        audio.currentTime =
-          ((e.clientX - rect.left) / rect.width) * audio.duration;
+    seekEl.addEventListener("input", function () {
+      seeking = true;
+      setFill(seekEl, seekEl.value);
+      if (isFinite(audio.duration) && audio.duration > 0) {
+        currentEl.textContent = fmt((seekEl.value / 100) * audio.duration);
       }
     });
-
-    vol.addEventListener("input", function () {
-      audio.volume = vol.value / 100;
-      volIcon.textContent = audio.volume === 0 ? MUTE_ICON : MUSIC_ICON;
-    });
-
-    volIcon.addEventListener("click", function () {
-      if (audio.volume > 0) {
-        prevVol = audio.volume;
-        audio.volume = 0;
-        vol.value = 0;
-        volIcon.textContent = MUTE_ICON;
-      } else {
-        audio.volume = prevVol;
-        vol.value = prevVol * 100;
-        volIcon.textContent = MUSIC_ICON;
+    seekEl.addEventListener("change", function () {
+      if (isFinite(audio.duration) && audio.duration > 0) {
+        audio.currentTime = (seekEl.value / 100) * audio.duration;
       }
+      seeking = false;
     });
+
+    volEl.addEventListener("input", function () {
+      var v = volEl.value / 100;
+      audio.volume = v;
+      audio.muted = false;
+      player.classList.remove("is-muted");
+      volIcon.textContent = NOTE;
+      setFill(volEl, volEl.value);
+      try {
+        localStorage.setItem(VOL_KEY, String(v));
+      } catch (e) {}
+    });
+
+    function toggleMute() {
+      audio.muted = !audio.muted;
+      player.classList.toggle("is-muted", audio.muted);
+      volIcon.textContent = audio.muted ? MUTE : NOTE;
+      volIcon.setAttribute("aria-label", audio.muted ? "Unmute" : "Mute");
+      volIcon.title = audio.muted ? "Unmute" : "Mute";
+    }
+    if (volIcon) {
+      volIcon.addEventListener("click", toggleMute);
+      volIcon.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          toggleMute();
+        }
+      });
+    }
+
+    // Arm track 1 (sets src and marks the active row; downloads nothing).
+    loadTrack(0, false);
+    applyMode();
   })();
 </script>

@@ -1,46 +1,89 @@
-<div class="sidebar-box music-box">
-  <h3><span class="blink">&#9835;</span> Now Playing</h3>
+{# Sidebar playlist player. It lives outside .main-content, so PJAX never
+   swaps it and playback continues across navigation. Tracks render as real
+   <a href> rows; the JS reads each track URL from its resolved href, so it
+   works whatever path prefix GitHub Pages serves under, with no JS literals. #}
+<div class="sidebar-box music-box" id="musicPlayer" data-mode="all">
+  <h3>
+    <span class="blink">&#9835;</span> Now Playing
+    <span class="music-eq" id="musicEq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+  </h3>
+
+  <audio id="musicAudio" preload="none"></audio>
+
   <div class="music-title-wrap">
-    <div class="music-title-scroll">M&#7841;nh B&#224; by Linh H&#432;&#417;ng Luz</div>
+    <div class="music-title-scroll" id="musicTitle">{{ music[0].title }} &middot; {{ music[0].artist }}</div>
   </div>
-  <div class="music-controls">
-    <button
-      class="music-btn"
-      id="musicPlayBtn"
-      aria-label="Play"
-      title="Play"
-    >
-      &#9654;
-    </button>
-    <div class="music-progress-wrap" id="musicProgressWrap">
-      <div class="music-progress-bar" id="musicProgressBar"></div>
+
+  <div class="music-seek-wrap">
+    <input
+      type="range"
+      class="music-range music-seek"
+      id="musicSeek"
+      min="0"
+      max="100"
+      value="0"
+      step="0.1"
+      aria-label="Seek"
+    />
+    <div class="music-times">
+      <span id="musicCurrent">0:00</span>
+      <span id="musicDuration">--:--</span>
     </div>
-    <span class="music-time" id="musicTime">0:00</span>
   </div>
+
+  <div class="music-controls">
+    <button class="music-btn music-btn-skip" id="musicPrev" aria-label="Previous track" title="Previous">&#9664;&#9664;</button>
+    <button class="music-btn music-btn-play" id="musicPlay" aria-label="Play" title="Play">&#9654;</button>
+    <button class="music-btn music-btn-skip" id="musicNext" aria-label="Next track" title="Next">&#9654;&#9654;</button>
+    <button class="music-btn music-btn-mode" id="musicMode" aria-label="Repeat all" title="Repeat all">&#8635;</button>
+  </div>
+
   <div class="music-volume">
-    <span class="music-vol-icon" id="musicVolIcon" title="Mute"
+    <span
+      class="music-vol-icon"
+      id="musicVolIcon"
+      role="button"
+      tabindex="0"
+      aria-label="Mute"
+      title="Mute"
       >&#9834;</span
     >
     <input
       type="range"
-      class="music-vol-slider"
-      id="musicVolSlider"
+      class="music-range music-vol-slider"
+      id="musicVol"
       min="0"
       max="100"
-      value="50"
+      value="60"
       aria-label="Volume"
     />
   </div>
-  <audio
-    id="musicAudio"
-    preload="metadata"
-    loop
-    src="music/manh-ba-2.opus"
-  ></audio>
+
+  <ol class="music-list" id="musicList">
+    {% for t in music %}
+    <li>
+      <a
+        href="{{ t.src }}"
+        data-title="{{ t.title }}"
+        data-artist="{{ t.artist }}"
+        data-credit="{{ t.credit }}"
+        data-credit-label="{{ t.creditLabel }}"
+      >
+        <span class="music-list-num">{{ loop.index }}</span>
+        <span class="music-list-title">{{ t.title }}</span>
+        <span class="music-list-artist">{{ t.artist }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ol>
+
   <a
     class="music-credit"
-    href="https://youtu.be/ethBWqiyYvY?list=RDxUgHL-6_QS4"
+    id="musicCredit"
+    href="#"
     target="_blank"
     rel="noopener noreferrer"
-    >credit: Mạnh Bà</a>
+    hidden
+    >credit</a
+  >
 </div>

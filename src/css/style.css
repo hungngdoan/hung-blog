@@ -548,6 +548,48 @@ body.is-inner .banner-wrap {
   overflow: hidden;
 }
 
+.music-box h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Equalizer bars by the "Now Playing" heading: dance while playing, sit low
+   and still when paused. */
+.music-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  width: 18px;
+  height: 11px;
+  margin-left: auto;
+}
+
+.music-eq i {
+  flex: 1;
+  border-radius: 1px;
+  background: linear-gradient(to top, var(--accent-pink), var(--accent-cyan));
+  transform-origin: bottom;
+  transform: scaleY(0.2);
+  animation: music-eq 0.9s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+
+.music-box.is-playing .music-eq i {
+  animation-play-state: running;
+}
+
+.music-eq i:nth-child(1) { animation-duration: 0.78s; }
+.music-eq i:nth-child(2) { animation-duration: 1.02s; animation-delay: -0.3s; }
+.music-eq i:nth-child(3) { animation-duration: 0.66s; animation-delay: -0.15s; }
+.music-eq i:nth-child(4) { animation-duration: 0.9s;  animation-delay: -0.45s; }
+.music-eq i:nth-child(5) { animation-duration: 1.14s; animation-delay: -0.6s; }
+
+@keyframes music-eq {
+  from { transform: scaleY(0.2); }
+  to { transform: scaleY(1); }
+}
+
 .music-title-wrap {
   overflow: hidden;
   position: relative;
@@ -579,9 +621,69 @@ body.is-inner .banner-wrap {
   100% { transform: translateX(-100%); }
 }
 
+/* Shared range styling (seek + volume): neon fill up to the thumb via --fill. */
+.music-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.08);
+  background-image: linear-gradient(
+    90deg,
+    var(--accent-pink),
+    var(--accent-cyan)
+  );
+  background-repeat: no-repeat;
+  background-size: var(--fill, 0%) 100%;
+  outline: none;
+  cursor: pointer;
+}
+
+.music-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
+
+.music-range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
+
+.music-range:focus-visible {
+  outline: 1px solid var(--accent-cyan);
+  outline-offset: 3px;
+}
+
+.music-seek-wrap {
+  margin-bottom: 8px;
+}
+
+.music-times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  color: var(--text-dim);
+}
+
 .music-controls {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
@@ -608,44 +710,46 @@ body.is-inner .banner-wrap {
   box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
 }
 
-.music-btn.playing {
+.music-btn-skip {
+  font-size: 9px;
+  letter-spacing: -1px;
+}
+
+.music-btn-play {
+  width: 34px;
+  height: 34px;
+  font-size: 15px;
   border-color: var(--accent-pink);
   color: var(--accent-pink);
+}
+
+.music-btn-play:hover {
+  background: rgba(255, 105, 180, 0.15);
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.45);
+}
+
+.music-box.is-playing .music-btn-play {
   animation: glow-pulse 2s ease-in-out infinite alternate;
 }
 
-.music-progress-wrap {
-  flex: 1;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 3px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
-.music-progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--accent-pink), var(--accent-cyan));
-  border-radius: 3px;
-  transition: width 0.1s linear;
-}
-
-.music-time {
-  font-family: var(--font-pixel);
+/* Mode button turns gold once it leaves the loop-all default. */
+.music-btn-mode {
   font-size: 16px;
+  border-color: var(--text-dim);
   color: var(--text-dim);
-  flex-shrink: 0;
-  min-width: 32px;
-  text-align: right;
+}
+
+.music-box[data-mode="one"] .music-btn-mode,
+.music-box[data-mode="shuffle"] .music-btn-mode {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
 }
 
 .music-volume {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .music-vol-icon {
@@ -654,39 +758,81 @@ body.is-inner .banner-wrap {
   cursor: pointer;
   flex-shrink: 0;
   user-select: none;
+  width: 18px;
+  text-align: center;
 }
 
 .music-vol-slider {
-  -webkit-appearance: none;
-  appearance: none;
   flex: 1;
   height: 4px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 2px;
-  outline: none;
-  cursor: pointer;
 }
 
-.music-vol-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--accent-gold);
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+.music-list {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 8px 0 0;
+  border-top: 1px solid #335;
+  max-height: 132px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 255, 255, 0.4) transparent;
 }
 
-.music-vol-slider::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--accent-gold);
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+.music-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.music-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.4);
+  border-radius: 3px;
+}
+
+.music-list a {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 5px;
+  border-radius: 3px;
+  text-decoration: none;
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  color: var(--text-dim);
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.music-list a:hover {
+  background: rgba(0, 255, 255, 0.08);
+  color: var(--text-main);
+}
+
+.music-list-num {
+  flex-shrink: 0;
+  width: 14px;
+  color: var(--accent-cyan);
+}
+
+.music-list-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.music-list-artist {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--text-dim);
+}
+
+.music-list a.is-active,
+.music-list a.is-active .music-list-num {
+  color: var(--accent-pink);
+}
+
+.music-list a.is-active .music-list-title::after {
+  content: " \266a";
+  color: var(--accent-pink);
 }
 
 .music-credit {
@@ -1705,7 +1851,8 @@ body.is-inner .banner-wrap {
   .marquee-content,
   .site-title,
   .music-title-scroll,
-  .music-btn.playing,
+  .music-box.is-playing .music-btn-play,
+  .music-eq i,
   .footer-icons,
   .blink,
   .warp-zone,
