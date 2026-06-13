@@ -75,6 +75,7 @@ src/
   _data/
     nav.json                       # Top-nav items
     site.json                      # Site title, subtitle, banner, default fonts
+    music.json                     # Music player playlist (title/artist/src/credit)
     taothaoCards.json              # Tao Thao card content and art data
   _includes/
     base.njk                       # Shared document shell
@@ -178,19 +179,24 @@ All pages render through `base.njk`, which includes:
 
 ### Music player
 
-The sidebar music player is rendered through the sidebar partials and controlled by `music-player-script.njk`.
+The sidebar music player is a data-driven playlist player. The track list lives in `src/_data/music.json`; the markup is rendered by `sidebar-music.njk` and wired up by `music-player-script.njk`. Because the player sits in the sidebar (outside `.main-content`), PJAX never swaps it, so playback continues across navigation.
 
 Current behavior:
 
 - User-initiated playback only.
-- Looping single-track player.
-- Play/pause button.
-- Click-to-seek progress bar.
-- Elapsed time display.
-- Volume slider and mute toggle.
+- Multi-track playlist rendered from `music.json`; each track is a real `<a href>` row, and the script reads track URLs from the DOM-resolved `href` (no hard-coded paths, prefix-safe).
+- Play/pause, previous, and next (previous restarts the current track once past 3s).
+- Three playback modes on one cycling button: repeat-all (default), repeat-one (native `audio.loop`, gapless), and shuffle (random other track, never the same one twice in a row). The mode persists in `localStorage`.
+- Scrubbable seek bar with elapsed/total time.
+- Volume slider and mute toggle; volume persists in `localStorage`.
+- Active-row highlight, animated equalizer, and a per-track credit link.
+- MediaSession metadata and handlers (lock-screen / headphone / media-key controls).
 - Error state if audio cannot load.
+- Degrades cleanly to a single track: prev/next/shuffle simply stay on the one track.
 
-Audio under `src/music/` is copied into `_site/music/`, so everything in that directory is published. Policy (decided 2026-06-12): published audio is committed to the repo as `.opus` with an ASCII slug filename; MP3 working files are gitignored and live in `assets-work/music/`, never in `src/music/`. The current published track is `src/music/manh-ba-2.opus`.
+To add a track: drop an ASCII-slug `.opus` into `src/music/` and add a `{ title, artist, src, credit, creditLabel }` entry to `src/_data/music.json` (`src` is a path relative to the site root, e.g. `music/song.opus`).
+
+Audio under `src/music/` is copied into `_site/music/`, so everything in that directory is published. Policy (decided 2026-06-12): published audio is committed to the repo as `.opus` with an ASCII slug filename; MP3 working files are gitignored and live in `assets-work/music/`, never in `src/music/`. Published tracks: `src/music/manh-ba-2.opus` ("Mạnh Bà") and `src/music/canon-in-d.opus` ("Canon in D").
 
 ### Last updated display
 

@@ -124,9 +124,13 @@ For any NCS song used on this site:
 - Do not treat local files in `music/` as part of this site's own license.
 - Do not redistribute NCS music separately from permitted content unless you have the right license.
 
-Current music-player track:
+The player is a data-driven playlist. The track list lives in `src/_data/music.json`; the markup is in `src/_includes/partials/sidebar-music.njk` and the logic in `src/_includes/partials/music-player-script.njk`. To add a track, drop an ASCII-slug `.opus` into `src/music/` and add a `{ title, artist, src, credit, creditLabel }` entry to `music.json` (`src` is relative to the site root, e.g. `music/song.opus`).
 
-- `src/music/manh-ba-2.opus` ("Mạnh Bà" by Linh Hương Luz) -- committed to the repo and copied to `_site/music/` by Eleventy. The player is wired up in `src/_includes/partials/sidebar-music.njk`. Audio filenames stay ASCII slugs; the display title and credit link carry the real name.
+Current music-player tracks:
+
+- `src/music/manh-ba-2.opus` ("Mạnh Bà" by Linh Hương Luz) -- committed and copied to `_site/music/` by Eleventy.
+- `src/music/canon-in-d.opus` ("Canon in D") -- committed and copied to `_site/music/` by Eleventy.
+- Audio filenames stay ASCII slugs; the display title and per-track credit link carry the real name.
 - MP3s are local working files only: `src/music/*.mp3` is gitignored, so they are neither committed nor deployed. Keep them in `assets-work/music/`. Verify exact official title, artist credit, and current NCS availability before publishing any NCS MP3.
 
 ## Fan art and nostalgia assets
