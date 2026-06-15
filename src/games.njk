@@ -153,38 +153,58 @@ pageClass: games-page
 </script>
 
 <article class="blog-post yugioh-feature">
-  <div class="millennium-shelf" aria-label="The Millennium Items">
-    <figure class="millennium-item" style="--mi-delay: 0ms">
-      <span class="millennium-frame">
-        <img src="img/millennium_item_puzzle.png" alt="The Millennium Puzzle" loading="lazy" width="600" height="600" />
-      </span>
-      <figcaption>Puzzle</figcaption>
-    </figure>
-    <figure class="millennium-item" style="--mi-delay: 120ms">
-      <span class="millennium-frame">
-        <img src="img/millennium_item_eye.png" alt="The Millennium Eye" loading="lazy" width="600" height="600" />
-      </span>
-      <figcaption>Eye</figcaption>
-    </figure>
-    <figure class="millennium-item" style="--mi-delay: 240ms">
-      <span class="millennium-frame">
-        <img src="img/millennium_item_necklace.png" alt="The Millennium Necklace" loading="lazy" width="600" height="600" />
-      </span>
-      <figcaption>Necklace</figcaption>
-    </figure>
-    <figure class="millennium-item" style="--mi-delay: 360ms">
-      <span class="millennium-frame">
-        <img src="img/millennium_item_scale_1.png" alt="The Millennium Scale" loading="lazy" width="258" height="238" />
-      </span>
-      <figcaption>Scale</figcaption>
-    </figure>
-  </div>
   <div class="post-header">
     <span class="post-title game-title">
       <span class="game-title-icon" aria-hidden="true">&#128065;</span>
       The Millennium Items of Yu-Gi-Oh!
     </span>
     <span class="post-date">Konami</span>
+  </div>
+  <div class="millennium-shelf" aria-label="The Millennium Items">
+    <figure class="millennium-item millennium-hero" style="--mi-delay: 0ms" data-name="Millennium Puzzle" data-holder="Yugi Muto" data-power="Solved by Yugi after eight years, it binds him to the spirit of a 3,000 year old Pharaoh. Whoever completes it gains the powers and knowledge of darkness, calling forth the Pharaoh to wage Shadow Games and pass judgment on the wicked.">
+      <span class="millennium-frame">
+        <img src="img/millennium_item_puzzle.jpg" alt="The Millennium Puzzle" loading="lazy" width="600" height="600" />
+      </span>
+      <figcaption>Puzzle</figcaption>
+    </figure>
+    <div class="millennium-row">
+    <figure class="millennium-item" style="--mi-delay: 120ms" data-name="Millennium Eye" data-holder="Maximillion Pegasus" data-power="A golden eye set where his own once was, it sees through every bluff. It reads an opponent's thoughts and facedown cards, glimpses the future, and can tear a living soul from its body to seal it inside a card.">
+      <span class="millennium-frame">
+        <img src="img/millennium_item_eye.jpg" alt="The Millennium Eye" loading="lazy" width="600" height="600" />
+      </span>
+      <figcaption>Eye</figcaption>
+    </figure>
+    <figure class="millennium-item" style="--mi-delay: 240ms" data-name="Millennium Necklace" data-holder="Ishizu Ishtar" data-power="Worn at the throat, the Tauk unveils what has not yet come to pass. It grants visions of the future and the past, letting its bearer answer a move before it is even made.">
+      <span class="millennium-frame">
+        <img src="img/millennium_item_necklace.jpg" alt="The Millennium Necklace" loading="lazy" width="600" height="600" />
+      </span>
+      <figcaption>Necklace</figcaption>
+    </figure>
+    <figure class="millennium-item" style="--mi-delay: 360ms" data-name="Millennium Scale" data-holder="Shadi" data-power="Shadi weighs a person's heart against the feather of Ma'at. Balance proves innocence; imbalance summons a Penalty Game and the judgment of the gods.">
+      <span class="millennium-frame">
+        <img src="img/millennium_item_scale_1.png" alt="The Millennium Scale" loading="lazy" width="525" height="445" />
+      </span>
+      <figcaption>Scale</figcaption>
+    </figure>
+    <figure class="millennium-item" style="--mi-delay: 480ms" data-name="Millennium Ring" data-holder="Ryo Bakura" data-power="Its pointers swing toward hidden Items and hidden power, making it the compass of the seven. It also harbors a thief's vengeful spirit that can bind souls into objects and possess whoever wears it.">
+      <span class="millennium-frame">
+        <img src="img/millennium_item_ring.jpg" alt="The Millennium Ring" loading="lazy" width="600" height="600" />
+      </span>
+      <figcaption>Ring</figcaption>
+    </figure>
+    <figure class="millennium-item" style="--mi-delay: 600ms" data-name="Millennium Rod" data-holder="Marik Ishtar" data-power="A scepter that turns people into puppets, seizing their minds and bodies at the holder's command. Its shaft conceals a hidden dagger for the moment control is not enough.">
+      <span class="millennium-frame">
+        <img src="img/millennium_item_rod.jpg" alt="The Millennium Rod" loading="lazy" width="600" height="600" />
+      </span>
+      <figcaption>Rod</figcaption>
+    </figure>
+    <figure class="millennium-item" style="--mi-delay: 720ms" data-name="Millennium Key" data-holder="Shadi" data-power="It unlocks the doors to a human soul. Its bearer can walk the rooms of another mind to read, rearrange, or tear apart whatever lies within.">
+      <span class="millennium-frame">
+        <img src="img/millennium_item_key.jpg" alt="The Millennium Key" loading="lazy" width="600" height="600" />
+      </span>
+      <figcaption>Key</figcaption>
+    </figure>
+    </div>
   </div>
   <div class="post-body">
     <p>Heart of the Cards on the surface, ruthless combo math underneath. Half of every duel is reading a paragraph of card text; the other half is praying you topdeck the one card that flips the board. Somehow it always comes down to "I activate my trap."</p>
@@ -198,6 +218,97 @@ pageClass: games-page
     <span class="tag">#nostalgia</span>
   </div>
 </article>
+
+<div class="mi-modal" id="miModal" hidden>
+  <div class="mi-modal-backdrop" data-mi-close></div>
+  <div
+    class="mi-modal-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="miModalTitle"
+    aria-describedby="miModalPower"
+  >
+    <button type="button" class="mi-modal-close" data-mi-close aria-label="Close">&#10005;</button>
+    <img class="mi-modal-img" id="miModalImg" src="" alt="" />
+    <h3 class="mi-modal-title" id="miModalTitle"></h3>
+    <p class="mi-modal-holder" id="miModalHolder"></p>
+    <p class="mi-modal-power" id="miModalPower"></p>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var modal = document.getElementById("miModal");
+  if (!modal) return;
+  var items = document.querySelectorAll(".millennium-item");
+  if (!items.length) return;
+
+  var imgEl = document.getElementById("miModalImg");
+  var titleEl = document.getElementById("miModalTitle");
+  var holderEl = document.getElementById("miModalHolder");
+  var powerEl = document.getElementById("miModalPower");
+  var closeBtn = modal.querySelector(".mi-modal-close");
+  var lastFocused = null;
+
+  function openCard(fig) {
+    var img = fig.querySelector("img");
+    var cap = fig.querySelector("figcaption");
+    var name = fig.getAttribute("data-name") || (cap ? cap.textContent : "");
+    var holder = fig.getAttribute("data-holder") || "";
+    titleEl.textContent = name;
+    holderEl.textContent = holder ? "Wielder: " + holder : "";
+    powerEl.textContent = fig.getAttribute("data-power") || "";
+    imgEl.src = img.getAttribute("src");
+    imgEl.alt = name;
+    lastFocused = fig;
+    modal.hidden = false;
+    document.body.classList.add("mi-modal-open");
+    document.addEventListener("keydown", onKey, true);
+    closeBtn.focus();
+  }
+
+  function closeCard() {
+    if (modal.hidden) return;
+    modal.hidden = true;
+    document.body.classList.remove("mi-modal-open");
+    document.removeEventListener("keydown", onKey, true);
+    if (lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
+  }
+
+  function onKey(e) {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      closeCard();
+    } else if (e.key === "Tab") {
+      // the card has a single focusable control; keep focus on it
+      e.preventDefault();
+      closeBtn.focus();
+    }
+  }
+
+  Array.prototype.forEach.call(modal.querySelectorAll("[data-mi-close]"), function (el) {
+    el.addEventListener("click", closeCard);
+  });
+
+  Array.prototype.forEach.call(items, function (fig) {
+    if (!fig.getAttribute("data-power")) return;
+    fig.setAttribute("role", "button");
+    fig.setAttribute("tabindex", "0");
+    fig.setAttribute("aria-haspopup", "dialog");
+    var nm = fig.getAttribute("data-name");
+    if (nm) fig.setAttribute("aria-label", "Reveal the power of the " + nm);
+    fig.addEventListener("click", function () { openCard(fig); });
+    fig.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+        e.preventDefault();
+        openCard(fig);
+      }
+    });
+  });
+})();
+</script>
 
 <section class="page-section">
   <h2>
