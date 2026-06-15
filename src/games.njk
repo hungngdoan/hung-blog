@@ -229,10 +229,13 @@ pageClass: games-page
     aria-describedby="miModalPower"
   >
     <button type="button" class="mi-modal-close" data-mi-close aria-label="Close">&#10005;</button>
-    <img class="mi-modal-img" id="miModalImg" src="" alt="" />
-    <h3 class="mi-modal-title" id="miModalTitle"></h3>
-    <p class="mi-modal-holder" id="miModalHolder"></p>
-    <p class="mi-modal-power" id="miModalPower"></p>
+    <div class="mi-modal-content" id="miModalContent">
+      <img class="mi-modal-img" id="miModalImg" src="" alt="" />
+      <h3 class="mi-modal-title" id="miModalTitle" aria-live="polite"></h3>
+      <p class="mi-modal-holder" id="miModalHolder"></p>
+      <p class="mi-modal-power" id="miModalPower"></p>
+    </div>
+    <div class="mi-modal-dock" id="miModalDock" aria-label="Choose a Millennium Item"></div>
   </div>
 </div>
 
@@ -242,26 +245,101 @@ pageClass: games-page
 
   var modal = document.getElementById("miModal");
   if (!modal) return;
-  var items = document.querySelectorAll(".millennium-item");
-  if (!items.length) return;
+  var nodes = document.querySelectorAll(".millennium-item");
+  if (!nodes.length) return;
 
+  var card = modal.querySelector(".mi-modal-card");
   var imgEl = document.getElementById("miModalImg");
   var titleEl = document.getElementById("miModalTitle");
   var holderEl = document.getElementById("miModalHolder");
   var powerEl = document.getElementById("miModalPower");
+  var contentEl = document.getElementById("miModalContent");
+  var dockEl = document.getElementById("miModalDock");
   var closeBtn = modal.querySelector(".mi-modal-close");
-  var lastFocused = null;
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  function openCard(fig) {
-    var img = fig.querySelector("img");
+  // clickable items in DOM order (Puzzle hero, then the six)
+  var order = [];
+  Array.prototype.forEach.call(nodes, function (fig) {
+    if (fig.getAttribute("data-power")) order.push(fig);
+  });
+  if (!order.length) return;
+
+  var current = 0;
+  var lastFocused = null;
+  var thumbs = [];
+
+  // build the thumbnail dock from the same items
+  Array.prototype.forEach.call(order, function (fig, i) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "mi-thumb";
+    btn.setAttribute("aria-label", fig.getAttribute("data-name") || "");
+    var im = document.createElement("img");
+    im.src = fig.querySelector("img").getAttribute("src");
+    im.alt = "";
+    btn.appendChild(im);
+    btn.addEventListener("click", function () {
+      goTo(i, i === current ? 0 : (i > current ? 1 : -1));
+    });
+    dockEl.appendChild(btn);
+    thumbs.push(btn);
+  });
+
+  function fill(index) {
+    current = (index % order.length + order.length) % order.length;
+    var fig = order[current];
     var cap = fig.querySelector("figcaption");
     var name = fig.getAttribute("data-name") || (cap ? cap.textContent : "");
     var holder = fig.getAttribute("data-holder") || "";
     titleEl.textContent = name;
     holderEl.textContent = holder ? "Wielder: " + holder : "";
     powerEl.textContent = fig.getAttribute("data-power") || "";
-    imgEl.src = img.getAttribute("src");
+    imgEl.src = fig.querySelector("img").getAttribute("src");
     imgEl.alt = name;
+    for (var i = 0; i < thumbs.length; i++) {
+      if (i === current) {
+        thumbs[i].classList.add("is-active");
+        thumbs[i].setAttribute("aria-current", "true");
+      } else {
+        thumbs[i].classList.remove("is-active");
+        thumbs[i].removeAttribute("aria-current");
+      }
+    }
+  }
+
+  // 3D card-flip swap: turn the current face away, swap, turn the new face in
+  function goTo(index, dir) {
+    if (!dir || reduceMotion || !contentEl.animate) {
+      fill(index);
+      return;
+    }
+    var out = contentEl.animate(
+      [
+        { transform: "perspective(900px) rotateY(0deg)", opacity: 1 },
+        { transform: "perspective(900px) rotateY(" + (-dir * 90) + "deg)", opacity: 0.15 }
+      ],
+      { duration: 150, easing: "ease-in" }
+    );
+    out.onfinish = function () {
+      fill(index);
+      contentEl.animate(
+        [
+          { transform: "perspective(900px) rotateY(" + (dir * 90) + "deg)", opacity: 0.15 },
+          { transform: "perspective(900px) rotateY(0deg)", opacity: 1 }
+        ],
+        { duration: 220, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" }
+      );
+    };
+  }
+
+  function go(step) {
+    goTo(current + step, step);
+  }
+
+  function openCard(fig) {
+    var idx = order.indexOf(fig);
+    fill(idx < 0 ? 0 : idx);
     lastFocused = fig;
     modal.hidden = false;
     document.body.classList.add("mi-modal-open");
@@ -281,10 +359,25 @@ pageClass: games-page
     if (e.key === "Escape") {
       e.preventDefault();
       closeCard();
-    } else if (e.key === "Tab") {
-      // the card has a single focusable control; keep focus on it
+    } else if (e.key === "ArrowRight") {
       e.preventDefault();
-      closeBtn.focus();
+      go(1);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      go(-1);
+    } else if (e.key === "Tab") {
+      // keep focus within the card (close button + the thumbnail dock)
+      var f = card.querySelectorAll("button");
+      if (!f.length) return;
+      var first = f[0];
+      var last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
   }
 
@@ -292,8 +385,7 @@ pageClass: games-page
     el.addEventListener("click", closeCard);
   });
 
-  Array.prototype.forEach.call(items, function (fig) {
-    if (!fig.getAttribute("data-power")) return;
+  Array.prototype.forEach.call(order, function (fig) {
     fig.setAttribute("role", "button");
     fig.setAttribute("tabindex", "0");
     fig.setAttribute("aria-haspopup", "dialog");

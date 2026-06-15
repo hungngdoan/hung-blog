@@ -330,6 +330,11 @@
     .games-page .millennium-hero {
       width: 170px;
     }
+
+    .games-page .mi-thumb {
+      width: 38px;
+      height: 38px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -383,7 +388,8 @@
     width: 100%;
     max-width: 440px;
     max-height: calc(100vh - 40px);
-    overflow-y: auto;
+    /* clip horizontal so the slide animation never spawns a scrollbar */
+    overflow: hidden auto;
     background: var(--bg-panel);
     border: 3px solid var(--accent-gold);
     border-radius: 12px;
@@ -460,6 +466,55 @@
     line-height: 1.6;
     color: var(--text-main);
     margin: 0;
+    /* steadies card height as you step between items of varying text length */
+    min-height: 96px;
+  }
+
+  /* thumbnail dock: jump to any item; active one lifts and glows gold */
+  .games-page .mi-modal-dock {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .games-page .mi-thumb {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0a0a1f;
+    cursor: pointer;
+    opacity: 0.5;
+    transition:
+      opacity 0.2s,
+      transform 0.2s,
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .games-page .mi-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .games-page .mi-thumb:hover,
+  .games-page .mi-thumb:focus-visible {
+    opacity: 1;
+    border-color: var(--accent-pink);
+    outline: none;
+  }
+
+  .games-page .mi-thumb.is-active {
+    opacity: 1;
+    border-color: var(--accent-gold);
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 0 14px rgba(255, 215, 0, 0.6);
   }
 
   body.mi-modal-open {
@@ -490,5 +545,13 @@
     .games-page .mi-modal-backdrop,
     .games-page .mi-modal-card {
       animation: none;
+    }
+
+    .games-page .mi-thumb {
+      transition: none;
+    }
+
+    .games-page .mi-thumb.is-active {
+      transform: none;
     }
   }
