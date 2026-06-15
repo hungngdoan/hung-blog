@@ -390,6 +390,8 @@
     max-height: calc(100vh - 40px);
     /* clip horizontal so the slide animation never spawns a scrollbar */
     overflow: hidden auto;
+    /* vertical scroll stays native; horizontal drags go to the swipe handler */
+    touch-action: pan-y;
     background: var(--bg-panel);
     border: 3px solid var(--accent-gold);
     border-radius: 12px;
