@@ -196,10 +196,20 @@
   }
 
   .games-page .millennium-shelf {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 26px 22px 18px;
+  }
+
+  /* the six non-hero items, balanced and centered below the Puzzle */
+  .games-page .millennium-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 16px;
-    padding: 22px 22px 16px;
+    width: 100%;
   }
 
   .games-page .millennium-item {
@@ -212,6 +222,17 @@
     transform: translateY(20px) scale(0.96);
     animation: mi-reveal 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     animation-delay: var(--mi-delay, 0ms);
+  }
+
+  .games-page .millennium-row .millennium-item {
+    /* 3 per row (3 + 3), capped so they stay smaller than the hero */
+    flex: 0 0 calc((100% - 32px) / 3);
+    max-width: 200px;
+  }
+
+  /* the Millennium Puzzle: the series' central item, shown largest */
+  .games-page .millennium-hero {
+    width: 260px;
   }
 
   .games-page .millennium-frame {
@@ -294,9 +315,25 @@
 
   @media (max-width: 560px) {
     .games-page .millennium-shelf {
-      grid-template-columns: repeat(2, 1fr);
       gap: 14px;
-      padding: 18px 18px 14px;
+      padding: 18px 16px 14px;
+    }
+
+    .games-page .millennium-row {
+      gap: 12px;
+    }
+
+    .games-page .millennium-row .millennium-item {
+      flex: 0 0 calc((100% - 24px) / 3);
+    }
+
+    .games-page .millennium-hero {
+      width: 170px;
+    }
+
+    .games-page .mi-thumb {
+      width: 38px;
+      height: 38px;
     }
   }
 
@@ -307,12 +344,214 @@
       animation: none;
     }
 
-    .games-page .millennium-frame {
-      animation: none;
-      filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.35));
-    }
-
+    .games-page .millennium-frame,
     .games-page .millennium-frame img {
       animation: none;
+    }
+  }
+
+  /* ---- Millennium Item power card (click a tile) ---- */
+  .games-page .millennium-item[role="button"] {
+    cursor: pointer;
+  }
+
+  .games-page .millennium-item:focus-visible {
+    outline: 2px solid var(--accent-pink);
+    outline-offset: 4px;
+    border-radius: 12px;
+  }
+
+  .games-page .mi-modal[hidden] {
+    display: none;
+  }
+
+  .games-page .mi-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .games-page .mi-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 5, 18, 0.82);
+    animation: mi-fade 0.25s ease both;
+  }
+
+  .games-page .mi-modal-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+    max-height: calc(100vh - 40px);
+    /* clip horizontal so the slide animation never spawns a scrollbar */
+    overflow: hidden auto;
+    background: var(--bg-panel);
+    border: 3px solid var(--accent-gold);
+    border-radius: 12px;
+    box-shadow:
+      0 0 26px rgba(255, 215, 0, 0.4),
+      inset 0 0 40px rgba(255, 215, 0, 0.05);
+    padding: 26px 24px 28px;
+    text-align: center;
+    animation: mi-card-in 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .games-page .mi-modal-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    background: transparent;
+    border: 2px solid var(--accent-gold);
+    border-radius: 6px;
+    color: var(--accent-gold);
+    font-family: var(--font-display);
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      color 0.2s,
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .games-page .mi-modal-close:hover,
+  .games-page .mi-modal-close:focus-visible {
+    color: var(--accent-pink);
+    border-color: var(--accent-pink);
+    box-shadow: 0 0 12px rgba(255, 105, 180, 0.5);
+    outline: none;
+  }
+
+  .games-page .mi-modal-img {
+    display: block;
+    width: 150px;
+    height: 150px;
+    margin: 4px auto 16px;
+    object-fit: cover;
+    border: 3px solid var(--accent-gold);
+    border-radius: 10px;
+    box-shadow: 0 0 16px rgba(255, 215, 0, 0.4);
+  }
+
+  .games-page .mi-modal-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    color: var(--accent-gold);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    margin: 0 0 8px;
+    line-height: 1.5;
+  }
+
+  .games-page .mi-modal-holder {
+    font-family: var(--font-pixel);
+    font-size: 18px;
+    color: var(--accent-cyan);
+    margin: 0 0 14px;
+  }
+
+  .games-page .mi-modal-holder:empty {
+    display: none;
+  }
+
+  .games-page .mi-modal-power {
+    font-family: var(--font-pixel);
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--text-main);
+    margin: 0;
+    /* steadies card height as you step between items of varying text length */
+    min-height: 96px;
+  }
+
+  /* thumbnail dock: jump to any item; active one lifts and glows gold */
+  .games-page .mi-modal-dock {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .games-page .mi-thumb {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0a0a1f;
+    cursor: pointer;
+    opacity: 0.5;
+    transition:
+      opacity 0.2s,
+      transform 0.2s,
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .games-page .mi-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .games-page .mi-thumb:hover,
+  .games-page .mi-thumb:focus-visible {
+    opacity: 1;
+    border-color: var(--accent-pink);
+    outline: none;
+  }
+
+  .games-page .mi-thumb.is-active {
+    opacity: 1;
+    border-color: var(--accent-gold);
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 0 14px rgba(255, 215, 0, 0.6);
+  }
+
+  body.mi-modal-open {
+    overflow: hidden;
+  }
+
+  @keyframes mi-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes mi-card-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .games-page .mi-modal-backdrop,
+    .games-page .mi-modal-card {
+      animation: none;
+    }
+
+    .games-page .mi-thumb {
+      transition: none;
+    }
+
+    .games-page .mi-thumb.is-active {
+      transform: none;
     }
   }
