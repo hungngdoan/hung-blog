@@ -337,6 +337,97 @@ pageClass: games-page
     goTo(current + step, step);
   }
 
+  // --- touch: drag the card sideways to slide between items (iOS etc.) ---
+  var startX = 0;
+  var startY = 0;
+  var dragX = 0;
+  var cardW = 0;
+  var dragging = false;
+  var decided = false;
+  var horizontal = false;
+
+  function slideBack(fromX) {
+    if (reduceMotion || !contentEl.animate) {
+      contentEl.style.transform = "";
+      return;
+    }
+    var a = contentEl.animate(
+      [{ transform: "translateX(" + fromX + "px)" }, { transform: "translateX(0)" }],
+      { duration: 200, easing: "ease-out" }
+    );
+    a.onfinish = function () { contentEl.style.transform = ""; };
+  }
+
+  function slideCommit(index, dir, fromX) {
+    contentEl.style.opacity = "";
+    if (reduceMotion || !contentEl.animate) {
+      contentEl.style.transform = "";
+      fill(index);
+      return;
+    }
+    var out = contentEl.animate(
+      [
+        { transform: "translateX(" + fromX + "px)", opacity: 0.6 },
+        { transform: "translateX(" + (-dir * cardW) + "px)", opacity: 0 }
+      ],
+      { duration: 150, easing: "ease-in" }
+    );
+    out.onfinish = function () {
+      contentEl.style.transform = "";
+      fill(index);
+      contentEl.animate(
+        [
+          { transform: "translateX(" + (dir * cardW) + "px)", opacity: 0 },
+          { transform: "translateX(0)", opacity: 1 }
+        ],
+        { duration: 220, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" }
+      );
+    };
+  }
+
+  function onTouchStart(e) {
+    if (e.touches.length !== 1) return;
+    dragging = true;
+    decided = false;
+    horizontal = false;
+    dragX = 0;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    cardW = card.clientWidth || 320;
+  }
+
+  function onTouchMove(e) {
+    if (!dragging) return;
+    var dx = e.touches[0].clientX - startX;
+    var dy = e.touches[0].clientY - startY;
+    if (!decided) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      horizontal = Math.abs(dx) > Math.abs(dy);
+      decided = true;
+    }
+    if (!horizontal) return; // vertical gesture: let the card scroll
+    e.preventDefault();
+    dragX = dx;
+    if (!reduceMotion) {
+      contentEl.style.transform = "translateX(" + dx + "px)";
+      contentEl.style.opacity = String(Math.max(0.4, 1 - Math.abs(dx) / (cardW * 1.4)));
+    }
+  }
+
+  function onTouchEnd() {
+    if (!dragging) return;
+    dragging = false;
+    if (!horizontal) return;
+    contentEl.style.opacity = "";
+    var threshold = Math.min(80, cardW * 0.22);
+    if (Math.abs(dragX) > threshold) {
+      slideCommit(current + (dragX < 0 ? 1 : -1), dragX < 0 ? 1 : -1, dragX);
+    } else {
+      slideBack(dragX);
+    }
+    dragX = 0;
+  }
+
   function openCard(fig) {
     var idx = order.indexOf(fig);
     fill(idx < 0 ? 0 : idx);
@@ -384,6 +475,11 @@ pageClass: games-page
   Array.prototype.forEach.call(modal.querySelectorAll("[data-mi-close]"), function (el) {
     el.addEventListener("click", closeCard);
   });
+
+  card.addEventListener("touchstart", onTouchStart, { passive: true });
+  card.addEventListener("touchmove", onTouchMove, { passive: false });
+  card.addEventListener("touchend", onTouchEnd);
+  card.addEventListener("touchcancel", onTouchEnd);
 
   Array.prototype.forEach.call(order, function (fig) {
     fig.setAttribute("role", "button");
