@@ -2009,8 +2009,11 @@ body.is-inner .banner-wrap {
   inset: 0;
   z-index: 200;
   display: grid;
-  place-items: center;
+  /* pin the modal near the bottom, centered horizontally: as content grows the
+     modal expands upward, so the footer button never changes position */
+  place-items: end center;
   padding: 18px;
+  padding-bottom: clamp(28px, 8vh, 84px);
   background: rgba(6, 2, 16, 0.84);
   opacity: 0;
   transition: opacity 0.25s ease;
@@ -2070,7 +2073,10 @@ body.is-inner .banner-wrap {
   position: relative;
   z-index: 1;
   width: min(680px, 100%);
-  max-height: min(86vh, 920px);
+  /* hug the content and grow upward from the bottom anchor (see overlay) so the
+     footer button stays put without a fixed height; only posts taller than this
+     cap scroll inside the stage */
+  max-height: min(84vh, 860px);
   display: flex;
   flex-direction: column;
   background: var(--bg-panel);
@@ -2167,6 +2173,8 @@ body.is-inner .banner-wrap {
 }
 
 .rp-stage {
+  flex: 1 1 auto;
+  min-height: 0; /* allow the stage to shrink and scroll when a post is tall */
   padding: 16px;
   overflow-y: auto;
   scrollbar-width: thin;
