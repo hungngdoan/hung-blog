@@ -2212,6 +2212,59 @@ body.is-inner .banner-wrap {
   margin: 0;
 }
 
+/* quotes drawn into the modal: the page's quote styles are scoped to
+   .quotes-section, so re-declare the essentials for the popup */
+.rp-stage .quote-item {
+  border-left: 2px solid var(--accent-pink);
+  padding: 8px 0 8px 14px;
+}
+
+.rp-stage .quote-item p {
+  color: var(--text-main);
+  font-size: 22px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.rp-stage .quote-item p + p {
+  margin-top: 10px;
+}
+
+.rp-stage .quote-item footer {
+  color: var(--accent-cyan);
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.rp-stage .quote-featured {
+  background:
+    linear-gradient(135deg, rgba(255, 105, 180, 0.08), rgba(0, 255, 255, 0.05)),
+    rgba(0, 0, 50, 0.4);
+  border: 1px solid rgba(255, 105, 180, 0.4);
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.rp-stage .quote-featured-img {
+  display: block;
+  width: min(240px, 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 105, 180, 0.3);
+  margin-bottom: 12px;
+}
+
+.rp-stage .quote-featured-text {
+  border-left: 2px solid var(--accent-pink);
+  padding: 8px 0 8px 14px;
+}
+
+.rp-stage .quote-featured-text p {
+  color: var(--text-main);
+  font-size: 22px;
+  line-height: 1.6;
+  margin: 0;
+}
+
 .rp-foot {
   display: flex;
   align-items: center;
