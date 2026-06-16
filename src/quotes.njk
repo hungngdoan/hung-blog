@@ -665,6 +665,16 @@ permalink: quotes.html
       </p>
     </article>
   </div>
+
+  {# Source for the random-post die: on this page the die draws a random quote
+     (English, Vietnamese, troll one-liners, or the featured quote). Inert
+     marker that points at the live quote elements; no visible output. #}
+  <div
+    data-rp-source
+    data-rp-title="A WILD QUOTE APPEARED!"
+    data-rp-entries=".quotes-section .quote-item, .quotes-section .quote-featured"
+    hidden
+  ></div>
 </section>
 
 <script>

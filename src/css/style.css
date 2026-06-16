@@ -2009,8 +2009,11 @@ body.is-inner .banner-wrap {
   inset: 0;
   z-index: 200;
   display: grid;
-  place-items: center;
+  /* pin the modal near the bottom, centered horizontally: as content grows the
+     modal expands upward, so the footer button never changes position */
+  place-items: end center;
   padding: 18px;
+  padding-bottom: clamp(28px, 8vh, 84px);
   background: rgba(6, 2, 16, 0.84);
   opacity: 0;
   transition: opacity 0.25s ease;
@@ -2070,7 +2073,10 @@ body.is-inner .banner-wrap {
   position: relative;
   z-index: 1;
   width: min(680px, 100%);
-  max-height: min(86vh, 920px);
+  /* hug the content and grow upward from the bottom anchor (see overlay) so the
+     footer button stays put without a fixed height; only posts taller than this
+     cap scroll inside the stage */
+  max-height: min(84vh, 860px);
   display: flex;
   flex-direction: column;
   background: var(--bg-panel);
@@ -2167,6 +2173,8 @@ body.is-inner .banner-wrap {
 }
 
 .rp-stage {
+  flex: 1 1 auto;
+  min-height: 0; /* allow the stage to shrink and scroll when a post is tall */
   padding: 16px;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -2201,6 +2209,59 @@ body.is-inner .banner-wrap {
 
 /* the cloned card is native .blog-post markup; drop its outer spacing */
 .rp-stage .blog-post {
+  margin: 0;
+}
+
+/* quotes drawn into the modal: the page's quote styles are scoped to
+   .quotes-section, so re-declare the essentials for the popup */
+.rp-stage .quote-item {
+  border-left: 2px solid var(--accent-pink);
+  padding: 8px 0 8px 14px;
+}
+
+.rp-stage .quote-item p {
+  color: var(--text-main);
+  font-size: 22px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.rp-stage .quote-item p + p {
+  margin-top: 10px;
+}
+
+.rp-stage .quote-item footer {
+  color: var(--accent-cyan);
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.rp-stage .quote-featured {
+  background:
+    linear-gradient(135deg, rgba(255, 105, 180, 0.08), rgba(0, 255, 255, 0.05)),
+    rgba(0, 0, 50, 0.4);
+  border: 1px solid rgba(255, 105, 180, 0.4);
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.rp-stage .quote-featured-img {
+  display: block;
+  width: min(240px, 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 105, 180, 0.3);
+  margin-bottom: 12px;
+}
+
+.rp-stage .quote-featured-text {
+  border-left: 2px solid var(--accent-pink);
+  padding: 8px 0 8px 14px;
+}
+
+.rp-stage .quote-featured-text p {
+  color: var(--text-main);
+  font-size: 22px;
+  line-height: 1.6;
   margin: 0;
 }
 

@@ -43,12 +43,22 @@
   // The die draws from the current page's own source when it declares one
   // (a [data-rp-source] inside .main-content) and otherwise from the shared
   // blog-post pool. Re-checked on every draw so it follows PJAX navigation.
+  function sourceEntries(sourceEl, main) {
+    // a source may either contain its entries (a <template>) or point at live
+    // elements elsewhere on the page via a CSS selector (cloned on draw)
+    var selector = sourceEl.getAttribute("data-rp-entries");
+    if (selector) {
+      return Array.prototype.slice.call(main.querySelectorAll(selector));
+    }
+    return readEntries(sourceEl);
+  }
+
   function activeSource() {
     var main = document.querySelector(".main-content");
     var pageSource = main && main.querySelector("[data-rp-source]");
 
     if (pageSource) {
-      var pageEntries = readEntries(pageSource);
+      var pageEntries = sourceEntries(pageSource, main);
       if (pageEntries.length) {
         return {
           node: pageSource,
@@ -84,7 +94,9 @@
     }
 
     var card = source.entries[pick(source.entries.length)].cloneNode(true);
-    card.classList.remove("hidden"); // in case the source hides filtered items
+    // the entry may be hidden by a page's search filter; show it in the popup
+    card.removeAttribute("hidden");
+    card.classList.remove("hidden", "quotes-search-hidden");
 
     // open any links inside the drawn entry in a new tab so clicking one does
     // not navigate away and dismiss the popup (in-page anchors are left alone)
