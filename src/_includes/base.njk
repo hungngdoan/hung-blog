@@ -59,7 +59,55 @@
         &#9660;
       </button>
     </div>
+    <button
+      type="button"
+      id="rp-fab"
+      class="rp-fab"
+      aria-haspopup="dialog"
+      aria-controls="rp-overlay"
+      aria-label="Open a random post"
+      title="Random post"
+    >
+      <span class="rp-fab-die" aria-hidden="true">&#127922;</span>
+      <span class="rp-fab-label" aria-hidden="true">RANDOM POST</span>
+    </button>
+
+    <div
+      id="rp-overlay"
+      class="rp-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="rp-title"
+      hidden
+    >
+      <div class="rp-modal" tabindex="-1" data-rp-modal>
+        <div class="rp-modal-bar" aria-hidden="true"></div>
+        <header class="rp-head">
+          <span class="rp-head-spark" aria-hidden="true">&#9876;</span>
+          <h2 id="rp-title" class="rp-head-title">A WILD POST APPEARED!</h2>
+          <span class="rp-head-spark" aria-hidden="true">&#9876;</span>
+          <span class="rp-draw-chip" data-rp-counter>DRAW #1</span>
+        </header>
+        <div class="rp-stage" data-rp-stage></div>
+        <footer class="rp-foot">
+          <button type="button" class="rp-btn rp-btn-reroll" data-rp-reroll>
+            <span aria-hidden="true">&#127922;</span> ENCOUNTER AGAIN
+          </button>
+          <button type="button" class="rp-btn rp-btn-flee" data-rp-close>
+            FLEE <span class="rp-key" aria-hidden="true">ESC</span>
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    <template id="rp-pool">
+      {%- for post in collections.post %}
+      {{ post.templateContent | safe }}
+      {%- endfor %}
+    </template>
+
     {% include "partials/music-player-script.njk" %}
     <script src="js/page-transitions.js" defer></script>
+    <script src="js/random-post.js" defer></script>
   </body>
 </html>
