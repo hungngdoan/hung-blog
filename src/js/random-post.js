@@ -14,31 +14,61 @@
   var modal = overlay.querySelector("[data-rp-modal]");
   var stage = overlay.querySelector("[data-rp-stage]");
   var counter = overlay.querySelector("[data-rp-counter]");
+  var titleEl = overlay.querySelector("#rp-title");
 
-  var entries = Array.prototype.slice.call(
-    pool.content.querySelectorAll(".blog-post")
-  );
+  var DEFAULT_TITLE = "A WILD POST APPEARED!";
 
-  if (!entries.length || !modal || !stage) {
+  function readEntries(node) {
+    // a <template> exposes its inert markup on .content; any other element
+    // (e.g. a live list) is read directly
+    var root = "content" in node ? node.content : node;
+    return Array.prototype.slice.call(root.children);
+  }
+
+  var defaultEntries = readEntries(pool);
+
+  if (!defaultEntries.length || !modal || !stage) {
     fab.remove();
     return;
   }
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   var EXIT_MS = 250; // keep in sync with .rp-overlay opacity transition
+  var lastSource = null;
   var lastIndex = -1;
   var drawCount = 0;
   var fallbackFocus = null;
   var closeTimer = null;
 
-  function pick() {
-    if (entries.length === 1) {
+  // The die draws from the current page's own source when it declares one
+  // (a [data-rp-source] inside .main-content) and otherwise from the shared
+  // blog-post pool. Re-checked on every draw so it follows PJAX navigation.
+  function activeSource() {
+    var main = document.querySelector(".main-content");
+    var pageSource = main && main.querySelector("[data-rp-source]");
+
+    if (pageSource) {
+      var pageEntries = readEntries(pageSource);
+      if (pageEntries.length) {
+        return {
+          node: pageSource,
+          entries: pageEntries,
+          title: pageSource.getAttribute("data-rp-title") || DEFAULT_TITLE
+        };
+      }
+    }
+
+    return { node: pool, entries: defaultEntries, title: DEFAULT_TITLE };
+  }
+
+  function pick(count) {
+    if (count === 1) {
       return 0;
     }
 
     var index;
     do {
-      index = Math.floor(Math.random() * entries.length);
+      index = Math.floor(Math.random() * count);
     } while (index === lastIndex);
 
     lastIndex = index;
@@ -46,9 +76,17 @@
   }
 
   function draw(animate) {
-    var card = entries[pick()].cloneNode(true);
+    var source = activeSource();
 
-    // open any links inside the drawn post in a new tab so clicking one does
+    if (source.node !== lastSource) {
+      lastSource = source.node;
+      lastIndex = -1; // fresh deck whenever the source changes
+    }
+
+    var card = source.entries[pick(source.entries.length)].cloneNode(true);
+    card.classList.remove("hidden"); // in case the source hides filtered items
+
+    // open any links inside the drawn entry in a new tab so clicking one does
     // not navigate away and dismiss the popup (in-page anchors are left alone)
     Array.prototype.forEach.call(card.querySelectorAll("a[href]"), function (link) {
       if ((link.getAttribute("href") || "").charAt(0) === "#") {
@@ -57,6 +95,10 @@
       link.setAttribute("target", "_blank");
       link.setAttribute("rel", "noopener noreferrer");
     });
+
+    if (titleEl) {
+      titleEl.textContent = source.title;
+    }
 
     stage.innerHTML = "";
     stage.appendChild(card);

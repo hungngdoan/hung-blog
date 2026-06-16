@@ -37,6 +37,23 @@ pageClass: reddington-page
   <p class="reddington-empty" id="reddingtonEmpty">No quotes found.</p>
 </section>
 
+{# Source for the random-post die: on this page the die draws a Reddington
+   quote instead of a blog post. Inert <template>, rendered once. #}
+<template data-rp-source data-rp-title="A WILD QUOTE APPEARED!">
+  {%- for quote in reddingtonQuotes %}
+  <article class="blog-post">
+    <div class="post-header">
+      <span class="post-title">&#128213; Reddington Intel</span>
+      <span class="post-date">No. {{ loop.index }}</span>
+    </div>
+    <div class="post-body">
+      <p><span class="post-opener">"{{ quote }}"</span></p>
+    </div>
+    <div class="post-mood">&#9670; Raymond "Red" Reddington &#183; The Blacklist</div>
+  </article>
+  {%- endfor %}
+</template>
+
 <script>
 (function () {
   "use strict";
