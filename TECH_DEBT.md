@@ -1,7 +1,7 @@
 # Tech Debt: UI and Layout
 
 **Source:** Site-wide design review, 2026-06-11
-**Status legend:** OPEN = not started, FIXED = done with date
+**Status legend:** OPEN = not started, FIXED = done with date, CLOSED = decided not to do, with date
 
 | # | Item | Severity | Status |
 |---|------|----------|--------|
@@ -18,7 +18,7 @@
 | 11 | Stray working file Kayle.jpg tracked at repo root | Low | FIXED 2026-06-12 |
 | 12 | Flat-URL layout is an unstated invariant | Medium | OPEN |
 | 13 | Posts have no individual URLs and no RSS feed | Low | OPEN |
-| 14 | No build check before merge; breakage found at deploy | Low | OPEN |
+| 14 | No build check before merge; breakage found at deploy | Low | CLOSED 2026-06-18, decision: not needed |
 | 15 | Oversized sidebar avatar shipped at source resolution | Low | OPEN |
 
 ---
@@ -115,10 +115,11 @@ All four backlog items addressed in `games.njk` and `games.css`:
 - `posts.json` sets `permalink: false`: posts exist only as collection items rendered on the home page. No post can be deep-linked or shared individually, and there is no RSS/Atom feed for readers to subscribe.
 - May be deliberate (single-page journal identity, like the sidebar decision in item 5). Needs an owner decision, not silent fixing. If wanted later: individual post pages require resolving item 12 first; a feed via `@11ty/eleventy-plugin-rss` does not (feed XML can live at root).
 
-## 14. No build check before merge (OPEN)
+## 14. No build check before merge (CLOSED 2026-06-18)
 
 - `deploy.yml` runs only on push to main. A template error merged from a branch is discovered when the deploy job fails, after merge.
-- Fix: add `pull_request` trigger running just `npm ci && npm run build` (no deploy steps), or a separate minimal build-check workflow.
+- Possible fix (not taken): add a `pull_request` trigger running just `npm ci && npm run build` (no deploy steps), or a separate minimal build-check workflow.
+- Owner decision: not needed. For a solo, low-traffic journal a failed deploy is a sufficient signal, and the extra workflow is not worth maintaining. Do not re-raise without new evidence (e.g. repeated broken deploys).
 
 ## 15. Oversized sidebar avatar shipped at source resolution (OPEN)
 
