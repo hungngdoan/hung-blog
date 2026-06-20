@@ -108,6 +108,7 @@ assets-work/                       # Local-only working files (gitignored)
 | `books.html` | `src/books.njk` | Book notes and reading list |
 | `music.html` | `src/music.njk` | Music notes and current rotation |
 | `games.html` | `src/games.njk` | Games page |
+| `smooth.html` | `src/smooth.njk` | Pickup lines, puns, and dad jokes: a slot-machine and a filterable card grid |
 | `links.html` | `src/links.njk` | Links and references |
 
 ### Hidden but built pages
@@ -135,6 +136,8 @@ permalink: page.html
 ```
 
 `navActive` should match the page URL from `nav.json` so the active state works both on direct load and after PJAX navigation.
+
+A top-level nav item may include an optional `title` field. When present, the rendered link gets both a `title` tooltip and an `aria-label` from it. This exists so a tab whose visible `label` is icon-led (for example the `smooth.html` tab) still has an accessible name and a hover hint. The `smooth.html` tab keeps a readable word in its label; the `title` is there as a safety net rather than a requirement.
 
 To create a hidden built page, keep the front matter and permalink, but omit it from `nav.json`.
 
@@ -261,6 +264,23 @@ Behavior:
 - Shows one strategy per long row, with the short sentence on the row.
 - Uses native `<details>` and `<summary>` for expandable explanations and examples.
 - Requires no runtime JavaScript.
+
+### Smooth page
+
+Source:
+
+- Page shell, line data, and script: `src/smooth.njk`
+- Scoped styles: `src/_includes/css/smooth.css` (inlined on the page)
+
+Behavior:
+
+- Built as `smooth.html` and visible in the top nav.
+- Holds a single data array of one-liners; each entry carries a category, a smoothness score, and a cheese rating. The slot-machine, the card grid, and the random-post die all read from the rendered cards, so the array is the one source of truth.
+- The SMOOTH-O-MATIC machine deals a random line with a spin animation and an animated smoothness meter.
+- The grid supports category-chip filtering and free-text search.
+- The slot-machine and the random-post die both draw only from lines currently visible in the grid, so they respect the active filter. The die selector uses `:not(.smooth-hidden)` for this.
+- Page-local script is a PJAX-safe IIFE. The copy-to-clipboard handler is a single document-level delegated listener guarded by `window.__smoothCopyBound`, so cloned cards in the die popup can also be copied. Any in-flight spin interval is tracked on `window.__smoothSpin` and cleared on re-init.
+- Internal file, class, and id names use the `smooth` token to match the visible name. The legacy working name during development was "rizz"; no `rizz` token should remain.
 
 ---
 

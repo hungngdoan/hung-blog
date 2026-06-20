@@ -18,7 +18,11 @@
         </div>
       </div>
     {% else %}
-      <a href="{{ item.url }}"{% if item.url == navActive %} class="active"{% endif %}>{{ item.label }}</a>
+      <a
+        href="{{ item.url }}"
+        {%- if item.url == navActive %} class="active"{% endif %}
+        {%- if item.title %} title="{{ item.title }}" aria-label="{{ item.title }}"{% endif %}
+      >{{ item.label }}</a>
     {% endif %}
   {% endfor %}
 </nav>

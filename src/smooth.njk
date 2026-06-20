@@ -1,0 +1,345 @@
+---
+layout: base.njk
+title: "Smooth ~ Hung's Journal"
+navActive: smooth.html
+permalink: smooth.html
+pageClass: smooth-page
+---
+
+<style>
+{% include "css/smooth.css" %}</style>
+
+{# Each line carries its own metadata so the machine, the grid, and the
+   random-post die all read from one source of truth (the rendered cards).
+   cat    = filter bucket (Flirty / Pun / Dad Joke / Nerdy)
+   smooth = smoothness score 0-100 (drives the meters)
+   cheese = cheese factor, 1-5 (drawn as 🧀 wedges) #}
+{% set lines = [
+  { text: "I'm terrible at math, but I can count on you.", cat: "Pun", smooth: 88, cheese: 4, emoji: "🧮" },
+  { text: "Are you a magician? Because whenever I talk to you, everyone else disappears.", cat: "Flirty", smooth: 95, cheese: 3, emoji: "🪄" },
+  { text: "I'm not a dentist, but I can give you something to smile about.", cat: "Flirty", smooth: 84, cheese: 4, emoji: "🦷" },
+  { text: "I have a joke about elevators... it's laughable on many levels.", cat: "Dad Joke", smooth: 71, cheese: 5, emoji: "🛗" },
+  { text: "You must be made of copper and tellurium, because you're Cu-Te.", cat: "Flirty", smooth: 90, cheese: 4, emoji: "🧪" },
+  { text: "I'm bad at geography, but I'd never get lost in a conversation with you.", cat: "Flirty", smooth: 83, cheese: 4, emoji: "🧭" },
+  { text: "I don't need Google, you have everything I'm searching for.", cat: "Flirty", smooth: 86, cheese: 5, emoji: "🔍" },
+  { text: "I'm not a dentist, but meeting you is the highlight of my day — no fluoride needed.", cat: "Flirty", smooth: 80, cheese: 4, emoji: "😁" },
+  { text: "I'd tell you a joke about UDP, but you might not get it.", cat: "Nerdy", smooth: 88, cheese: 4, emoji: "📡" },
+  { text: "There are only 10 types of people in the world — those who understand binary and those who don't.", cat: "Nerdy", smooth: 85, cheese: 4, emoji: "🔢" },
+  { text: "Why do programmers prefer dark mode? Because light attracts bugs.", cat: "Nerdy", smooth: 87, cheese: 4, emoji: "🌙" },
+  { text: "A SQL query walks into a bar, sees two tables and asks... 'Can I join you?'", cat: "Nerdy", smooth: 90, cheese: 4, emoji: "🍺" },
+  { text: "!false — it's funny because it's true.", cat: "Nerdy", smooth: 82, cheese: 3, emoji: "❗" },
+  { text: "I used to hate stairs — they're always up to something.", cat: "Pun", smooth: 70, cheese: 5, emoji: "🪜" },
+  { text: "I told my friend 10 jokes to make him laugh. Sadly, no pun in ten did.", cat: "Pun", smooth: 75, cheese: 5, emoji: "🔟" },
+  { text: "I used to be a banker, but I lost interest.", cat: "Pun", smooth: 72, cheese: 5, emoji: "🏦" },
+  { text: "I have a joke about construction, but I'm still working on it.", cat: "Pun", smooth: 69, cheese: 5, emoji: "🏗️" },
+  { text: "I have a joke about paper — never mind, it's tearable.", cat: "Pun", smooth: 67, cheese: 5, emoji: "📄" },
+  { text: "I have a joke about pizza, but it's too cheesy.", cat: "Pun", smooth: 71, cheese: 5, emoji: "🍕" },
+  { text: "Why did the dentist break up with the manicurist? They fought tooth and nail.", cat: "Pun", smooth: 73, cheese: 5, emoji: "💅" },
+  { text: "I have a joke about teeth, but I don't want to brush over it.", cat: "Pun", smooth: 70, cheese: 5, emoji: "🪥" },
+  { text: "I'm on a seafood diet — I see food and I eat it.", cat: "Pun", smooth: 68, cheese: 5, emoji: "🦐" },
+  { text: "I used to be addicted to soap, but I'm clean now.", cat: "Pun", smooth: 71, cheese: 5, emoji: "🧼" },
+  { text: "I'm friends with 25 letters of the alphabet — I don't know Y.", cat: "Pun", smooth: 74, cheese: 5, emoji: "🔤" },
+  { text: "I used to play piano by ear, but now I use my hands.", cat: "Pun", smooth: 70, cheese: 5, emoji: "🎹" },
+  { text: "Broken puppets for sale — no strings attached.", cat: "Pun", smooth: 72, cheese: 4, emoji: "🎭" },
+  { text: "I have a fear of speed bumps, but I'm slowly getting over it.", cat: "Pun", smooth: 73, cheese: 4, emoji: "🚧" },
+  { text: "I'm reading a book about anti-gravity — it's impossible to put down.", cat: "Dad Joke", smooth: 74, cheese: 4, emoji: "📖" },
+  { text: "I told a chemistry joke — there was no reaction.", cat: "Dad Joke", smooth: 66, cheese: 5, emoji: "⚗️" },
+  { text: "I wondered why the baseball was getting bigger. Then it hit me.", cat: "Dad Joke", smooth: 76, cheese: 4, emoji: "⚾" },
+  { text: "I told my wife she was drawing her eyebrows too high. She looked surprised.", cat: "Dad Joke", smooth: 78, cheese: 4, emoji: "😲" },
+  { text: "I told my suitcase we're not going on vacation. Now I'm dealing with emotional baggage.", cat: "Dad Joke", smooth: 77, cheese: 4, emoji: "🧳" },
+  { text: "My therapist says I have a preoccupation with vengeance. We'll see about that.", cat: "Dad Joke", smooth: 79, cheese: 3, emoji: "😼" },
+  { text: "I used to think I was indecisive, but now I'm not so sure.", cat: "Dad Joke", smooth: 80, cheese: 3, emoji: "🤔" }
+] %}
+
+<section class="page-section smooth-section">
+  <div class="smooth-hero">
+    <h2>😊 Smooth Operator</h2>
+    <p class="smooth-tagline">😏 Smooth lines, groan-worthy puns &amp; certified dad jokes 😏</p>
+    <div class="smooth-legend">
+      <span><b class="smooth-heart" aria-hidden="true">❤️</b> = how smooth it lands</span>
+      <span><b>🧀</b> = how cheesy it is</span>
+      <span>😊 Steal a line, drop it, make someone smile.</span>
+    </div>
+  </div>
+
+  <!-- ===== The SMOOTH-O-MATIC ===== -->
+  <div class="smooth-machine" data-machine>
+    <div class="smooth-machine-top">
+      <span class="smooth-light" aria-hidden="true"></span>
+      SMOOTH-O-MATIC 3000
+      <span class="smooth-light" aria-hidden="true"></span>
+    </div>
+
+    <div class="smooth-screen">
+      <span class="smooth-screen-cat" data-machine-cat>READY</span>
+      <p class="smooth-screen-line" data-machine-line>Pull the lever for your first line...</p>
+    </div>
+
+    <div class="smooth-meter">
+      <div class="smooth-meter-label">
+        <span>SMOOTHNESS</span>
+        <b><span data-machine-score>--</span></b>
+      </div>
+      <div class="smooth-meter-track">
+        <div class="smooth-meter-fill" data-machine-fill></div>
+      </div>
+    </div>
+
+    <div class="smooth-machine-controls">
+      <button type="button" class="smooth-btn smooth-btn-pull" data-machine-pull>
+        🎰 PULL A LINE
+      </button>
+      <button type="button" class="smooth-btn" data-machine-copy>
+        📋 STEAL IT
+      </button>
+    </div>
+
+    <div class="smooth-machine-foot">
+      <span>LINES PULLED: <b data-machine-count>0</b></span>
+      <span>{{ lines | length }} lines loaded</span>
+    </div>
+  </div>
+
+  <!-- ===== The line-up ===== -->
+  <h2>The Line-Up</h2>
+
+  <div class="smooth-tools">
+    <div class="smooth-filters" role="group" aria-label="Filter lines by type">
+      <button type="button" class="smooth-chip is-active" data-filter="all">All</button>
+      <button type="button" class="smooth-chip" data-filter="Flirty">Flirty</button>
+      <button type="button" class="smooth-chip" data-filter="Pun">Pun</button>
+      <button type="button" class="smooth-chip" data-filter="Dad Joke">Dad Joke</button>
+      <button type="button" class="smooth-chip" data-filter="Nerdy">Nerdy</button>
+    </div>
+    <input
+      class="smooth-search"
+      id="smoothSearch"
+      type="search"
+      autocomplete="off"
+      placeholder="Search lines..."
+      aria-label="Search lines"
+    />
+    <div class="smooth-count" data-count></div>
+  </div>
+
+  <p class="smooth-empty" data-empty>No lines match. Tough crowd. 🦗</p>
+
+  <div class="smooth-grid" data-grid>
+    {% for line in lines %}
+    <article class="smooth-card" data-cat="{{ line.cat }}" data-smooth="{{ line.smooth }}">
+      <div class="smooth-card-top">
+        <span class="smooth-card-emoji" aria-hidden="true">{{ line.emoji }}</span>
+        <span class="smooth-tag">{{ line.cat }}</span>
+      </div>
+      <p class="smooth-card-line">{{ line.text }}</p>
+      <div class="smooth-card-meters">
+        <div class="smooth-cheese" title="Cheese factor: {{ line.cheese }} of 5">
+          <span class="smooth-cheese-label">Cheese</span>
+          {%- for i in range(0, 5) -%}
+            <span{% if i >= line.cheese %} class="smooth-cheese-empty"{% endif %} aria-hidden="true">🧀</span>
+          {%- endfor -%}
+        </div>
+        <div class="smooth-card-score">
+          <span><span class="smooth-heart-static" aria-hidden="true" style="filter: hue-rotate({{ loop.index0 * 33 }}deg)">❤️</span> {{ line.smooth }}</span>
+          <div class="smooth-mini-track" aria-hidden="true">
+            <div class="smooth-mini-fill" style="width: {{ line.smooth }}%"></div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="smooth-card-copy">📋 Steal</button>
+    </article>
+    {% endfor %}
+  </div>
+
+  {# Source for the random-post die: on this page the die deals a random line
+     card. Inert marker that points at the live cards; no visible output. #}
+  <div
+    data-rp-source
+    data-rp-title="A WILD LINE APPEARED!"
+    data-rp-entries=".smooth-section .smooth-card:not(.smooth-hidden)"
+    hidden
+  ></div>
+
+  <div class="smooth-toast" data-toast role="status" aria-live="polite"></div>
+</section>
+
+<script>
+(function () {
+  "use strict";
+
+  var section = document.querySelector(".smooth-section");
+  if (!section) return;
+
+  var cards = Array.prototype.slice.call(section.querySelectorAll(".smooth-card"));
+  if (!cards.length) return;
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- toast + clipboard (shared) ---------- */
+  var toastTimer = null;
+
+  function showToast(msg) {
+    var toast = document.querySelector(".smooth-toast");
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.remove("is-show");
+    void toast.offsetWidth; // restart the entrance transition
+    toast.classList.add("is-show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.classList.remove("is-show");
+    }, 1900);
+  }
+
+  function copyText(text) {
+    function done() { showToast("Stolen! Now go get 'em 💘"); }
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "absolute";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); done(); }
+      catch (e) { showToast("Couldn't copy — grab it manually 🙈"); }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  // Delegate card "Steal" clicks once at the document level so it also works
+  // for cards cloned into the random-post popup. Guarded so PJAX re-runs of
+  // this script don't stack duplicate listeners.
+  if (!window.__smoothCopyBound) {
+    window.__smoothCopyBound = true;
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest && e.target.closest(".smooth-card-copy");
+      if (!btn) return;
+      var card = btn.closest(".smooth-card");
+      var lineEl = card && card.querySelector(".smooth-card-line");
+      if (lineEl) copyText(lineEl.textContent.trim());
+    });
+  }
+
+  /* ---------- SMOOTH-O-MATIC machine ---------- */
+  var machine = section.querySelector("[data-machine]");
+  var elLine = section.querySelector("[data-machine-line]");
+  var elCat = section.querySelector("[data-machine-cat]");
+  var elScore = section.querySelector("[data-machine-score]");
+  var elFill = section.querySelector("[data-machine-fill]");
+  var elCount = section.querySelector("[data-machine-count]");
+  var btnPull = section.querySelector("[data-machine-pull]");
+  var btnCopy = section.querySelector("[data-machine-copy]");
+
+  var pulls = 0;
+  var current = null;
+  var spinTimer = null;
+
+  // If a previous visit was PJAX-navigated away mid-spin, its interval may
+  // still be ticking against detached nodes. Clear any such leftover now.
+  if (window.__smoothSpin) {
+    clearInterval(window.__smoothSpin);
+    window.__smoothSpin = null;
+  }
+
+  function read(card) {
+    return {
+      text: card.querySelector(".smooth-card-line").textContent.trim(),
+      cat: card.getAttribute("data-cat"),
+      smooth: parseInt(card.getAttribute("data-smooth"), 10) || 0
+    };
+  }
+
+  // Pull from the lines currently visible in the grid so the machine respects
+  // the active filter; fall back to the whole deck if a filter hid everything.
+  function randomLine() {
+    var pool = cards.filter(function (c) {
+      return !c.classList.contains("smooth-hidden");
+    });
+    if (!pool.length) pool = cards;
+    return read(pool[Math.floor(Math.random() * pool.length)]);
+  }
+
+  function land(d) {
+    current = d;
+    elLine.textContent = "“" + d.text + "”";
+    elCat.textContent = d.cat;
+    elScore.textContent = d.smooth;
+    elFill.style.width = d.smooth + "%";
+    elLine.classList.remove("is-pop");
+    void elLine.offsetWidth;
+    elLine.classList.add("is-pop");
+  }
+
+  function pull() {
+    pulls += 1;
+    if (elCount) elCount.textContent = pulls;
+
+    var choice = randomLine();
+
+    if (reduce) { land(choice); return; }
+
+    if (spinTimer) clearInterval(spinTimer);
+    if (machine) machine.classList.add("is-spinning");
+
+    var ticks = 0;
+    spinTimer = setInterval(function () {
+      var r = randomLine();
+      elLine.textContent = r.text;
+      elCat.textContent = r.cat;
+      elScore.textContent = r.smooth;
+      ticks += 1;
+      if (ticks > 9) {
+        clearInterval(spinTimer);
+        spinTimer = null;
+        window.__smoothSpin = null;
+        if (machine) machine.classList.remove("is-spinning");
+        land(choice);
+      }
+    }, 70);
+    window.__smoothSpin = spinTimer;
+  }
+
+  if (btnPull) btnPull.addEventListener("click", pull);
+  if (btnCopy) btnCopy.addEventListener("click", function () {
+    if (!current) { showToast("Pull a line first 😉"); return; }
+    copyText(current.text);
+  });
+
+  /* ---------- filter + search ---------- */
+  var chips = Array.prototype.slice.call(section.querySelectorAll(".smooth-chip"));
+  var search = section.querySelector(".smooth-search");
+  var countEl = section.querySelector("[data-count]");
+  var emptyEl = section.querySelector("[data-empty]");
+  var activeFilter = "all";
+
+  function applyFilter() {
+    var term = ((search && search.value) || "").trim().toLowerCase();
+    var visible = 0;
+    cards.forEach(function (card) {
+      var matchCat = activeFilter === "all" || card.getAttribute("data-cat") === activeFilter;
+      var matchText = !term || card.textContent.toLowerCase().indexOf(term) !== -1;
+      var show = matchCat && matchText;
+      card.classList.toggle("smooth-hidden", !show);
+      if (show) visible += 1;
+    });
+    if (countEl) countEl.textContent = visible + " / " + cards.length + " lines";
+    if (emptyEl) emptyEl.classList.toggle("is-visible", visible === 0);
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      activeFilter = chip.getAttribute("data-filter");
+      chips.forEach(function (c) { c.classList.toggle("is-active", c === chip); });
+      applyFilter();
+    });
+  });
+  if (search) search.addEventListener("input", applyFilter);
+  applyFilter();
+})();
+</script>
