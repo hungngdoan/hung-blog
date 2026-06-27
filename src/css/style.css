@@ -17,6 +17,8 @@
   --link-color: #00ccff;
   --font-pixel: "VT323", monospace;
   --font-display: "Press Start 2P", monospace;
+  /* Max width of the centered page column; also drives the side-control gutter math */
+  --content-max: 1280px;
 }
 
 * {
@@ -128,7 +130,7 @@ body::before {
 
 /* Main layout */
 .page-wrapper {
-  max-width: 1125px;
+  max-width: var(--content-max);
   margin: 0 auto;
   padding: 10px;
   position: relative;
@@ -1078,7 +1080,7 @@ body.is-inner .banner-wrap {
   right: max(
     calc(env(safe-area-inset-right) + 10px),
     calc(
-      (100vw - 1125px) / 2 - var(--scroll-jump-size) -
+      (100vw - var(--content-max)) / 2 - var(--scroll-jump-size) -
         var(--scroll-jump-outside-gap)
     )
   );
@@ -2338,9 +2340,9 @@ body.rp-noscroll {
 /* Big screens only: float the die out in the empty left margin, lined up
    with the right-side scroll controls. Below this width there is no margin
    to spare, so the die stays in the corner (the default above). */
-@media (min-width: 1280px) {
+@media (min-width: 1440px) {
   .rp-fab {
-    left: calc((100vw - 1125px) / 2 - var(--rp-fab-size) - 12px);
+    left: calc((100vw - var(--content-max)) / 2 - var(--rp-fab-size) - 12px);
     bottom: calc(env(safe-area-inset-bottom) + 100px);
   }
 }
