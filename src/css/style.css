@@ -1039,7 +1039,7 @@ body.is-inner .banner-wrap {
 }
 
 .post-book-cover img:hover {
-  transform: rotate(0deg) translateY(-6px) scale(1.03);
+  animation: book-rock 1s ease-in-out infinite;
   box-shadow:
     2px 0 0 #efe9da,
     4px 0 0 #d8d0bc,
@@ -1048,6 +1048,19 @@ body.is-inner .banner-wrap {
     14px 20px 34px rgba(0, 0, 0, 0.6),
     0 0 16px rgba(0, 255, 255, 0.5),
     0 0 34px rgba(255, 105, 180, 0.35);
+}
+
+/* rocks both ways, like a book wobbling when you pick it up */
+@keyframes book-rock {
+  0% {
+    transform: rotate(-5deg) translateY(-6px) scale(1.03);
+  }
+  50% {
+    transform: rotate(5deg) translateY(-6px) scale(1.03);
+  }
+  100% {
+    transform: rotate(-5deg) translateY(-6px) scale(1.03);
+  }
 }
 
 .post-book-cover figcaption {
@@ -1063,6 +1076,7 @@ body.is-inner .banner-wrap {
   }
   .post-book-cover img:hover {
     transform: none;
+    animation: none;
   }
 }
 
