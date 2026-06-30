@@ -1012,6 +1012,27 @@ body.is-inner .banner-wrap {
   margin: 12px 0;
 }
 
+.post-book-cover {
+  margin: 18px 0 4px;
+  text-align: center;
+}
+
+.post-book-cover img {
+  width: 160px;
+  max-width: 45%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid #335;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+.post-book-cover figcaption {
+  margin-top: 10px;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--text-dim);
+}
+
 .post-mood {
   font-family: var(--font-pixel);
   font-size: 18px;
