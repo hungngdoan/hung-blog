@@ -1012,6 +1012,60 @@ body.is-inner .banner-wrap {
   margin: 12px 0;
 }
 
+.post-book-cover {
+  margin: 26px 0 6px;
+  text-align: center;
+}
+
+.post-book-cover img {
+  width: 156px;
+  max-width: 46%;
+  height: auto;
+  /* sharp spine on the left, rounded fore-edge on the right */
+  border-radius: 2px 7px 7px 2px;
+  transform: rotate(-2.5deg);
+  transition:
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.45s ease;
+  box-shadow:
+    /* stacked page fore-edge */
+    2px 0 0 #efe9da,
+    4px 0 0 #d8d0bc,
+    6px 0 0 #efe9da,
+    8px 0 0 #d8d0bc,
+    /* depth + faint neon rest state */
+    10px 14px 26px rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(255, 105, 180, 0.12);
+}
+
+.post-book-cover img:hover {
+  transform: rotate(0deg) translateY(-6px) scale(1.03);
+  box-shadow:
+    2px 0 0 #efe9da,
+    4px 0 0 #d8d0bc,
+    6px 0 0 #efe9da,
+    8px 0 0 #d8d0bc,
+    14px 20px 34px rgba(0, 0, 0, 0.6),
+    0 0 16px rgba(0, 255, 255, 0.5),
+    0 0 34px rgba(255, 105, 180, 0.35);
+}
+
+.post-book-cover figcaption {
+  margin-top: 18px;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--text-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-book-cover img {
+    transition: none;
+  }
+  .post-book-cover img:hover {
+    transform: none;
+  }
+}
+
 .post-mood {
   font-family: var(--font-pixel);
   font-size: 18px;
