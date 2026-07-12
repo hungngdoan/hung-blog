@@ -1012,6 +1012,183 @@ body.is-inner .banner-wrap {
   margin: 12px 0;
 }
 
+/* Two Plates milestone. A compact achievement card keeps the plate math
+   visible without needing an image asset. */
+.bench-milestone {
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow:
+    0 0 24px rgba(255, 215, 0, 0.08),
+    inset 0 0 30px rgba(255, 215, 0, 0.025);
+}
+
+.bench-milestone:hover {
+  border-color: rgba(255, 215, 0, 0.78);
+}
+
+.lift-card {
+  position: relative;
+  margin: 18px 0 22px;
+  padding: 16px 18px 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  border-radius: 4px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 3px,
+      rgba(255, 255, 255, 0.018) 3px,
+      rgba(255, 255, 255, 0.018) 4px
+    ),
+    linear-gradient(135deg, rgba(255, 215, 0, 0.11), rgba(0, 255, 255, 0.05)),
+    #090921;
+  text-align: center;
+  box-shadow:
+    0 0 16px rgba(255, 215, 0, 0.1),
+    inset 0 0 22px rgba(0, 255, 255, 0.035);
+}
+
+.lift-card::before,
+.lift-card::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(0, 255, 255, 0.45);
+}
+
+.lift-card::before {
+  top: 8px;
+  left: 8px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.lift-card::after {
+  right: 8px;
+  bottom: 8px;
+  border-top: 0;
+  border-left: 0;
+}
+
+.lift-card-label {
+  font-family: var(--font-display);
+  font-size: 9px;
+  line-height: 1.5;
+  letter-spacing: 2px;
+  color: var(--accent-lime);
+}
+
+.lift-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin: 4px 0 2px;
+  color: var(--accent-gold);
+  text-shadow: 0 0 14px rgba(255, 215, 0, 0.45);
+}
+
+.lift-total strong {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 8vw, 58px);
+  line-height: 1.25;
+}
+
+.lift-total span {
+  font-family: var(--font-display);
+  font-size: 13px;
+}
+
+.lift-barbell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  width: min(460px, 100%);
+  margin: 0 auto 8px;
+}
+
+.lift-bar {
+  order: 4;
+  width: 52%;
+  height: 5px;
+  background: linear-gradient(#e7ecf2, #75808f 55%, #cbd3dc);
+  box-shadow: 0 0 7px rgba(0, 255, 255, 0.28);
+}
+
+.lift-plate {
+  z-index: 1;
+  width: 13px;
+  border: 2px solid var(--accent-gold);
+  border-radius: 3px;
+  background: linear-gradient(90deg, #5c4200, #d2a900 45%, #6e5000);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+.lift-plate-left-outer,
+.lift-plate-right-outer {
+  height: 42px;
+}
+
+.lift-plate-left-inner,
+.lift-plate-right-inner {
+  height: 54px;
+}
+
+.lift-plate-left-outer { order: 2; }
+.lift-plate-left-inner { order: 3; }
+.lift-plate-right-inner { order: 5; }
+.lift-plate-right-outer { order: 6; }
+
+.lift-sleeve {
+  width: 10%;
+  height: 8px;
+  background: repeating-linear-gradient(90deg, #6b7480 0 2px, #bfc7d1 2px 4px);
+}
+
+.lift-sleeve-left { order: 1; }
+.lift-sleeve-right { order: 7; }
+
+.lift-equation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 5px 10px;
+  font-size: 17px;
+  color: var(--text-dim);
+}
+
+.lift-equation b {
+  color: var(--accent-pink);
+}
+
+.lift-equation strong {
+  color: var(--accent-cyan);
+}
+
+.lift-closing {
+  color: var(--accent-gold);
+  text-align: center;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+@media (max-width: 560px) {
+  .lift-card {
+    padding-inline: 12px;
+  }
+
+  .lift-bar {
+    width: 48%;
+  }
+
+  .lift-equation {
+    font-size: 15px;
+  }
+}
+
 .post-book-cover {
   margin: 26px 0 6px;
   text-align: center;
