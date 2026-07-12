@@ -1,0 +1,25 @@
+<article class="blog-post{% if postClass %} {{ postClass }}{% endif %}">
+  <div class="post-header">
+    <h2 class="post-title">
+      {% if postHeadingLink %}<a href="{{ postUrl }}">{% endif %}
+      {{ postTitleHtml | safe }}
+      {% if postHeadingLink %}</a>{% endif %}
+    </h2>
+    <time class="post-date" datetime="{{ postDateIso }}">{{ postDisplayDate }}</time>
+  </div>
+  <div class="post-body">
+    {{ postContent | safe }}
+  </div>
+  {% if postMoodHtml %}
+  <div class="post-mood">{{ postMoodHtml | safe }}</div>
+  {% endif %}
+  {% if postTags and postTags.length %}
+  <div class="post-tags">
+    {% for tag in postTags %}<span class="tag">{{ tag }}</span>{% endfor %}
+  </div>
+  {% endif %}
+  {% if showArchiveLink %}
+  <div class="post-nav"><a href="/archive.html">&lt;&lt; Back to archive</a></div>
+  {% endif %}
+</article>
+

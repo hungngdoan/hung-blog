@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "eleventy",
-    "start": "eleventy --serve"
+    "start": "eleventy --serve --pathprefix=/hung-blog/",
+    "measure": "node scripts/measure.js",
+    "check": "node scripts/check-site.js"
   },
   "repository": {
     "type": "git",

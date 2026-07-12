@@ -1,13 +1,11 @@
-/* Random Post — "A WILD POST APPEARED!"
-   A floating die deals a random journal entry into a CRT encounter modal.
-   Reads from a hidden <template> rendered once in the base shell, so it works
-   on every page and survives PJAX navigation (the shell is never swapped). */
+/* Random encounter modal.
+   Feature pages can provide a local [data-rp-source]. Everywhere else the
+   post index and selected post HTML are fetched only when the die is used. */
 (function () {
   var overlay = document.getElementById("rp-overlay");
   var fab = document.getElementById("rp-fab");
-  var pool = document.getElementById("rp-pool");
 
-  if (!overlay || !fab || !pool || !("content" in pool)) {
+  if (!overlay || !fab) {
     return;
   }
 
@@ -15,64 +13,77 @@
   var stage = overlay.querySelector("[data-rp-stage]");
   var counter = overlay.querySelector("[data-rp-counter]");
   var titleEl = overlay.querySelector("#rp-title");
+  var indexUrl = fab.getAttribute("data-rp-index");
 
-  var DEFAULT_TITLE = "A WILD POST APPEARED!";
-
-  function readEntries(node) {
-    // a <template> exposes its inert markup on .content; any other element
-    // (e.g. a live list) is read directly
-    var root = "content" in node ? node.content : node;
-    return Array.prototype.slice.call(root.children);
-  }
-
-  var defaultEntries = readEntries(pool);
-
-  if (!defaultEntries.length || !modal || !stage) {
+  if (!modal || !stage || !indexUrl) {
     fab.remove();
     return;
   }
 
+  var DEFAULT_TITLE = "A WILD POST APPEARED!";
+  var EXIT_MS = 250;
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  var EXIT_MS = 250; // keep in sync with .rp-overlay opacity transition
+  var indexPromise = null;
   var lastSource = null;
   var lastIndex = -1;
   var drawCount = 0;
+  var drawToken = 0;
   var fallbackFocus = null;
   var closeTimer = null;
 
-  // The die draws from the current page's own source when it declares one
-  // (a [data-rp-source] inside .main-content) and otherwise from the shared
-  // blog-post pool. Re-checked on every draw so it follows PJAX navigation.
-  function sourceEntries(sourceEl, main) {
-    // a source may either contain its entries (a <template>) or point at live
-    // elements elsewhere on the page via a CSS selector (cloned on draw)
-    var selector = sourceEl.getAttribute("data-rp-entries");
-    if (selector) {
-      return Array.prototype.slice.call(main.querySelectorAll(selector));
-    }
-    return readEntries(sourceEl);
+  function readEntries(node) {
+    var root = "content" in node ? node.content : node;
+    return Array.prototype.slice.call(root.children);
   }
 
-  function activeSource() {
+  function localSource() {
     var main = document.querySelector(".main-content");
-    var pageSource = main && main.querySelector("[data-rp-source]");
+    var source = main && main.querySelector("[data-rp-source]");
+    if (!source) return null;
 
-    if (pageSource) {
-      var pageEntries = sourceEntries(pageSource, main);
-      if (pageEntries.length) {
-        return {
-          node: pageSource,
-          entries: pageEntries,
-          title: pageSource.getAttribute("data-rp-title") || DEFAULT_TITLE
-        };
-      }
-    }
+    var selector = source.getAttribute("data-rp-entries");
+    var entries = selector
+      ? Array.prototype.slice.call(main.querySelectorAll(selector))
+      : readEntries(source);
 
-    return { node: pool, entries: defaultEntries, title: DEFAULT_TITLE };
+    if (!entries.length) return null;
+    return {
+      key: source,
+      entries: entries,
+      title: source.getAttribute("data-rp-title") || DEFAULT_TITLE,
+    };
   }
 
-  function pick(count) {
+  function loadIndex() {
+    if (!indexPromise) {
+      indexPromise = fetch(indexUrl)
+        .then(function (response) {
+          if (!response.ok) throw new Error("Random index request failed");
+          return response.json();
+        })
+        .then(function (entries) {
+          if (!Array.isArray(entries) || !entries.length) {
+            throw new Error("Random index is empty");
+          }
+          return entries.filter(function (entry) {
+            return entry && typeof entry.url === "string";
+          });
+        })
+        .catch(function (error) {
+          indexPromise = null;
+          throw error;
+        });
+    }
+    return indexPromise;
+  }
+
+  function pick(count, sourceKey) {
+    if (sourceKey !== lastSource) {
+      lastSource = sourceKey;
+      lastIndex = -1;
+    }
     if (count === 1) {
+      lastIndex = 0;
       return 0;
     }
 
@@ -80,64 +91,102 @@
     do {
       index = Math.floor(Math.random() * count);
     } while (index === lastIndex);
-
     lastIndex = index;
     return index;
   }
 
-  function draw(animate) {
-    var source = activeSource();
-
-    if (source.node !== lastSource) {
-      lastSource = source.node;
-      lastIndex = -1; // fresh deck whenever the source changes
-    }
-
-    var card = source.entries[pick(source.entries.length)].cloneNode(true);
-    // the entry may be hidden by a page's search filter; show it in the popup
+  function prepareCard(card) {
     card.removeAttribute("hidden");
     card.classList.remove("hidden", "quotes-search-hidden");
-
-    // open any links inside the drawn entry in a new tab so clicking one does
-    // not navigate away and dismiss the popup (in-page anchors are left alone)
     Array.prototype.forEach.call(card.querySelectorAll("a[href]"), function (link) {
-      if ((link.getAttribute("href") || "").charAt(0) === "#") {
-        return;
-      }
+      if ((link.getAttribute("href") || "").charAt(0) === "#") return;
       link.setAttribute("target", "_blank");
       link.setAttribute("rel", "noopener noreferrer");
     });
+    return card;
+  }
 
-    if (titleEl) {
-      titleEl.textContent = source.title;
-    }
-
+  function renderCard(card, title, animate) {
+    if (titleEl) titleEl.textContent = title;
     stage.innerHTML = "";
-    stage.appendChild(card);
+    stage.appendChild(prepareCard(card));
     stage.scrollTop = 0;
 
     drawCount += 1;
-    if (counter) {
-      counter.textContent = "DRAW #" + drawCount;
-    }
+    if (counter) counter.textContent = "DRAW #" + drawCount;
 
     if (animate && !reduceMotion.matches) {
       stage.classList.remove("rp-dealing");
-      // force reflow so the deal animation restarts on every fresh draw
       void stage.offsetWidth;
       stage.classList.add("rp-dealing");
     }
+  }
+
+  function showLoading() {
+    if (titleEl) titleEl.textContent = DEFAULT_TITLE;
+    stage.innerHTML = '<p class="rp-status">Searching the archive...</p>';
+  }
+
+  function showError() {
+    stage.innerHTML =
+      '<p class="rp-status rp-status-error">The archive signal was lost. Try again.</p>';
+  }
+
+  function fetchPost(entry) {
+    return fetch(entry.url)
+      .then(function (response) {
+        if (!response.ok) throw new Error("Random post request failed");
+        return response.text();
+      })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, "text/html");
+        var article = doc.querySelector(".main-content .blog-post");
+        if (!article) throw new Error("Random post article missing");
+        return article;
+      });
+  }
+
+  function draw(animate) {
+    var token = ++drawToken;
+    var local = localSource();
+
+    if (local) {
+      var localCard = local.entries[pick(local.entries.length, local.key)].cloneNode(true);
+      renderCard(localCard, local.title, animate);
+      return;
+    }
+
+    showLoading();
+    var selected = null;
+    loadIndex()
+      .then(function (entries) {
+        if (token !== drawToken) return null;
+        selected = entries[pick(entries.length, "posts")];
+        return fetchPost(selected);
+      })
+      .then(function (article) {
+        if (!article || token !== drawToken) return;
+        renderCard(article, DEFAULT_TITLE, animate);
+      })
+      .catch(function () {
+        if (token !== drawToken) return;
+        if (selected) {
+          window.location.href = selected.url;
+          return;
+        }
+        showError();
+      });
   }
 
   function focusables() {
     return Array.prototype.slice
       .call(
         modal.querySelectorAll(
-          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        )
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
       )
-      .filter(function (el) {
-        return el.offsetParent !== null;
+      .filter(function (element) {
+        return element.offsetParent !== null;
       });
   }
 
@@ -150,29 +199,22 @@
   }
 
   function open() {
-    // cancel a pending hide so a quick close-then-reopen is not swallowed
     if (closeTimer) {
       clearTimeout(closeTimer);
       closeTimer = null;
     }
+    if (!overlay.hidden && overlay.classList.contains("is-open")) return;
 
-    if (overlay.hidden) {
-      fallbackFocus = document.activeElement;
-      draw(true);
-      overlay.hidden = false;
-    } else if (overlay.classList.contains("is-open")) {
-      return; // already fully open
-    }
-
-    // covers both a fresh open and re-showing while mid-close
+    fallbackFocus = document.activeElement;
+    overlay.hidden = false;
     reveal();
+    draw(true);
   }
 
   function close() {
-    if (overlay.hidden || closeTimer) {
-      return;
-    }
+    if (overlay.hidden || closeTimer) return;
 
+    drawToken += 1;
     overlay.classList.remove("is-open");
     document.body.classList.remove("rp-noscroll");
 
@@ -182,17 +224,11 @@
       stage.innerHTML = "";
     };
 
-    if (reduceMotion.matches) {
-      finish();
-    } else {
-      closeTimer = setTimeout(finish, EXIT_MS);
-    }
+    if (reduceMotion.matches) finish();
+    else closeTimer = setTimeout(finish, EXIT_MS);
 
-    if (fab) {
-      fab.focus();
-    } else if (fallbackFocus && fallbackFocus.focus) {
-      fallbackFocus.focus();
-    }
+    if (fallbackFocus && fallbackFocus.focus) fallbackFocus.focus();
+    else fab.focus();
   }
 
   fab.addEventListener("click", open);
@@ -200,34 +236,29 @@
   overlay.addEventListener("click", function (event) {
     if (event.target === overlay || event.target.closest("[data-rp-close]")) {
       close();
-      return;
-    }
-
-    if (event.target.closest("[data-rp-reroll]")) {
+    } else if (event.target.closest("[data-rp-reroll]")) {
       draw(true);
     }
   });
 
   document.addEventListener("keydown", function (event) {
-    if (overlay.hidden) {
-      return;
-    }
-
+    if (overlay.hidden) return;
+    var anotherDialogIsOpen = Array.prototype.some.call(
+      document.querySelectorAll('[role="dialog"]:not([hidden])'),
+      function (dialog) {
+        return dialog !== overlay;
+      },
+    );
+    if (anotherDialogIsOpen) return;
     if (event.key === "Escape") {
       event.preventDefault();
       close();
       return;
     }
-
-    if (event.key !== "Tab") {
-      return;
-    }
+    if (event.key !== "Tab") return;
 
     var items = focusables();
-    if (!items.length) {
-      return;
-    }
-
+    if (!items.length) return;
     var first = items[0];
     var last = items[items.length - 1];
     var active = document.activeElement;
@@ -241,11 +272,7 @@
     }
   });
 
-  // browser Back/Forward swaps the page behind the modal; dismiss it so the
-  // overlay and scroll lock never linger over fresh content
   document.addEventListener("hung:pjax-complete", function () {
-    if (!overlay.hidden) {
-      close();
-    }
+    if (!overlay.hidden) close();
   });
 })();

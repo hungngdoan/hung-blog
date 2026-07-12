@@ -1,7 +1,8 @@
 <nav class="nav-bar">
+  {% set activeUrl = "/" ~ navActive %}
   {% for item in nav %}
     {% if item.children %}
-      <div class="nav-dropdown{% for child in item.children %}{% if child.url == navActive %} active{% endif %}{% endfor %}">
+      <div class="nav-dropdown{% for child in item.children %}{% if child.url == activeUrl %} active{% endif %}{% endfor %}">
         <button
           type="button"
           class="nav-dropdown-toggle"
@@ -13,14 +14,14 @@
         </button>
         <div class="nav-dropdown-menu">
           {% for child in item.children %}
-            <a href="{{ child.url }}"{% if child.url == navActive %} class="active"{% endif %}>{{ child.label }}</a>
+            <a href="{{ child.url }}"{% if child.url == activeUrl %} class="active"{% endif %}>{{ child.label }}</a>
           {% endfor %}
         </div>
       </div>
     {% else %}
       <a
         href="{{ item.url }}"
-        {%- if item.url == navActive %} class="active"{% endif %}
+        {%- if item.url == activeUrl %} class="active"{% endif %}
         {%- if item.title %} title="{{ item.title }}" aria-label="{{ item.title }}"{% endif %}
       >{{ item.label }}</a>
     {% endif %}

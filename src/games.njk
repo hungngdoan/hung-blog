@@ -1,6 +1,7 @@
 ---
 layout: base.njk
 title: "Games ~ Hung's Journal"
+description: "Games, characters, dialogue, and Millennium Items from Hung's gaming world."
 navActive: games.html
 permalink: games.html
 pageClass: games-page
@@ -163,44 +164,44 @@ pageClass: games-page
   <div class="millennium-shelf" aria-label="The Millennium Items">
     <figure class="millennium-item millennium-hero" style="--mi-delay: 0ms" data-name="Millennium Puzzle" data-holder="Yugi Muto" data-power="Solved by Yugi after eight years, it binds him to the spirit of a 3,000 year old Pharaoh. Whoever completes it gains the powers and knowledge of darkness, calling forth the Pharaoh to wage Shadow Games and pass judgment on the wicked.">
       <span class="millennium-frame">
-        <img src="img/millennium_item_puzzle.jpg" alt="The Millennium Puzzle" loading="lazy" width="600" height="600" />
+        <img src="/img/millennium_item_puzzle.jpg" alt="The Millennium Puzzle" loading="lazy" width="600" height="600" />
       </span>
       <figcaption>Puzzle</figcaption>
     </figure>
     <div class="millennium-row">
     <figure class="millennium-item" style="--mi-delay: 120ms" data-name="Millennium Eye" data-holder="Maximillion Pegasus" data-power="A golden eye set where his own once was, it sees through every bluff. It reads an opponent's thoughts and facedown cards, glimpses the future, and can tear a living soul from its body to seal it inside a card.">
       <span class="millennium-frame">
-        <img src="img/millennium_item_eye.jpg" alt="The Millennium Eye" loading="lazy" width="600" height="600" />
+        <img src="/img/millennium_item_eye.jpg" alt="The Millennium Eye" loading="lazy" width="600" height="600" />
       </span>
       <figcaption>Eye</figcaption>
     </figure>
     <figure class="millennium-item" style="--mi-delay: 240ms" data-name="Millennium Necklace" data-holder="Ishizu Ishtar" data-power="Worn at the throat, the Tauk unveils what has not yet come to pass. It grants visions of the future and the past, letting its bearer answer a move before it is even made.">
       <span class="millennium-frame">
-        <img src="img/millennium_item_necklace.jpg" alt="The Millennium Necklace" loading="lazy" width="600" height="600" />
+        <img src="/img/millennium_item_necklace.jpg" alt="The Millennium Necklace" loading="lazy" width="600" height="600" />
       </span>
       <figcaption>Necklace</figcaption>
     </figure>
     <figure class="millennium-item" style="--mi-delay: 360ms" data-name="Millennium Scale" data-holder="Shadi" data-power="Shadi weighs a person's heart against the feather of Ma'at. Balance proves innocence; imbalance summons a Penalty Game and the judgment of the gods.">
       <span class="millennium-frame">
-        <img src="img/millennium_item_scale_1.png" alt="The Millennium Scale" loading="lazy" width="525" height="445" />
+        <img src="/img/millennium_item_scale_1.png" alt="The Millennium Scale" loading="lazy" width="525" height="445" />
       </span>
       <figcaption>Scale</figcaption>
     </figure>
     <figure class="millennium-item" style="--mi-delay: 480ms" data-name="Millennium Ring" data-holder="Ryo Bakura" data-power="Its pointers swing toward hidden Items and hidden power, making it the compass of the seven. It also harbors a thief's vengeful spirit that can bind souls into objects and possess whoever wears it.">
       <span class="millennium-frame">
-        <img src="img/millennium_item_ring.jpg" alt="The Millennium Ring" loading="lazy" width="600" height="600" />
+        <img src="/img/millennium_item_ring.jpg" alt="The Millennium Ring" loading="lazy" width="600" height="600" />
       </span>
       <figcaption>Ring</figcaption>
     </figure>
     <figure class="millennium-item" style="--mi-delay: 600ms" data-name="Millennium Rod" data-holder="Marik Ishtar" data-power="A scepter that turns people into puppets, seizing their minds and bodies at the holder's command. Its shaft conceals a hidden dagger for the moment control is not enough.">
       <span class="millennium-frame">
-        <img src="img/millennium_item_rod.jpg" alt="The Millennium Rod" loading="lazy" width="600" height="600" />
+        <img src="/img/millennium_item_rod.jpg" alt="The Millennium Rod" loading="lazy" width="600" height="600" />
       </span>
       <figcaption>Rod</figcaption>
     </figure>
     <figure class="millennium-item" style="--mi-delay: 720ms" data-name="Millennium Key" data-holder="Shadi" data-power="It unlocks the doors to a human soul. Its bearer can walk the rooms of another mind to read, rearrange, or tear apart whatever lies within.">
       <span class="millennium-frame">
-        <img src="img/millennium_item_key.jpg" alt="The Millennium Key" loading="lazy" width="600" height="600" />
+        <img src="/img/millennium_item_key.jpg" alt="The Millennium Key" loading="lazy" width="600" height="600" />
       </span>
       <figcaption>Key</figcaption>
     </figure>
@@ -494,6 +495,12 @@ pageClass: games-page
         openCard(fig);
       }
     });
+  });
+
+  (window.pageTeardowns = window.pageTeardowns || []).push(function () {
+    closeCard();
+    document.removeEventListener("keydown", onKey, true);
+    document.body.classList.remove("mi-modal-open");
   });
 })();
 </script>

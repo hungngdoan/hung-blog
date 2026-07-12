@@ -3,9 +3,9 @@
   "subtitle": "thoughts &#12539; code &#12539; life",
   "url": "https://hungngdoan.github.io/hung-blog",
   "description": "Hung's personal corner of the internet: life updates, fitness, coding thoughts, books, games, and random musings.",
-  "bannerSrc": "img/banner.gif",
+  "bannerSrc": "/img/banner.gif",
   "bannerAlt": "Pixel art banner with characters sitting in grass",
-  "shareCardSrc": "img/share-card.png",
+  "shareCardSrc": "/img/share-card.png",
   "shareCardAlt": "Hung's Journal: thoughts, code, life. Pixel art night sky with characters sitting in grass.",
   "defaultFontsUrl": "https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap"
 }

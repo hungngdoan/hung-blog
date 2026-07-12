@@ -3,24 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ title or site.title }}</title>
+    <title>{% if isPost %}{{ title }} ~ Hung's Journal{% else %}{{ title or site.title }}{% endif %}</title>
     <meta name="description" content="{{ description or site.description }}" />
     <meta property="og:title" content="{{ title or site.title }}" />
     <meta property="og:description" content="{{ description or site.description }}" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="{{ 'article' if isPost else 'website' }}" />
     <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
-    <meta property="og:image" content="{{ site.url }}/{{ site.shareCardSrc }}" />
+    <meta property="og:image" content="{{ site.url }}{{ site.shareCardSrc }}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="{{ site.shareCardAlt }}" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
     <link
       data-page-fonts
       href="{{ fontsUrl if fontsUrl else site.defaultFontsUrl }}"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="js/site.js" defer></script>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="/js/site.js" defer></script>
   </head>
   <body class="{% if navActive == 'index.html' %}is-home{% else %}is-inner{% endif %}">
     {% include "partials/marquee.njk" %}
@@ -67,6 +68,7 @@
       aria-controls="rp-overlay"
       aria-label="Open a random post"
       title="Random post"
+      data-rp-index="{{ '/random-index.json' | url }}"
     >
       <span class="rp-fab-die" aria-hidden="true">&#127922;</span>
       <span class="rp-fab-label" aria-hidden="true">RANDOM POST</span>
@@ -100,14 +102,10 @@
       </div>
     </div>
 
-    <template id="rp-pool">
-      {%- for post in collections.post %}
-      {{ post.templateContent | safe }}
-      {%- endfor %}
-    </template>
-
+    {% include "partials/story-player.njk" %}
     {% include "partials/music-player-script.njk" %}
-    <script src="js/page-transitions.js" defer></script>
-    <script src="js/random-post.js" defer></script>
+    <script src="/js/page-transitions.js" defer></script>
+    <script src="/js/random-post.js" defer></script>
+    <script src="/js/story-player.js" defer></script>
   </body>
 </html>

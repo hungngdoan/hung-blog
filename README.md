@@ -71,19 +71,24 @@ Keep hidden pages out of `nav.json`; link to them from relevant content when nee
 src/
   _includes/
     base.njk                  # Shared HTML layout
-    partials/                 # marquee, header, nav, sidebar, footer, music player
+    post.njk                  # Individual post page layout
+    partials/                 # shared chrome, music player, story-player shell
     css/                      # Per-page CSS, inlined at build time via include
   _data/
     site.json                 # Site metadata (title, url, description, banner)
     nav.json                  # Navigation items
-  posts/                      # One file per journal post, rendered on the homepage
-    posts.json                # Shared post settings (tags, no standalone pages)
-  index.njk                   # Homepage: warp zone + post loop + guestbook teaser
+  posts/                      # Body-only journal entries with structured front matter
+    posts.json                # Shared collection, layout, and permalink settings
+  index.njk                   # Homepage: newest 10 posts + guestbook teaser
+  archive.njk                 # Complete month-grouped post archive
+  random-index.njk            # Compact random-post URL index
   about.njk, ...              # Other pages (front matter + unique content only)
   404.njk                     # Self-contained 404 page (works at any URL depth)
   css/style.css               # Global stylesheet
   js/site.js                  # Last-updated script
   js/page-transitions.js      # PJAX content swapping
+  js/random-post.js           # Lazy random encounter modal
+  js/story-player.js          # Beat-by-beat narrative dialog
   img/                        # Published images only (referenced by the site)
   music/                      # Published audio files
 assets-work/                  # Local-only working files (gitignored): image
@@ -91,27 +96,47 @@ assets-work/                  # Local-only working files (gitignored): image
                               # prototypes (former plan_sample/)
 _site/                        # Build output (gitignored)
 .eleventy.js                  # Eleventy config
+scripts/                      # Build measurement and integrity checks
 ```
 
 ## Writing a new post
 
-Add a file to `src/posts/` named `YYYY-MM-DD-slug.njk` with front matter and
-the usual `<article class="blog-post">` markup:
+Add a file to `src/posts/` named `YYYY-MM-DD-slug.njk`. Post files contain
+front matter plus body content only. The shared layout renders the article,
+heading, date, mood, tags, and archive link:
 
 ```
 ---
 title: "Post Title"
 date: 2026-06-10T12:00:00Z
+description: "One sentence for search, sharing, and the archive."
+titleHtml: "&#128161; Post Title"
+displayDate: "Jun 10th 2026"
+moodHtml: "Mood: Focused | Quest: Keep Going"
+postTags: ["#life", "#growth"]
 ---
-<article class="blog-post">
-  ...
-</article>
+<p>The post body starts here.</p>
 ```
 
-The homepage lists all posts newest-first using the `date` field. For multiple
-posts on the same day, give the post that should appear higher a later time.
-Posts do not get standalone pages (`permalink: false` in `posts.json`), so the
-published site structure is unchanged.
+The homepage lists the newest 10 posts. `archive.html` lists the complete
+collection. Every post gets a stable URL at `/posts/<slug>/`, where Eleventy
+removes the date prefix from the filename. For multiple posts on the same day,
+give the post that should appear higher a later time.
+
+Post bodies must not contain `<script>` or an outer `<article>`. A decorated
+post may inline a scoped style include, as Two Plates does. Keep one-off post
+styles out of the global stylesheet.
+
+Internal assets and links must be root-relative, such as `/img/photo.png`.
+Eleventy's HTML base plugin applies the `/hung-blog/` GitHub Pages prefix.
+
+Before deployment, run:
+
+```bash
+npm run build
+npm run check
+npm run measure
+```
 
 ## Music and NCS tracks
 
@@ -124,7 +149,7 @@ For any NCS song used on this site:
 - Do not treat local files in `music/` as part of this site's own license.
 - Do not redistribute NCS music separately from permitted content unless you have the right license.
 
-The player is a data-driven playlist. The track list lives in `src/_data/music.json`; the markup is in `src/_includes/partials/sidebar-music.njk` and the logic in `src/_includes/partials/music-player-script.njk`. To add a track, drop an ASCII-slug `.opus` into `src/music/` and add a `{ title, artist, src, credit, creditLabel }` entry to `music.json` (`src` is relative to the site root, e.g. `music/song.opus`).
+The player is a data-driven playlist. The track list lives in `src/_data/music.json`; the markup is in `src/_includes/partials/sidebar-music.njk` and the logic in `src/_includes/partials/music-player-script.njk`. To add a track, drop an ASCII-slug `.opus` into `src/music/` and add a `{ title, artist, src, credit, creditLabel }` entry to `music.json` (`src` is root-relative, e.g. `/music/song.opus`).
 
 Current music-player tracks:
 

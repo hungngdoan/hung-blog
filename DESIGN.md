@@ -1,7 +1,7 @@
 # Design Doc: Hung Blog
 
 **Author:** Hung Doan  
-**Last updated:** 2026-05-16  
+**Last updated:** 2026-07-12
 **Status:** Current application reference
 
 ---
@@ -26,6 +26,9 @@ The site is not a product dashboard or CMS. It is a personal web space with a re
 - Nunjucks pages use the shared layout `src/_includes/base.njk`.
 - Shared partials handle the marquee, header, nav, sidebar, footer, and music player script.
 - Navigation is data-driven from `src/_data/nav.json`.
+- Posts publish at stable `/posts/<slug>/` URLs through a shared post layout.
+- Home is capped at the newest 10 posts; `archive.html` lists the full collection.
+- Internal URLs are root-relative and rewritten for `/hung-blog/` by `HtmlBasePlugin`.
 - `pearls.html` and `guestbook.html` are intentionally built but hidden from the top nav.
 - Static assets are copied through from `src/css`, `src/js`, `src/img`, and `src/music`.
 - GitHub Actions builds and deploys `_site/` to GitHub Pages on pushes to `main`.
@@ -56,7 +59,9 @@ GitHub Pages
 
 At runtime, there is no backend. The browser loads static files from GitHub Pages.
 
-The page shell is shared by `base.njk`. Nav clicks are enhanced by `src/js/page-transitions.js`, which fetches the target page, swaps only `.main-content`, updates the active nav item and document title, and reactivates page-local scripts. This keeps the sidebar music player outside the swapped area so playback can continue across navigation.
+The page shell is shared by `base.njk`. Safe same-origin page links are enhanced by `src/js/page-transitions.js`, which fetches the target page, swaps only `.main-content`, updates navigation and head metadata, and reactivates page-local scripts. This keeps the sidebar music player outside the swapped area so playback can continue across navigation.
+
+Page scripts register cleanup for global listeners or timers in `window.pageTeardowns`. PJAX runs those functions before replacing the current content.
 
 Every page must still work when loaded directly, without relying on PJAX.
 
@@ -68,6 +73,8 @@ Every page must still work when loaded directly, without relying on PJAX.
 .github/workflows/deploy.yml       # GitHub Pages build and deploy workflow
 .eleventy.js                       # Eleventy input/output and passthrough config
 package.json                       # npm scripts and Eleventy dependency
+scripts/                           # Output measurement and integrity checks
+VERIFY.md                          # Manual browser regression matrix
 README.md                          # Contributor-facing project summary
 DESIGN.md                          # This application design reference
 
@@ -75,14 +82,24 @@ src/
   _data/
     nav.json                       # Top-nav items
     site.json                      # Site title, subtitle, banner, default fonts
+    build.js                       # Build-time updated date
     music.json                     # Music player playlist (title/artist/src/credit)
+    characterQuotes.js             # Games dialogue data
+    reddingtonQuotes.js            # Reddington quote data
     taothaoCards.json              # Tao Thao card content and art data
   _includes/
     base.njk                       # Shared document shell
-    partials/                      # Header, nav, sidebar, footer, music pieces
+    post.njk                       # Individual post layout
+    partials/                      # Shared chrome, music pieces, story-player shell
+    css/                           # Inlined page and one-off post styles
+  posts/                           # Body-only post content and shared settings
+  archive.njk                     # Complete month-grouped post archive
+  random-index.njk                # Compact random-post URL index
   css/style.css                    # Global site styles
-  js/site.js                       # Last-updated script
+  js/site.js                       # Shared nav dropdown and scroll controls
   js/page-transitions.js           # PJAX-style nav enhancement
+  js/random-post.js                # Lazy random encounter modal
+  js/story-player.js               # Persistent beat-by-beat story modal
   img/                             # Published image assets
   music/                           # Published audio assets
   *.njk                            # Page templates
@@ -109,7 +126,11 @@ assets-work/                       # Local-only working files (gitignored)
 | `music.html` | `src/music.njk` | Music notes and current rotation |
 | `games.html` | `src/games.njk` | Games page |
 | `smooth.html` | `src/smooth.njk` | Pickup lines, puns, and dad jokes: a slot-machine and a filterable card grid |
+| `archive.html` | `src/archive.njk` | Complete journal archive grouped by month |
 | `links.html` | `src/links.njk` | Links and references |
+
+Every file in `src/posts/` also publishes at `/posts/<slug>/`, with the date
+prefix removed from the source filename.
 
 ### Hidden but built pages
 
@@ -135,7 +156,10 @@ navActive: page.html
 permalink: page.html
 ```
 
-`navActive` should match the page URL from `nav.json` so the active state works both on direct load and after PJAX navigation.
+`navActive` is the root page filename without the leading slash. URLs in
+`nav.json` are root-relative so `HtmlBasePlugin` can apply the deployment path
+prefix. The nav partial handles direct-load state; PJAX compares resolved URL
+pathnames after navigation.
 
 A top-level nav item may include an optional `title` field. When present, the rendered link gets both a `title` tooltip and an `aria-label` from it. This exists so a tab whose visible `label` is icon-led (for example the `smooth.html` tab) still has an accessible name and a hover hint. The `smooth.html` tab keeps a readable word in its label; the `title` is there as a safety net rather than a requirement.
 
@@ -179,6 +203,7 @@ All pages render through `base.njk`, which includes:
 - Footer.
 - Music player script.
 - PJAX page transition script.
+- Reusable story-player dialog.
 
 ### Music player
 
@@ -197,28 +222,72 @@ Current behavior:
 - Error state if audio cannot load.
 - Degrades cleanly to a single track: prev/next/shuffle simply stay on the one track.
 
-To add a track: drop an ASCII-slug `.opus` into `src/music/` and add a `{ title, artist, src, credit, creditLabel }` entry to `src/_data/music.json` (`src` is a path relative to the site root, e.g. `music/song.opus`).
+To add a track: drop an ASCII-slug `.opus` into `src/music/` and add a `{ title, artist, src, credit, creditLabel }` entry to `src/_data/music.json` (`src` is root-relative, e.g. `/music/song.opus`).
 
 Audio under `src/music/` is copied into `_site/music/`, so everything in that directory is published. Policy (decided 2026-06-12): published audio is committed to the repo as `.opus` with an ASCII slug filename; MP3 working files are gitignored and live in `assets-work/music/`, never in `src/music/`. Published tracks: `src/music/manh-ba-2.opus` ("Mạnh Bà") and `src/music/canon-in-d.opus` ("Canon in D").
 
 ### Last updated display
 
-`src/js/site.js` looks for `[data-last-updated]` nodes, fetches the latest commit date from the GitHub API, and renders it. If the request fails, the fallback HTML date stays in place.
+`src/_data/build.js` creates the build date once during Eleventy rendering. The
+marquee emits it directly, so page loads do not depend on the GitHub API.
 
 ### PJAX-style navigation
 
-`src/js/page-transitions.js` enhances clicks on `.nav-bar a`.
+`src/js/page-transitions.js` enhances safe same-origin page links inside the
+persistent page wrapper. External links, downloads, hashes, media links, and
+modified clicks retain normal browser behavior.
 
 It:
 
 - Fetches the destination HTML.
 - Replaces `.main-content`.
 - Re-runs page-local scripts inside the new content.
-- Updates `document.title`.
+- Updates `document.title`, description, Open Graph state, canonical URL,
+  body classes, and page-specific fonts.
 - Updates the active nav class.
 - Handles browser back/forward.
 
-Feature scripts that attach global listeners should provide cleanup before reinitializing. `taothao.njk` currently does this with `window.__ttCleanup`.
+Page-local element listeners disappear with `.main-content`. Any script that
+creates a timer or attaches to `document` or `window` must push a cleanup
+function into `window.pageTeardowns`. PJAX runs and clears that registry before
+the swap. Tao Thao, Smooth, and Games follow this contract.
+
+### Post publishing
+
+`src/posts/posts.json` assigns the `post.njk` layout and the
+`posts/{{ page.fileSlug }}/index.html` permalink. Each post provides title,
+date, description, display title/date, optional mood, tags, and optional
+`postClass`, followed by body-only HTML. The shared post card partial renders
+the same semantic `<article>` on Home and individual post pages.
+
+Home renders only the newest 10 posts. `archive.html` lists every post grouped
+by month. This keeps Home bounded while preserving complete access.
+
+### Random encounter
+
+`random-index.njk` generates a compact JSON array of post URLs.
+`random-post.js` fetches that index only when the die is opened, then fetches
+and extracts the selected post article. It caches the index, avoids immediate
+repeats, and falls back to the selected post URL when its HTML request fails.
+Feature pages may continue to declare a local `[data-rp-source]` for synchronous
+draws from filtered page content.
+
+No full post content is embedded in the shared shell.
+
+### Story player
+
+`story-player.njk` provides one persistent full-screen dialog outside
+`.main-content`. A post opts in with a launch button marked `[data-story-open]`
+and an inert `<template data-story-source>` containing ordered
+`[data-story-beat]` sections. `story-player.js` clones one beat at a time into
+the dialog, updates progress, traps focus, restores focus on close, and supports
+Back, Next, Escape, arrow keys, Page Up/Down, Home/End, and Space.
+
+The shell persists across PJAX swaps, but closes before newly navigated content
+is shown. Since the source travels with the post article, the experience works
+on the individual post, Home, and inside a fetched random encounter. The
+ordinary post text remains the no-JavaScript fallback. Reduced-motion users get
+the same content and controls without scene transitions.
 
 ### Tao Thao card deck
 
@@ -279,7 +348,7 @@ Behavior:
 - The SMOOTH-O-MATIC machine deals a random line with a spin animation and an animated smoothness meter.
 - The grid supports category-chip filtering and free-text search.
 - The slot-machine and the random-post die both draw only from lines currently visible in the grid, so they respect the active filter. The die selector uses `:not(.smooth-hidden)` for this.
-- Page-local script is a PJAX-safe IIFE. The copy-to-clipboard handler is a single document-level delegated listener guarded by `window.__smoothCopyBound`, so cloned cards in the die popup can also be copied. Any in-flight spin interval is tracked on `window.__smoothSpin` and cleared on re-init.
+- Page-local script is a PJAX-safe IIFE. The copy-to-clipboard handler is a single document-level delegated listener guarded by `window.__smoothCopyBound`, so cloned cards in the die popup can also be copied. Any in-flight spin interval is cleared through the shared `window.pageTeardowns` contract.
 - Internal file, class, and id names use the `smooth` token to match the visible name. The legacy working name during development was "rizz"; no `rizz` token should remain.
 
 ---
@@ -302,8 +371,9 @@ On push to `main`, GitHub Actions:
 2. Sets up Node 20.
 3. Runs `npm ci`.
 4. Runs `npm run build`.
-5. Uploads `_site/` as a Pages artifact.
-6. Deploys to GitHub Pages.
+5. Runs `npm run check` for metadata, link, post-schema, random-index, and size invariants.
+6. Uploads `_site/` as a Pages artifact.
+7. Deploys to GitHub Pages.
 
 ---
 
@@ -315,10 +385,13 @@ On push to `main`, GitHub Actions:
 - Keep hidden pages out of `nav.json`.
 - Put reusable site-wide styles in `src/css/style.css`.
 - Keep highly specific feature-page styles scoped by `pageClass`.
+- Keep one-off decorated-post styles with that post, not in the global stylesheet.
+- Write internal links and asset paths as root-relative URLs so the configured
+  path prefix is applied at build time.
 - Prefer static HTML and native browser behavior before adding JavaScript.
-- Keep page-local scripts resilient to PJAX reinitialization.
+- Register cleanup for page timers and global listeners in `window.pageTeardowns`.
 - When adding new assets, place them under the matching `src/img`, `src/js`, `src/css`, or `src/music` folder so Eleventy copies them.
-- Run `npm run build` before considering a change complete.
+- Run `npm run build && npm run check` before considering a change complete.
 
 ---
 
@@ -327,12 +400,15 @@ On push to `main`, GitHub Actions:
 Before deploying meaningful changes:
 
 - `npm run build` completes successfully.
+- `npm run check` completes successfully.
 - Direct-load each touched page by its generated URL.
+- Direct-load at least one nested post page under `/hung-blog/posts/`.
 - Navigate to touched pages through the top nav.
 - Confirm hidden pages still build if they were touched.
 - Confirm the music player can start, pause, seek, change volume, and continue across nav transitions.
 - Confirm `taothao.html` still supports flip, prev/next, thumbnails, keyboard arrows, and swipe after PJAX navigation.
 - Confirm `36ke.html` rows expand/collapse and the dragon image renders.
+- Confirm the random encounter works with both fetched posts and local page sources.
 - Check a narrow viewport for text overflow or broken layout.
 
 ---
