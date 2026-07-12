@@ -104,16 +104,16 @@ All four backlog items addressed in `games.njk` and `games.css`:
 - `Kayle.jpg` (40 KB) sat tracked at the repo root. Nothing referenced it; the published portrait is `src/img/kayle.png` (24 KB, verified present). The repo convention (commit 8345cc6) is that source/working images live in `assets-work/` and are never committed.
 - Fix: moved to `assets-work/img/Kayle.jpg` (gitignored), untracked from the repo. The file is preserved locally as the source image and remains recoverable from git history.
 
-## 12. Flat-URL layout is an unstated invariant (OPEN)
+## 12. Flat-URL layout is an unstated invariant (FIXED 2026-07-12)
 
 - Every page declares a root-level permalink (`games.html`, `about.html`, ...) and `base.njk` loads assets with relative paths (`css/style.css`, `js/site.js`, `img/...`). This is deliberate: the site lives under `/hung-blog/` on GitHub Pages, and relative paths avoid path-prefix handling.
 - The trap: any future page at a nested URL (for example individual post pages under `posts/...`) silently loses all CSS, JS, and images, and `page-transitions.js` (`getPageName` splits on the last path segment) misidentifies nav state. Nothing in the repo documents this constraint.
-- Fix: document the invariant in DESIGN.md ("all pages must emit at site root"), or migrate to Eleventy's `HtmlBasePlugin` with a configured path prefix if nested URLs are ever wanted. Blocks item 13.
+- Fix: added Eleventy's `HtmlBasePlugin` with `pathPrefix: "/hung-blog/"`, converted internal assets and navigation to root-relative URLs, and changed PJAX nav matching to compare resolved pathnames. Nested post pages now load the same CSS, JavaScript, images, navigation, and music as root pages.
 
-## 13. Posts have no individual URLs and no RSS feed (OPEN)
+## 13. Posts have no individual URLs and no RSS feed (PARTIALLY FIXED 2026-07-12)
 
-- `posts.json` sets `permalink: false`: posts exist only as collection items rendered on the home page. No post can be deep-linked or shared individually, and there is no RSS/Atom feed for readers to subscribe.
-- May be deliberate (single-page journal identity, like the sidebar decision in item 5). Needs an owner decision, not silent fixing. If wanted later: individual post pages require resolving item 12 first; a feed via `@11ty/eleventy-plugin-rss` does not (feed XML can live at root).
+- Original finding: `posts.json` set `permalink: false`, so posts existed only as collection items rendered on the home page. No post could be deep-linked or shared individually, and there was no RSS/Atom feed for readers to subscribe.
+- Owner approved individual post pages. Posts now use a shared schema and layout, publish at `/posts/<slug>/`, carry unique descriptions and canonicals, and appear in a bounded 10-post homepage plus `archive.html`. RSS remains optional and was not added because it is not required for the architecture fix.
 
 ## 14. No build check before merge (CLOSED 2026-06-18)
 
@@ -125,3 +125,14 @@ All four backlog items addressed in `games.njk` and `games.css`:
 
 - `src/img/avatar-zero-saber.png` is 831x687 and 540 KB but renders as a small sidebar profile image on every page. Together with the 756 KB banner GIF that is ~1.3 MB of imagery per first visit, mostly wasted pixels on the avatar.
 - Fix: export the avatar at 2x its rendered size (likely lands around 20-40 KB for pixel art with a reduced palette); keep the source in `assets-work/`. The banner GIF is the site's identity and stays as is.
+
+## 16. Full post collection embedded in every page (FIXED 2026-07-12)
+
+- Original finding: `base.njk` rendered every post into `#rp-pool` on every page. The pool consumed 577.7 KB, or 41.7%, of generated HTML before individual post pages existed. Home rendered every post twice.
+- Fix: removed the pool. `random-index.json` contains only post URLs; `random-post.js` loads the index and selected post on demand. Page-local random sources on Smooth, Quotes, and Reddington remain synchronous. Home is capped at 10 posts.
+- Result: About fell from 61 KB to about 22 KB and Home from 99.5 KB to about 45 KB. No generated page embeds another post.
+
+## 17. PJAX page scripts used bespoke cleanup conventions (FIXED 2026-07-12)
+
+- Original finding: Tao Thao, Smooth, and Games each managed global listeners and timers differently. Navigating away from an open Millennium Item modal could leave a capture-phase keyboard listener attached to `document`.
+- Fix: `window.pageTeardowns` is the single cleanup contract. PJAX runs registered cleanup functions before replacing `.main-content`. The three interactive pages now register teardown functions, and PJAX covers safe same-origin page links beyond the top navigation so music continues through archive, post, and guestbook links.

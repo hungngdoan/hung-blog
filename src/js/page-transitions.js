@@ -2,6 +2,18 @@
   var FADE_MS = 180;
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var navToken = 0;
+  window.pageTeardowns = window.pageTeardowns || [];
+
+  function runPageTeardowns() {
+    var teardowns = window.pageTeardowns.splice(0);
+    teardowns.forEach(function (teardown) {
+      try {
+        teardown();
+      } catch (error) {
+        // A failed cleanup must not strand navigation on the current page.
+      }
+    });
+  }
 
   function activateScripts(container) {
     container.querySelectorAll("script").forEach(function (old) {
@@ -15,23 +27,25 @@
     });
   }
 
-  function getPageName(url) {
-    var parsed = new URL(url, location.href);
-    return parsed.pathname.split("/").pop() || "index.html";
+  function normalizePathname(pathname) {
+    return pathname.endsWith("/") ? pathname + "index.html" : pathname;
   }
 
   function setActiveNav(url) {
-    var current = getPageName(url);
+    var current = normalizePathname(new URL(url, location.href).pathname);
 
     document.querySelectorAll(".nav-bar a").forEach(function (a) {
-      a.classList.toggle("active", a.getAttribute("href") === current);
+      a.classList.toggle(
+        "active",
+        normalizePathname(new URL(a.href, location.href).pathname) === current
+      );
     });
 
     document.querySelectorAll(".nav-dropdown").forEach(function (dropdown) {
       var childActive = Array.prototype.some.call(
         dropdown.querySelectorAll(".nav-dropdown-menu a"),
         function (a) {
-          return a.getAttribute("href") === current;
+          return normalizePathname(new URL(a.href, location.href).pathname) === current;
         }
       );
 
@@ -49,6 +63,26 @@
 
     if (incoming && current && incoming.href !== current.href) {
       current.href = incoming.href;
+    }
+  }
+
+  function syncHead(doc) {
+    [
+      'meta[name="description"]',
+      'meta[property="og:title"]',
+      'meta[property="og:description"]',
+      'meta[property="og:type"]',
+      'meta[property="og:url"]'
+    ].forEach(function (selector) {
+      var incoming = doc.querySelector(selector);
+      var current = document.querySelector(selector);
+      if (incoming && current) current.setAttribute("content", incoming.content);
+    });
+
+    var incomingCanonical = doc.querySelector('link[rel="canonical"]');
+    var currentCanonical = document.querySelector('link[rel="canonical"]');
+    if (incomingCanonical && currentCanonical) {
+      currentCanonical.href = incomingCanonical.href;
     }
   }
 
@@ -80,9 +114,11 @@
       throw new Error("PJAX page content missing");
     }
 
+    runPageTeardowns();
     if (!reduceMotion) newMain.classList.add("pjax-hidden");
     currentMain.replaceWith(newMain);
     syncPageFonts(doc);
+    syncHead(doc);
     activateScripts(newMain);
     document.title = doc.title;
     document.body.className = doc.body.className;
@@ -113,16 +149,26 @@
         completePjax();
       })
       .catch(function () {
+        if (token !== navToken) return;
         window.location.href = url;
       });
   }
 
   document.addEventListener("click", function (e) {
-    var link = e.target.closest(".nav-bar a");
-    if (!link || link.origin !== location.origin) return;
-    e.preventDefault();
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+      return;
+    }
 
-    navigate(link.href, true);
+    var link = e.target.closest(".page-wrapper a[href]");
+    if (!link || link.origin !== location.origin) return;
+    if (link.target || link.hasAttribute("download") || link.closest("#musicList")) return;
+
+    var target = new URL(link.href, location.href);
+    if (target.hash && target.pathname === location.pathname) return;
+    if (!target.pathname.endsWith("/") && !target.pathname.endsWith(".html")) return;
+
+    e.preventDefault();
+    navigate(target.href, true);
   });
 
   window.addEventListener("popstate", function () {

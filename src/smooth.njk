@@ -1,6 +1,7 @@
 ---
 layout: base.njk
 title: "Smooth ~ Hung's Journal"
+description: "A playful collection of pickup lines, puns, and dad jokes with filters and random draws."
 navActive: smooth.html
 permalink: smooth.html
 pageClass: smooth-page
@@ -276,13 +277,6 @@ pageClass: smooth-page
   var current = null;
   var spinTimer = null;
 
-  // If a previous visit was PJAX-navigated away mid-spin, its interval may
-  // still be ticking against detached nodes. Clear any such leftover now.
-  if (window.__smoothSpin) {
-    clearInterval(window.__smoothSpin);
-    window.__smoothSpin = null;
-  }
-
   function read(card) {
     return {
       text: card.querySelector(".smooth-card-line").textContent.trim(),
@@ -333,12 +327,10 @@ pageClass: smooth-page
       if (ticks > 9) {
         clearInterval(spinTimer);
         spinTimer = null;
-        window.__smoothSpin = null;
         if (machine) machine.classList.remove("is-spinning");
         land(choice);
       }
     }, 70);
-    window.__smoothSpin = spinTimer;
   }
 
   if (btnPull) btnPull.addEventListener("click", pull);
@@ -377,5 +369,11 @@ pageClass: smooth-page
   });
   if (search) search.addEventListener("input", applyFilter);
   applyFilter();
+
+  (window.pageTeardowns = window.pageTeardowns || []).push(function () {
+    if (spinTimer) clearInterval(spinTimer);
+    spinTimer = null;
+    if (machine) machine.classList.remove("is-spinning");
+  });
 })();
 </script>

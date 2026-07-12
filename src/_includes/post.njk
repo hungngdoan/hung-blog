@@ -1,0 +1,14 @@
+---
+layout: base.njk
+isPost: true
+---
+{% set postTitleHtml = titleHtml %}
+{% set postDisplayDate = displayDate %}
+{% set postDateIso = date | isoDate %}
+{% set postMoodHtml = moodHtml %}
+{% set postUrl = page.url %}
+{% set postContent = content %}
+{% set postHeadingLink = false %}
+{% set showArchiveLink = true %}
+{% include "partials/post-card.njk" %}
+

@@ -1,21 +1,22 @@
 [
-  { "url": "index.html", "label": "Home" },
-  { "url": "about.html", "label": "About" },
-  { "url": "roadmap.html", "label": "Roadmap" },
-  { "url": "quotes.html", "label": "Quotes" },
-  { "url": "reddington.html", "label": "Reddington" },
-  { "url": "books.html", "label": "Books" },
-  { "url": "music.html", "label": "Music" },
-  { "url": "games.html", "label": "Games" },
-  { "url": "smooth.html", "label": "❤️💛💙", "title": "Smooth" },
+  { "url": "/index.html", "label": "Home" },
+  { "url": "/about.html", "label": "About" },
+  { "url": "/roadmap.html", "label": "Roadmap" },
+  { "url": "/quotes.html", "label": "Quotes" },
+  { "url": "/reddington.html", "label": "Reddington" },
+  { "url": "/books.html", "label": "Books" },
+  { "url": "/music.html", "label": "Music" },
+  { "url": "/games.html", "label": "Games" },
+  { "url": "/smooth.html", "label": "❤️💛💙", "title": "Smooth" },
   {
     "label": "Misc",
     "children": [
-      { "url": "taothao.html", "label": "Tào Tháo" },
-      { "url": "36ke.html", "label": "36 Kế" },
-      { "url": "pearls.html", "label": "Pearls" },
-      { "url": "page-styles.html", "label": "Style Lab" },
-      { "url": "links.html", "label": "Links" }
+      { "url": "/taothao.html", "label": "Tào Tháo" },
+      { "url": "/36ke.html", "label": "36 Kế" },
+      { "url": "/pearls.html", "label": "Pearls" },
+      { "url": "/archive.html", "label": "Archive" },
+      { "url": "/page-styles.html", "label": "Style Lab" },
+      { "url": "/links.html", "label": "Links" }
     ]
   }
 ]

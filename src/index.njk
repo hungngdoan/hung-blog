@@ -1,6 +1,7 @@
 ---
 layout: base.njk
 title: "~*~ Hung's Journal ~*~"
+description: "Hung's personal journal about life, fitness, code, books, games, and ideas."
 navActive: index.html
 showVisitorCounter: true
 permalink: index.html
@@ -23,9 +24,23 @@ permalink: index.html
   </div>
 </div>
 
-{%- for post in collections.post | reverse %}
-{{ post.templateContent | safe }}
+{%- for post in collections.post | reverse | limit(10) %}
+{% set postTitleHtml = post.data.titleHtml %}
+{% set postDisplayDate = post.data.displayDate %}
+{% set postDateIso = post.data.date | isoDate %}
+{% set postMoodHtml = post.data.moodHtml %}
+{% set postTags = post.data.postTags %}
+{% set postClass = post.data.postClass %}
+{% set postUrl = post.url %}
+{% set postContent = post.templateContent %}
+{% set postHeadingLink = true %}
+{% set showArchiveLink = false %}
+{% include "partials/post-card.njk" %}
 {%- endfor %}
+
+<p class="home-archive-link">
+  <a href="/archive.html">&gt;&gt; View all posts in the archive</a>
+</p>
 
 <section class="guestbook-area">
   <h3>&#128221; Guestbook</h3>
@@ -43,7 +58,7 @@ permalink: index.html
     <p>nice site bro. good taste &#128076;</p>
   </div>
   <p class="gb-view-all">
-    <a href="guestbook.html"
+    <a href="/guestbook.html"
       >&gt;&gt; view all &amp; sign the guestbook</a
     >
   </p>
