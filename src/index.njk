@@ -7,22 +7,44 @@ showVisitorCounter: true
 permalink: index.html
 ---
 
-<div class="warp-zone">
-  <div class="warp-zone-scanline"></div>
-  <div class="warp-zone-header">
-    &#9670; WARP ZONE DETECTED &#9670;
-  </div>
-  <div class="warp-zone-body">
-    <a
-      href="https://hungngdoan.github.io/goc-cua-hung/"
-      class="warp-zone-enter"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <span class="warp-zone-bolt">&#9889;</span> Vietnamese portal is open! <span class="warp-zone-bolt">&#9889;</span>
-    </a>
-  </div>
-</div>
+<button
+  type="button"
+  class="featured-thought"
+  data-story-open
+  data-story-key="infinite-monkey-paradox"
+  data-story-url="{{ '/posts/the-infinite-monkey-paradox/' | url }}"
+  aria-haspopup="dialog"
+  aria-controls="story-overlay"
+  aria-expanded="false"
+  aria-label="Open the Infinite Monkey Paradox interactive thought experiment"
+>
+  <span class="featured-thought-mark" aria-hidden="true">&#8734;</span>
+  <span class="featured-thought-body">
+    <span class="featured-thought-eyebrow" aria-hidden="true">Thought experiment</span>
+    <span class="featured-thought-title">The Infinite Monkey Paradox</span>
+  </span>
+  <span class="featured-thought-action" aria-hidden="true">
+    <span class="featured-thought-action-idle">PLAY <span class="featured-thought-glyph">&#9654;</span></span>
+    <span class="featured-thought-action-busy">LOADING</span>
+  </span>
+</button>
+
+<a
+  href="https://hungngdoan.github.io/goc-cua-hung/"
+  class="warp-zone"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Warp zone detected: open the Vietnamese portal in a new tab"
+>
+  <span class="warp-zone-signal" aria-hidden="true">
+    <span class="warp-zone-dot">&#9670;</span>
+    <span>WARP ZONE</span>
+    <span class="warp-zone-detected">DETECTED</span>
+  </span>
+  <span class="warp-zone-destination">Vietnamese portal</span>
+  <span class="warp-zone-leader" aria-hidden="true"></span>
+  <span class="warp-zone-arrow" aria-hidden="true">&#8599;</span>
+</a>
 
 {%- for post in collections.post | reverse | limit(10) %}
 {% set postTitleHtml = post.data.titleHtml %}

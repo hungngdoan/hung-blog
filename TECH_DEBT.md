@@ -20,6 +20,9 @@
 | 13 | Posts have no individual URLs and no RSS feed | Low | OPEN |
 | 14 | No build check before merge; breakage found at deploy | Low | CLOSED 2026-06-18, decision: not needed |
 | 15 | Oversized sidebar avatar shipped at source resolution | Low | OPEN |
+| 16 | Full post collection embedded in every page | High | FIXED 2026-07-12 |
+| 17 | PJAX page scripts used bespoke cleanup conventions | Medium | FIXED 2026-07-12 |
+| 18 | Eleventy --serve incremental rebuild can drop posts from collections | Low | OPEN |
 
 ---
 
@@ -136,3 +139,9 @@ All four backlog items addressed in `games.njk` and `games.css`:
 
 - Original finding: Tao Thao, Smooth, and Games each managed global listeners and timers differently. Navigating away from an open Millennium Item modal could leave a capture-phase keyboard listener attached to `document`.
 - Fix: `window.pageTeardowns` is the single cleanup contract. PJAX runs registered cleanup functions before replacing `.main-content`. The three interactive pages now register teardown functions, and PJAX covers safe same-origin page links beyond the top navigation so music continues through archive, post, and guestbook links.
+
+## 18. Eleventy --serve incremental rebuild can drop posts from collections (OPEN)
+
+- Observed 2026-07-13 during the home-discovery redesign: while `npx @11ty/eleventy --serve` was watching, an incremental rebuild triggered by editing `src/index.njk` and include files silently dropped the Pop Quiz post from `collections.post`. Home and Archive rendered without it while its individual page at `posts/pop-quiz/` was still written. A fresh full `npm run build` restored it.
+- Deploys are unaffected: CI always runs a full build, and `npm run check` validates the random index against the post count.
+- Workaround: after adding or editing posts, restart the dev server instead of trusting the watch rebuild. If a post vanishes from Home or Archive during local preview, run a full build before treating it as a content bug.

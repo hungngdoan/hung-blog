@@ -259,6 +259,14 @@ body.is-inner .banner-wrap {
    A reusable full-screen thought-experiment reader. Story beats stay inert in
    post templates; the persistent shell presents them after direct or PJAX load.
    ========================================================================= */
+/* The story controls only work with JavaScript. base.njk stamps html.js
+   before first paint; without it these stay hidden and the ordinary post
+   prose remains the complete no-JS experience. */
+html:not(.js) .story-invitation,
+html:not(.js) .featured-thought {
+  display: none;
+}
+
 .story-invitation {
   position: relative;
   margin: 18px 0 22px;
@@ -525,48 +533,64 @@ body.is-inner .banner-wrap {
 }
 
 .story-stage {
+  display: flex;
+  flex-direction: column;
   min-height: 0;
   overflow-y: auto;
-  padding: clamp(28px, 7vh, 70px) clamp(24px, 8vw, 92px);
+  padding: clamp(24px, 5vh, 48px) clamp(24px, 8vw, 92px);
   scrollbar-width: thin;
   scrollbar-color: rgba(var(--story-accent-rgb), 0.4) transparent;
+  /* keep horizontal touch gestures as pointer events for swipe navigation */
+  touch-action: pan-y;
 }
 
-.story-stage.is-forward .story-beat {
-  animation: story-forward 0.42s ease both;
+/* Scene elements reveal top to bottom on a short, capped stagger so each
+   beat reads as a deliberate sequence instead of one pasted block. */
+.story-stage.is-forward .story-beat > * {
+  animation: story-child-in 0.4s ease backwards;
 }
 
-.story-stage.is-back .story-beat {
-  animation: story-back 0.36s ease both;
+.story-stage.is-forward .story-beat > *:nth-child(2) {
+  animation-delay: 0.09s;
 }
 
-@keyframes story-forward {
+.story-stage.is-forward .story-beat > *:nth-child(3) {
+  animation-delay: 0.18s;
+}
+
+.story-stage.is-forward .story-beat > *:nth-child(4) {
+  animation-delay: 0.27s;
+}
+
+.story-stage.is-forward .story-beat > *:nth-child(n + 5) {
+  animation-delay: 0.36s;
+}
+
+.story-stage.is-back .story-beat > * {
+  animation: story-child-back 0.28s ease backwards;
+}
+
+/* From-state only: elements settle on their own computed styles, so
+   children with transforms of their own (the finale ghost) stay intact. */
+@keyframes story-child-in {
   from {
     opacity: 0;
-    transform: translateX(28px);
+    transform: translateY(16px);
     filter: blur(2px);
   }
-  to {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
 }
 
-@keyframes story-back {
+@keyframes story-child-back {
   from {
     opacity: 0;
-    transform: translateX(-28px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
   }
 }
 
 .story-beat {
   width: min(680px, 100%);
-  margin: 0 auto;
+  /* auto margins center the beat vertically and degrade to a normal
+     scrolling flow when a beat is taller than the stage */
+  margin: auto;
   text-align: center;
 }
 
@@ -831,8 +855,8 @@ body.story-noscroll {
     transition: none;
   }
 
-  .story-stage.is-forward .story-beat,
-  .story-stage.is-back .story-beat,
+  .story-stage.is-forward .story-beat > *,
+  .story-stage.is-back .story-beat > *,
   .story-code-two span {
     animation: none;
   }
@@ -1957,98 +1981,284 @@ body.story-noscroll {
   }
 }
 
-/* Warp Zone */
-.warp-zone {
+/* Home discovery cluster: two stacked status bars with an explicit rank.
+   The featured thought is the loud one (gold identity, two-line body, the
+   only animated element); the warp zone reads as a quiet cyan system line.
+   Same anatomy, different intensity, so they read as siblings. */
+
+/* Featured thought. It is a button, not a page link: the persistent story
+   player opens the experiment in place without leaving Home. */
+.featured-thought {
   position: relative;
-  background:
-    radial-gradient(ellipse at 50% 80%, rgba(0, 255, 255, 0.06), transparent 60%),
-    rgba(0, 0, 40, 0.7);
-  border: 2px solid var(--accent-gold);
-  border-radius: 4px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: -7px; /* pull the warp zone into the same cluster (14px flex gap - 7) */
+  padding: 5px 0 5px 10px;
   overflow: hidden;
-  animation: warp-glow 3s ease-in-out infinite;
+  appearance: none;
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  border-left: 3px solid var(--accent-gold);
+  border-radius: 3px;
+  background:
+    linear-gradient(90deg, rgba(255, 215, 0, 0.1), transparent 45%),
+    rgba(7, 7, 32, 0.88);
+  color: var(--text-main);
+  text-align: left;
+  box-shadow: inset 0 0 18px rgba(255, 215, 0, 0.025);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.warp-zone-scanline {
+.featured-thought::after {
+  content: "";
   position: absolute;
   inset: 0;
   background: repeating-linear-gradient(
     0deg,
-    transparent,
-    transparent 3px,
-    rgba(0, 255, 255, 0.015) 3px,
-    rgba(0, 255, 255, 0.015) 4px
+    transparent 0 3px,
+    rgba(255, 255, 255, 0.018) 3px 4px
   );
   pointer-events: none;
 }
 
-.warp-zone-header {
-  font-family: var(--font-display);
-  font-size: 10px;
+.featured-thought-mark {
+  position: relative;
+  z-index: 1;
   color: var(--accent-gold);
-  text-align: center;
-  padding: 6px 18px;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 215, 0, 0.12),
-    rgba(0, 255, 255, 0.06)
-  );
-  border-bottom: 1px solid rgba(255, 215, 0, 0.25);
-  letter-spacing: 3px;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  font-family: Georgia, serif;
+  font-size: 24px;
+  line-height: 1;
+  animation: featured-mark-pulse 3s ease-in-out infinite;
 }
 
-.warp-zone-body {
-  padding: 8px 18px 10px;
-  text-align: center;
-}
-
-.warp-zone-text {
-  font-family: var(--font-display);
-  font-size: 9px;
-  color: var(--text-main);
-  margin-bottom: 6px;
-  line-height: 1.6;
-  letter-spacing: 1px;
-}
-
-.warp-zone-bolt {
-  font-family: var(--font-pixel);
-  font-size: 20px;
-  vertical-align: middle;
-}
-
-.warp-zone-enter {
-  display: inline-block;
-  font-family: var(--font-pixel);
-  font-size: 22px;
-  color: var(--accent-cyan);
-  text-decoration: none;
-  padding: 6px 20px;
-  border: 1px solid var(--accent-cyan);
-  background: linear-gradient(180deg, rgba(0, 255, 255, 0.08), transparent);
-  border-radius: 3px;
-  letter-spacing: 1px;
-  text-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
-  transition: all 0.3s;
-}
-
-.warp-zone-enter:hover {
-  color: #fff;
-  background: linear-gradient(180deg, rgba(0, 255, 255, 0.18), rgba(0, 255, 255, 0.04));
-  box-shadow: 0 0 16px rgba(0, 255, 255, 0.3);
-  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
-}
-
-@keyframes warp-glow {
-  0%, 100% {
-    box-shadow: 0 0 12px rgba(255, 215, 0, 0.12), inset 0 0 20px rgba(0, 255, 255, 0.03);
-    border-color: var(--accent-gold);
+@keyframes featured-mark-pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+    text-shadow: 0 0 6px rgba(255, 215, 0, 0.25);
   }
   50% {
-    box-shadow: 0 0 24px rgba(255, 215, 0, 0.25), inset 0 0 35px rgba(0, 255, 255, 0.07);
-    border-color: #ffe066;
+    opacity: 1;
+    text-shadow: 0 0 16px rgba(255, 215, 0, 0.6);
   }
+}
+
+.featured-thought-body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.featured-thought-eyebrow {
+  color: var(--text-dim);
+  font-family: var(--font-display);
+  font-size: 7px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.featured-thought-title {
+  overflow: hidden;
+  color: var(--text-main);
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0.3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.featured-thought-action {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  padding: 0 12px;
+  border-left: 1px solid rgba(255, 215, 0, 0.22);
+  background: rgba(255, 215, 0, 0.05);
+  color: var(--accent-gold);
+  font-family: var(--font-display);
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.featured-thought-glyph {
+  display: inline-block;
+  font-size: 7px;
+  transition: transform 0.2s ease;
+}
+
+.featured-thought-action-busy {
+  display: none;
+}
+
+.featured-thought:hover,
+.featured-thought:focus-visible {
+  outline: none;
+  border-color: var(--accent-pink);
+  background-color: rgba(255, 105, 180, 0.05);
+  box-shadow:
+    0 0 14px rgba(255, 105, 180, 0.16),
+    inset 0 0 20px rgba(255, 215, 0, 0.03);
+}
+
+.featured-thought:hover .featured-thought-title,
+.featured-thought:focus-visible .featured-thought-title {
+  color: #fff;
+}
+
+.featured-thought:hover .featured-thought-action,
+.featured-thought:focus-visible .featured-thought-action {
+  border-left-color: rgba(255, 105, 180, 0.4);
+  background: rgba(255, 105, 180, 0.1);
+  color: #fff;
+}
+
+.featured-thought:hover .featured-thought-glyph,
+.featured-thought:focus-visible .featured-thought-glyph {
+  transform: translateX(2px);
+}
+
+.featured-thought:active {
+  transform: translateY(1px);
+}
+
+/* Remote story fetch in flight (story-player.js sets aria-busy) */
+.featured-thought[aria-busy="true"] {
+  cursor: progress;
+  opacity: 0.85;
+}
+
+.featured-thought[aria-busy="true"] .featured-thought-action-idle {
+  display: none;
+}
+
+.featured-thought[aria-busy="true"] .featured-thought-action-busy {
+  display: inline;
+  animation: blink-anim 1s steps(1) infinite;
+}
+
+.story-launch[aria-busy="true"] {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+/* Warp Zone: one full-bar external link. Status, destination, dotted
+   leader, and exit arrow sit on one line and light up together. */
+.warp-zone {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 30px;
+  overflow: hidden;
+  padding: 3px 12px 3px 0;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 3px;
+  background: rgba(0, 0, 40, 0.6);
+  color: var(--text-main);
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.warp-zone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    rgba(0, 255, 255, 0.015) 3px 4px
+  );
+  pointer-events: none;
+}
+
+.warp-zone-signal {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: stretch;
+  padding: 0 10px;
+  border-right: 1px solid rgba(0, 255, 255, 0.18);
+  background: rgba(0, 255, 255, 0.035);
+  color: var(--text-dim);
+  font-family: var(--font-display);
+  font-size: 7px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.warp-zone-dot,
+.warp-zone-detected {
+  color: var(--accent-lime);
+}
+
+.warp-zone-destination {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  color: var(--link-color);
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  letter-spacing: 0.4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.warp-zone-leader {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 12px;
+  align-self: center;
+  border-bottom: 1px dotted rgba(0, 255, 255, 0.28);
+  transform: translateY(2px);
+}
+
+.warp-zone-arrow {
+  position: relative;
+  z-index: 1;
+  color: var(--accent-cyan);
+  font-family: var(--font-display);
+  font-size: 10px;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.warp-zone:hover,
+.warp-zone:focus-visible {
+  outline: none;
+  border-color: var(--accent-pink);
+  background-color: rgba(255, 105, 180, 0.05);
+  box-shadow: 0 0 12px rgba(255, 105, 180, 0.16);
+}
+
+.warp-zone:hover .warp-zone-destination,
+.warp-zone:focus-visible .warp-zone-destination {
+  color: #fff;
+}
+
+.warp-zone:hover .warp-zone-arrow,
+.warp-zone:focus-visible .warp-zone-arrow {
+  color: var(--accent-pink);
+  transform: translate(2px, -2px);
 }
 
 /* Guestbook */
@@ -2617,6 +2827,9 @@ body.story-noscroll {
   .music-eq i,
   .footer-icons,
   .blink,
+  .featured-thought,
+  .featured-thought-mark,
+  .featured-thought[aria-busy="true"] .featured-thought-action-busy,
   .warp-zone,
   .tracker-beacon,
   .tracker-beacon-dot {
@@ -2648,8 +2861,50 @@ body.story-noscroll {
     order: -2;
   }
 
+  body.is-home .featured-thought {
+    order: -3;
+    margin-bottom: 0; /* the cluster splits around the first post here */
+    gap: 8px;
+    padding: 4px 0 4px 8px;
+  }
+
+  .featured-thought-mark {
+    font-size: 20px;
+  }
+
+  .featured-thought-eyebrow {
+    font-size: 6px;
+    letter-spacing: 1px;
+  }
+
+  .featured-thought-title {
+    font-size: 16px;
+  }
+
+  .featured-thought-action {
+    padding: 0 10px;
+  }
+
+  .featured-thought-action-idle {
+    font-size: 0;
+  }
+
+  .featured-thought-glyph {
+    font-size: 11px;
+  }
+
   body.is-home .warp-zone {
     order: -1;
+  }
+
+  .warp-zone-destination {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .warp-zone-detected {
+    display: none;
   }
 }
 
