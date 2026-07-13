@@ -1,0 +1,146 @@
+/* Pop Quiz: a four-line reading-comprehension trap presented as one compact
+   graded answer sheet. The three setup lines stay mundane and uniform; only
+   the verdict changes register (red stamp). Static on purpose: nothing here
+   animates, nothing pretends to be clickable. */
+
+.pop-quiz-post .post-body {
+  background: #090923;
+}
+
+.exam-trap {
+  --exam-rule: 28px; /* ruled-paper rhythm; line-height locks to it */
+  --exam-gutter: 44px;
+
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin: 2px 0 4px;
+  padding: var(--exam-rule) 26px 22px var(--exam-gutter);
+  overflow: hidden;
+  border: 1px solid rgba(153, 136, 187, 0.3);
+  border-radius: 2px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent calc(var(--exam-gutter) - 12px),
+      rgba(255, 92, 92, 0.45) calc(var(--exam-gutter) - 12px),
+      rgba(255, 92, 92, 0.45) calc(var(--exam-gutter) - 11px),
+      transparent calc(var(--exam-gutter) - 11px)
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 calc(var(--exam-rule) - 1px),
+      rgba(0, 255, 255, 0.07) calc(var(--exam-rule) - 1px) var(--exam-rule)
+    ),
+    #0b0b28;
+  box-shadow:
+    0 0 18px rgba(0, 0, 0, 0.55),
+    inset 0 0 26px rgba(0, 255, 255, 0.02);
+  counter-reset: exam-line;
+  text-align: left;
+}
+
+.exam-trap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    rgba(255, 255, 255, 0.014) 3px 4px
+  );
+  pointer-events: none;
+}
+
+.exam-line {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  counter-increment: exam-line;
+  color: var(--text-main);
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  line-height: var(--exam-rule);
+  white-space: nowrap;
+}
+
+.exam-line::before {
+  content: counter(exam-line, decimal-leading-zero);
+  position: absolute;
+  top: 0;
+  left: calc(12px - var(--exam-gutter));
+  color: rgba(153, 136, 187, 0.6);
+  font-size: 14px;
+}
+
+/* The verdict: a red grading stamp. Larger, bordered, barely crooked. */
+.exam-line-result {
+  width: fit-content;
+  margin-top: calc(var(--exam-rule) / 2);
+  padding: 3px 12px;
+  border: 2px solid rgba(255, 92, 92, 0.8);
+  border-radius: 2px;
+  background: rgba(255, 92, 92, 0.06);
+  color: #ff7a6b;
+  font-size: 22px;
+  line-height: 1.25;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(255, 92, 92, 0.35);
+  box-shadow:
+    0 0 12px rgba(255, 92, 92, 0.14),
+    inset 0 0 10px rgba(255, 92, 92, 0.07);
+  transform: rotate(-1.4deg);
+}
+
+.exam-line-result::before {
+  top: 5px;
+  left: calc(-2px - var(--exam-gutter) + 12px);
+}
+
+@media (max-width: 560px) {
+  .pop-quiz-post .post-body {
+    padding: 12px 8px;
+  }
+
+  .exam-trap {
+    --exam-rule: 26px;
+    --exam-gutter: 36px;
+
+    padding-right: 14px;
+  }
+
+  .exam-line {
+    font-size: 17px;
+  }
+
+  .exam-line::before {
+    left: calc(8px - var(--exam-gutter));
+    font-size: 12px;
+  }
+
+  .exam-line-result {
+    padding: 2px 9px;
+    font-size: 19px;
+  }
+
+  .exam-line-result::before {
+    left: calc(-2px - var(--exam-gutter) + 8px);
+  }
+}
+
+@media (max-width: 360px) {
+  .exam-trap {
+    --exam-rule: 24px;
+    --exam-gutter: 30px;
+
+    padding-right: 10px;
+  }
+
+  .exam-line {
+    font-size: 15px;
+  }
+
+  .exam-line-result {
+    font-size: 17px;
+  }
+}
