@@ -33,6 +33,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/img");
   eleventyConfig.addPassthroughCopy("src/music");
+  eleventyConfig.addPassthroughCopy("src/favicon.svg");
 
   return {
     pathPrefix: "/hung-blog/",
