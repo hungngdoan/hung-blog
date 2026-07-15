@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- A tiny cosmic CRT tile: Hung's gold pixel monogram with a pink arcade shadow. -->
+  <rect x="1" y="1" width="30" height="30" rx="6" fill="#0d0d2b" stroke="#00ffff" stroke-width="2" />
+  <path fill="#ff69b4" d="M9 8h4v7h8V8h4v18h-4v-7h-8v7H9z" />
+  <path fill="#ffd700" d="M8 7h4v7h8V7h4v18h-4v-7h-8v7H8z" />
+</svg>
