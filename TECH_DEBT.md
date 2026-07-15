@@ -62,12 +62,16 @@
 ## 6. Mobile nav takes four rows (FIXED 2026-06-11)
 
 - Measured baseline at 375x760: nav block 216px tall, first post started at y=586, Warp Zone above all content.
-- Fix, all inside a `@media (max-width: 560px)` block so desktop is untouched:
+- Initial fix, inside a `@media (max-width: 560px)` block:
   - Nav links: font 21px to 17px, tighter padding and gap.
   - Removed the invisible reserved space for the `>>` hover arrow on touch widths (it was `opacity: 0`, still costing ~25px per link; hover does not exist on touch).
-  - On Home only (`body.is-home`), flex `order` moves the Warp Zone below the first post so content leads.
 - Measured after: nav 110px (two rows), first post starts at y=348. The full first post including tags fits in the first screenful. Games page element order verified unaffected.
 - All nav items remain visible; the scroll-snap chip row option was rejected for hiding links off-screen.
+- Follow-up 2026-07-14: the Home `order` rules were architecturally wrong. They
+  split the discovery controls around the first post and made mobile visual
+  order disagree with DOM and keyboard order. The thought experiment and
+  Vietnamese portal now live in one labeled `.home-discovery` group before the
+  post feed. The same semantic and visual order is used at every viewport.
 
 ## 7. Scroll-jump buttons overlapped content on mobile (FIXED 2026-06-11)
 

@@ -263,6 +263,12 @@ the same semantic `<article>` on Home and individual post pages.
 Home renders only the newest 10 posts. `archive.html` lists every post grouped
 by month. This keeps Home bounded while preserving complete access.
 
+The Home page begins with one labeled `.home-discovery` group containing the
+interactive thought experiment and the Vietnamese portal, in that order. The
+post feed follows the group. This structure is the ordering source of truth at
+every viewport; responsive CSS must not interleave posts with those controls or
+create a visual order that differs from DOM and keyboard order.
+
 ### Random encounter
 
 `random-index.njk` generates a compact JSON array of post URLs.
