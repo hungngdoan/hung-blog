@@ -120,9 +120,25 @@ const homePath = path.join(outputDir, "index.html");
 const homeHtml = fs.readFileSync(homePath, "utf8");
 const homeBytes = Buffer.byteLength(homeHtml);
 const homePosts = (homeHtml.match(/<article class="blog-post/g) || []).length;
+const discoveryStart = homeHtml.indexOf('class="home-discovery"');
+const featuredThought = homeHtml.indexOf('class="featured-thought"', discoveryStart);
+const vietnamesePortal = homeHtml.indexOf('class="warp-zone"', discoveryStart);
+const discoveryEnd = homeHtml.indexOf("</section>", discoveryStart);
+const firstHomePost = homeHtml.indexOf('<article class="blog-post');
 if (homeBytes > 150 * 1024) fail(`index.html exceeds 150 KB: ${homeBytes} bytes`);
 if (homePosts !== Math.min(10, postFiles.length)) {
   fail(`index.html contains ${homePosts} post cards, expected ${Math.min(10, postFiles.length)}`);
+}
+if (
+  discoveryStart < 0 ||
+  featuredThought < discoveryStart ||
+  vietnamesePortal < featuredThought ||
+  discoveryEnd < vietnamesePortal ||
+  firstHomePost < discoveryEnd
+) {
+  fail(
+    "index.html discovery order must be thought experiment, Vietnamese portal, then post feed",
+  );
 }
 const randomIndexPath = path.join(outputDir, "random-index.json");
 let randomEntries = [];

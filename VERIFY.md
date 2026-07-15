@@ -49,6 +49,8 @@ path prefix when URL or navigation code changes.
 ## Responsive and accessibility
 
 - Check Home, Archive, one post, Games, and Smooth at 375 px width.
+- On Home, confirm the thought experiment and Vietnamese portal stay together
+  before Pop Quiz and the remaining chronological post feed.
 - Confirm no horizontal overflow or covered controls.
 - Enable reduced motion and verify decorative animations stop without hiding
   information.

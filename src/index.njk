@@ -7,44 +7,46 @@ showVisitorCounter: true
 permalink: index.html
 ---
 
-<button
-  type="button"
-  class="featured-thought"
-  data-story-open
-  data-story-key="infinite-monkey-paradox"
-  data-story-url="{{ '/posts/the-infinite-monkey-paradox/' | url }}"
-  aria-haspopup="dialog"
-  aria-controls="story-overlay"
-  aria-expanded="false"
-  aria-label="Open the Infinite Monkey Paradox interactive thought experiment"
->
-  <span class="featured-thought-mark" aria-hidden="true">&#8734;</span>
-  <span class="featured-thought-body">
-    <span class="featured-thought-eyebrow" aria-hidden="true">Thought experiment</span>
-    <span class="featured-thought-title">The Infinite Monkey Paradox</span>
-  </span>
-  <span class="featured-thought-action" aria-hidden="true">
-    <span class="featured-thought-action-idle">PLAY <span class="featured-thought-glyph">&#9654;</span></span>
-    <span class="featured-thought-action-busy">LOADING</span>
-  </span>
-</button>
+<section class="home-discovery" aria-label="Featured destinations">
+  <button
+    type="button"
+    class="featured-thought"
+    data-story-open
+    data-story-key="infinite-monkey-paradox"
+    data-story-url="{{ '/posts/the-infinite-monkey-paradox/' | url }}"
+    aria-haspopup="dialog"
+    aria-controls="story-overlay"
+    aria-expanded="false"
+    aria-label="Open the Infinite Monkey Paradox interactive thought experiment"
+  >
+    <span class="featured-thought-mark" aria-hidden="true">&#8734;</span>
+    <span class="featured-thought-body">
+      <span class="featured-thought-eyebrow" aria-hidden="true">Thought experiment</span>
+      <span class="featured-thought-title">The Infinite Monkey Paradox</span>
+    </span>
+    <span class="featured-thought-action" aria-hidden="true">
+      <span class="featured-thought-action-idle">PLAY <span class="featured-thought-glyph">&#9654;</span></span>
+      <span class="featured-thought-action-busy">LOADING</span>
+    </span>
+  </button>
 
-<a
-  href="https://hungngdoan.github.io/goc-cua-hung/"
-  class="warp-zone"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Warp zone detected: open the Vietnamese portal in a new tab"
->
-  <span class="warp-zone-signal" aria-hidden="true">
-    <span class="warp-zone-dot">&#9670;</span>
-    <span>WARP ZONE</span>
-    <span class="warp-zone-detected">DETECTED</span>
-  </span>
-  <span class="warp-zone-destination">Vietnamese portal</span>
-  <span class="warp-zone-leader" aria-hidden="true"></span>
-  <span class="warp-zone-arrow" aria-hidden="true">&#8599;</span>
-</a>
+  <a
+    href="https://hungngdoan.github.io/goc-cua-hung/"
+    class="warp-zone"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Warp zone detected: open the Vietnamese portal in a new tab"
+  >
+    <span class="warp-zone-signal" aria-hidden="true">
+      <span class="warp-zone-dot">&#9670;</span>
+      <span>WARP ZONE</span>
+      <span class="warp-zone-detected">DETECTED</span>
+    </span>
+    <span class="warp-zone-destination">Vietnamese portal</span>
+    <span class="warp-zone-leader" aria-hidden="true"></span>
+    <span class="warp-zone-arrow" aria-hidden="true">&#8599;</span>
+  </a>
+</section>
 
 {%- for post in collections.post | reverse | limit(10) %}
 {% set postTitleHtml = post.data.titleHtml %}
