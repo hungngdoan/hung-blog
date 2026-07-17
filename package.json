@@ -4,6 +4,7 @@
   "description": "Blog: https://hungngdoan.github.io/hung-blog/",
   "main": "index.js",
   "scripts": {
+    "prebuild": "node -e \"fs.rmSync('_site',{recursive:true,force:true})\"",
     "build": "eleventy",
     "start": "eleventy --serve --pathprefix=/hung-blog/",
     "measure": "node scripts/measure.js",

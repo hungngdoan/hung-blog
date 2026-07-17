@@ -54,6 +54,8 @@ npm start            # dev server with live reload (for local development)
 npm run build        # build to _site/ (used by CI for deployment)
 ```
 
+`npm run build` removes the existing `_site/` first, so checks only validate output from the current source.
+
 ## Navigation
 
 Main navigation is driven by `src/_data/nav.json`.
