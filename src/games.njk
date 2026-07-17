@@ -38,7 +38,11 @@ pageClass: games-page
   <p class="games-sr-only" aria-live="polite" id="dialogueLive"></p>
 </div>
 
-<script type="application/json" id="dialogueData">{{ characterQuotes | dump | safe }}</script>
+<script type="application/json" id="dialogueData">[
+{%- for quote in characterQuotes %}
+{"text":{{ quote.text | dump | safe }},"character":{{ quote.character | dump | safe }},"source":{{ quote.source | dump | safe }},"icon":{{ quote.icon | url | dump | safe }}}{% if not loop.last %},{% endif %}
+{%- endfor %}
+]</script>
 <script>
 (function () {
   "use strict";

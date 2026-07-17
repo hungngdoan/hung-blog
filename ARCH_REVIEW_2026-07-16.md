@@ -12,7 +12,7 @@ Revision note (2026-07-16, same day): re-audited against the non-negotiable UI a
 |---|---|---|
 | 1 | HB-1 clean builds (prebuild rm of `_site/`) | DONE 2026-07-17, verified, committed as `461a893` |
 | 2 | HB-2 documentation reconciliation | DONE 2026-07-17, verified (TECH_DEBT items 19-25 added, rows 12/13 reconciled, README/DESIGN inventories synced); commit pending owner |
-| 3 | HB-3 Games portrait prefix fix | NEXT UP |
+| 3 | HB-3 Games portrait prefix fix | CODE DONE, awaiting owner browser check (2026-07-17) |
 | 4 | HB-5 footer counter body-class sync | PENDING |
 | 5 | HB-4 PJAX focus + announcement | PENDING, do last (needs ~10 min of browser verification) |
 
