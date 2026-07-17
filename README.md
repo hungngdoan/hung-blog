@@ -18,7 +18,7 @@ A personal corner of the internet where I write about whatever I feel like:
 ## Tech
 
 - [Eleventy (11ty)](https://www.11ty.dev/) static site generator with Nunjucks templates
-- Shared layout (`base.njk`) + partials eliminate duplicated HTML across 9 pages
+- Shared layout (`base.njk`) + partials eliminate duplicated page chrome
 - PJAX page transitions so the music player keeps playing across navigation
 - Retro aesthetic: pixel art, glow effects, starfield background, marquee
 - Fonts: VT323, Press Start 2P
@@ -60,9 +60,8 @@ npm run build        # build to _site/ (used by CI for deployment)
 
 Main navigation is driven by `src/_data/nav.json`.
 
-Some pages are intentionally built but hidden from the top nav:
+One page is intentionally built but hidden from the top nav:
 
-- `pearls.html`
 - `guestbook.html`
 
 Keep hidden pages out of `nav.json`; link to them from relevant content when needed.
@@ -79,6 +78,7 @@ src/
   _data/
     site.json                 # Site metadata (title, url, description, banner)
     nav.json                  # Navigation items
+    build.js                  # Build-time updated date
   posts/                      # Body-only journal entries with structured front matter
     posts.json                # Shared collection, layout, and permalink settings
   index.njk                   # Homepage: newest 10 posts + guestbook teaser
@@ -87,7 +87,7 @@ src/
   about.njk, ...              # Other pages (front matter + unique content only)
   404.njk                     # Self-contained 404 page (works at any URL depth)
   css/style.css               # Global stylesheet
-  js/site.js                  # Last-updated script
+  js/site.js                  # Shared nav dropdown and scroll controls
   js/page-transitions.js      # PJAX content swapping
   js/random-post.js           # Lazy random encounter modal
   js/story-player.js          # Beat-by-beat narrative dialog

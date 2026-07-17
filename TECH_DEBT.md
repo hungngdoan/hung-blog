@@ -1,28 +1,44 @@
-# Tech Debt: UI and Layout
+# Technical Debt Register
 
-**Source:** Site-wide design review, 2026-06-11
-**Status legend:** OPEN = not started, FIXED = done with date, CLOSED = decided not to do, with date
+**Sources:** Site-wide design review, 2026-06-11; architecture review, 2026-07-16
+**Last reconciled:** 2026-07-17
+**Status legend:** OPEN = not started, FIXED = done with date, CLOSED = decided not to do, with date, DEFERRED = acknowledged and waiting for its documented trigger
 
 | # | Item | Severity | Status |
 |---|------|----------|--------|
 | 1 | Inner pages pay full header tax | High | FIXED 2026-06-11 |
-| 2 | Pixel font used for long-form prose | - | CLOSED 2026-06-11, decision: pixel font everywhere is deliberate |
-| 3 | Accent colors have no assigned roles | Medium | FIXED 2026-06-11, partial by owner choice |
+| 2 | Pixel font used for long-form prose | - | CLOSED 2026-06-11 |
+| 3 | Accent colors have no assigned roles | Medium | FIXED 2026-06-11 |
 | 4 | No global motion policy | Medium | FIXED 2026-06-11 |
-| 5 | Sidebar identical on every page | - | CLOSED 2026-06-11, decision: deliberate identity |
+| 5 | Sidebar identical on every page | - | CLOSED 2026-06-11 |
 | 6 | Mobile nav takes four rows | Low | FIXED 2026-06-11 |
 | 7 | Scroll-jump buttons overlapped content on mobile | High | FIXED 2026-06-11 |
 | 8 | Quote box polish backlog | Low | FIXED 2026-06-11 |
 | 9 | Link previews: og:image too small for chat apps | Medium | FIXED 2026-06-11 |
 | 10 | Audio policy in .gitignore was never implemented | Low | FIXED 2026-06-12 |
 | 11 | Stray working file Kayle.jpg tracked at repo root | Low | FIXED 2026-06-12 |
-| 12 | Flat-URL layout is an unstated invariant | Medium | OPEN |
-| 13 | Posts have no individual URLs and no RSS feed | Low | OPEN |
-| 14 | No build check before merge; breakage found at deploy | Low | CLOSED 2026-06-18, decision: not needed |
+| 12 | Flat-URL layout is an unstated invariant | Medium | FIXED 2026-07-12 |
+| 13 | Posts publish at individual URLs | Low | FIXED 2026-07-12 |
+| 14 | No build check before merge; breakage found at deploy | Low | CLOSED 2026-06-18 |
 | 15 | Oversized sidebar avatar shipped at source resolution | Low | OPEN |
 | 16 | Full post collection embedded in every page | High | FIXED 2026-07-12 |
 | 17 | PJAX page scripts used bespoke cleanup conventions | Medium | FIXED 2026-07-12 |
 | 18 | Eleventy --serve incremental rebuild can drop posts from collections | Low | OPEN |
+| 19 | Oversized 1.9 MB post image | Low | OPEN |
+| 20 | Vietnamese-dominant pages lack language metadata | Low | OPEN |
+| 21 | Story dialog creates a second main landmark | Low | OPEN |
+| 22 | CI runtime policy is stale and undocumented | Low | OPEN |
+| 23 | Pages deploys are not serialized | Low | OPEN |
+| 24 | Path prefix and site URL are duplicated | Low | DEFERRED |
+| 25 | Search implementations and hidden-class contracts are duplicated | Low | DEFERRED |
+
+### Optional features, not technical debt
+
+- RSS/Atom, sitemap, and robots.txt remain optional product features. Add them only on owner demand.
+
+### Pending owner decision
+
+- **O5, skip-to-content link:** pending owner approval because it becomes visible on keyboard focus. It is not in the engineering backlog unless that presentation addition is approved.
 
 ---
 
@@ -39,7 +55,7 @@
 
 - A readable prose font was implemented, reviewed, and rejected. Decision: the all-pixel typography is part of the site's identity and stays, accepting the readability cost on long passages. Do not re-raise without new evidence (e.g. reader complaints).
 
-## 3. Accent colors have no assigned roles (DOCUMENTED 2026-06-11)
+## 3. Accent colors have no assigned roles (FIXED 2026-06-11)
 
 - The role map is documented at the top of `style.css` above `:root`, as guidance for new styles: cyan = structure, gold = identity/highlights, pink = interaction, lime = signals and tags, red = warnings only.
 - Audit findings (computed styles, not eyeballed): the original claim that About mixes heading colors was wrong; all its headings are cyan. Exactly two existing violations were found:
@@ -113,14 +129,15 @@ All four backlog items addressed in `games.njk` and `games.css`:
 
 ## 12. Flat-URL layout is an unstated invariant (FIXED 2026-07-12)
 
-- Every page declares a root-level permalink (`games.html`, `about.html`, ...) and `base.njk` loads assets with relative paths (`css/style.css`, `js/site.js`, `img/...`). This is deliberate: the site lives under `/hung-blog/` on GitHub Pages, and relative paths avoid path-prefix handling.
+- Original finding: every page declared a root-level permalink (`games.html`, `about.html`, ...), and `base.njk` loaded assets with page-relative paths (`css/style.css`, `js/site.js`, `img/...`). That worked only while every URL stayed flat.
 - The trap: any future page at a nested URL (for example individual post pages under `posts/...`) silently loses all CSS, JS, and images, and `page-transitions.js` (`getPageName` splits on the last path segment) misidentifies nav state. Nothing in the repo documents this constraint.
 - Fix: added Eleventy's `HtmlBasePlugin` with `pathPrefix: "/hung-blog/"`, converted internal assets and navigation to root-relative URLs, and changed PJAX nav matching to compare resolved pathnames. Nested post pages now load the same CSS, JavaScript, images, navigation, and music as root pages.
 
-## 13. Posts have no individual URLs and no RSS feed (PARTIALLY FIXED 2026-07-12)
+## 13. Posts publish at individual URLs (FIXED 2026-07-12)
 
 - Original finding: `posts.json` set `permalink: false`, so posts existed only as collection items rendered on the home page. No post could be deep-linked or shared individually, and there was no RSS/Atom feed for readers to subscribe.
-- Owner approved individual post pages. Posts now use a shared schema and layout, publish at `/posts/<slug>/`, carry unique descriptions and canonicals, and appear in a bounded 10-post homepage plus `archive.html`. RSS remains optional and was not added because it is not required for the architecture fix.
+- Fix: posts now use a shared schema and layout, publish at `/posts/<slug>/`, carry unique descriptions and canonicals, and appear in a bounded 10-post homepage plus `archive.html`.
+- RSS/Atom is an optional product feature, not unresolved technical debt; see the note above the register.
 
 ## 14. No build check before merge (CLOSED 2026-06-18)
 
@@ -149,3 +166,38 @@ All four backlog items addressed in `games.njk` and `games.css`:
 - Observed 2026-07-13 during the home-discovery redesign: while `npx @11ty/eleventy --serve` was watching, an incremental rebuild triggered by editing `src/index.njk` and include files silently dropped the Pop Quiz post from `collections.post`. Home and Archive rendered without it while its individual page at `posts/pop-quiz/` was still written. A fresh full `npm run build` restored it.
 - Deploys are unaffected: CI always runs a full build, and `npm run check` validates the random index against the post count.
 - Workaround: after adding or editing posts, restart the dev server instead of trusting the watch rebuild. If a post vanishes from Home or Archive during local preview, run a full build before treating it as a content bug.
+
+## 19. Oversized 1.9 MB post image (OPEN)
+
+- `src/img/hatgiongtamhon.png` is a 1.9 MB photographic PNG used on Home while its post remains in the newest ten, on the individual post, and in fetched random encounters.
+- Re-encode it at roughly twice its rendered width without a material visual change. Coordinate this with item 15's avatar optimization, preserve the existing banner carve-out, and reject any visible quality regression at 375 px or desktop.
+
+## 20. Vietnamese-dominant pages lack language metadata (OPEN)
+
+- The shared document declares English, but the Vietnamese-dominant 36 Kế and Tào Tháo content regions do not declare `lang="vi"`.
+- Add language attributes to the relevant content containers, not page-wide PJAX state. Verify at 375 px and desktop because language metadata can influence font fallback or hyphenation.
+
+## 21. Story dialog creates a second main landmark (OPEN)
+
+- The persistent story dialog uses `<main class="story-stage">` while the page's primary `<main>` remains present, creating two main landmarks when the story is open.
+- Replace only the story-stage element with a presentation-equivalent region or section. The skip link is not part of this item and remains pending owner decision O5.
+
+## 22. CI runtime policy is stale and undocumented (OPEN)
+
+- The deploy workflow pins Node 20 while local development has used newer Node versions, and `package.json` has no `engines` policy.
+- Move CI to a supported LTS and document the supported Node range together, then confirm the clean build and integrity check on that runtime.
+
+## 23. Pages deploys are not serialized (OPEN)
+
+- The deployment workflow has no concurrency group, so rapid pushes can race and allow an older job to deploy after a newer one.
+- Add the standard GitHub Pages concurrency policy when this item is implemented. Keep it independent of the closed decision not to add a pull-request build workflow.
+
+## 24. Path prefix and site URL are duplicated (DEFERRED)
+
+- `/hung-blog/` is represented in Eleventy configuration, the development command, the integrity checker, and the canonical site URL.
+- Defer consolidation until the site URL changes or the integrity checker is next edited. Avoid adding machinery solely for this item.
+
+## 25. Search implementations and hidden-class contracts are duplicated (DEFERRED)
+
+- Quotes and Reddington maintain similar search behavior with different hidden-class conventions, while the shared random-post script knows both page-private class names.
+- Defer until a third searchable page appears or either search implementation is next touched. Any eventual work must preserve search, count, empty-state, and random-card presentation exactly.
