@@ -1,0 +1,22 @@
+diff --git a/src/components/react/StyleLab.jsx b/src/components/react/StyleLab.jsx
+--- a/src/components/react/StyleLab.jsx
++++ b/src/components/react/StyleLab.jsx
+@@ -38,11 +38,18 @@ const postsByStyle = {
+       seal: "86K",
+       body: [
+         "“Vạn” là mười ngàn. 8 vạn cộng 6 ngàn là 86.000.",
+-        "Có người liên tưởng con số ấy với 86.400 giây của một ngày. Ý đó đẹp, nhưng chưa có lời giải thích công khai từ Hạo Thiên."
++        "“8 vạn 6 ngàn 400 lần nhớ em.”",
++        "Em biết không, 86.400 cũng là số giây trong một ngày.",
++        "Anh chưa từng nghĩ sẽ có ai đó nhung nhớ anh nhiều đến vậy. Thật tình, người ta hay lấy con số ra để đong đếm tình cảm, phải không?",
++        "Nhưng một người thật lòng muốn trở về đâu cần chờ đủ 1.000 chiếc máy bay mới quay về, phải không?",
++        "“Anh là may mắn của em.”\n“Là sự không lãnh đạm, không lý trí và là ngoại lệ của em.”",
++        "Chờ đợi là lời tỏ tình dài nhất, cũng là lời tỏ tình chân thành nhất. Nhưng anh chợt nhận ra: nó chỉ đáng giá khi hai người thật sự hướng về nhau.",
++        "Tình cảm đẹp nhất là khi cả hai đều chân thành với nhau."
+       ],
+       lesson:
+-        "86.000 lần thương, vẫn không đổi được một lần người ở lại.",
++        "Còn tình yêu đẹp nhất là khi không ai có ý định rời đi, dù chuyện gì xảy ra.",
+       readMore: false
+     },
+     {

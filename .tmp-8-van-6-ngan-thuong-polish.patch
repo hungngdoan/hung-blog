@@ -1,0 +1,30 @@
+diff --git a/src/components/react/StyleLab.jsx b/src/components/react/StyleLab.jsx
+--- a/src/components/react/StyleLab.jsx
++++ b/src/components/react/StyleLab.jsx
+@@ -41,8 +41,8 @@ const postsByStyle = {
+         lead:
+           "Có những con số để đếm. Có những con số chỉ để biết lòng mình đã thương quá nhiều.",
+         fact:
+-          "“Vạn” là mười ngàn: 8 vạn là 80.000; cộng 6 ngàn thành 86.000. Con số nằm trong tựa phát hành và câu chốt của điệp khúc. Tôi chưa tìm thấy lời giải thích công khai từ Hạo Thiên về việc vì sao chọn đúng 86.000.",
++          "“Vạn” là mười ngàn: 8 vạn là 80.000; cộng 6 ngàn thành 86.000. Đó là phép tính chắc chắn từ tựa phát hành. Còn vì sao Hạo Thiên chọn đúng 86.000, tôi chưa tìm thấy lời giải thích công khai từ tác giả.",
+         interpretation:
+           "Một ngày có 86.400 giây. Vì vậy, 86.000 gợi tôi nghĩ đến gần trọn một ngày: gần như mỗi giây trôi qua là một lần thương. Đây là cách tôi nghe con số ấy, không phải lời giải của tác giả."
+       },
+@@ -55,8 +55,8 @@ const postsByStyle = {
+       tags: ["#8Vạn6NgànThương", "#HạoThiên", "#NhạcKhuya"],
+       link: {
+-        label: "Nghe ca khúc trên Apple Music",
+-        href: "https://music.apple.com/vn/song/8-v%E1%BA%A1n-6-ng%C3%A0n-th%C6%B0%C6%A1ng/1787829245?l=vi"
++        label: "Nghe bản chính thức trên YouTube",
++        href: "https://www.youtube.com/watch?v=1z8sEA8_Ks8"
+       },
+       readMore: false
+     },
+@@ -1353,7 +1353,7 @@ export default function VietnameseBlogStyleLab() {
+                               rel="noopener noreferrer"
+                             >
+-                              {post.link.label} <span className="ml-2" aria-hidden="true">↗</span>
++                              {post.link.label} <span className="ml-2" aria-hidden="true">↗︎</span>
+                             </a>
+                           )}
+                           {post.readMore !== false && (

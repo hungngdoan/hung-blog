@@ -1,0 +1,17 @@
+diff --git a/src/components/react/StyleLab.jsx b/src/components/react/StyleLab.jsx
+--- a/src/components/react/StyleLab.jsx
++++ b/src/components/react/StyleLab.jsx
+@@ -63,6 +63,13 @@ const postsByStyle = {
+         "Bỉ ngạn hoa nở bên bờ sinh tử\nSông Vong Xuyên nhuộm đỏ cả một dòng\nCanh Mạnh Bà, là ai quên ai nhớ\nCầu Nại Hà, là ai ngóng ai trông",
+         "\"Mạnh Bà chưa uống đã say\nHà chi Nguyệt Lão cắt dây tơ hồng\nNhân gian một cõi hư không\nCanh thừa, dây đứt khiến lòng ngỗn ngang.\""
+       ],
++      mediaLink: {
++        href: "https://youtu.be/xUgHL-6_QS4?si=ttDfI89XbP4I7qxf",
++        title: "Mạnh Bà",
++        artist: "Linh Hương Luz · Finn T · SinKra",
++        eyebrow: "Nhạc khuya · YouTube",
++        thumbnail: "https://i.ytimg.com/vi/xUgHL-6_QS4/hqdefault.jpg"
++      },
+       readMore: false
+     }
+   ],

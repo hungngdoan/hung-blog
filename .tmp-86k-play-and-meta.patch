@@ -1,0 +1,41 @@
+diff --git a/src/components/react/StyleLab.jsx b/src/components/react/StyleLab.jsx
+--- a/src/components/react/StyleLab.jsx
++++ b/src/components/react/StyleLab.jsx
+@@ -34,7 +34,6 @@ const postsByStyle = {
+     {
+       title: "8 Vạn 6 Ngàn Thương",
+       date: "15/7/2026",
+-      type: "Ca khúc · Hạo Thiên",
+       seal: "86K",
+       body: [
+         "\"8 vạn 6 ngàn 400 lần nhớ em\".",
+@@ -1187,10 +1186,14 @@ export default function VietnameseBlogStyleLab() {
+                             )}
+                           </div>
+                           <div className={post.centered ? "mt-3" : "ml-3 sm:ml-0 sm:mt-3"}>
+-                            <div className="text-xs uppercase tracking-[0.2em]" style={{ color: style.textMuted }}>
+-                              {post.type}
+-                            </div>
+-                            <div className="mt-1 text-xs" style={{ color: style.textMuted }}>{post.date}</div>
++                            {post.type && (
++                              <div className="text-xs uppercase tracking-[0.2em]" style={{ color: style.textMuted }}>
++                                {post.type}
++                              </div>
++                            )}
++                            {post.date && (
++                              <div className={`${post.type ? "mt-1 " : ""}text-xs`} style={{ color: style.textMuted }}>{post.date}</div>
++                            )}
+                           </div>
+                         </div>
+                         )}
+@@ -1240,7 +1243,9 @@ export default function VietnameseBlogStyleLab() {
+                                 style={{ borderColor: style.accent, color: style.accent, background: style.accentSoft }}
+                                 aria-hidden="true"
+                               >
+-                                &#9654;
++                                <svg className="ml-0.5 h-3.5 w-3.5" viewBox="0 0 16 16" fill="currentColor">
++                                  <path d="M4.5 2.75v10.5L13 8 4.5 2.75Z" />
++                                </svg>
+                               </span>
+                             </a>
+                           )}

@@ -1,0 +1,25 @@
+diff --git a/src/components/react/StyleLab.jsx b/src/components/react/StyleLab.jsx
+--- a/src/components/react/StyleLab.jsx
++++ b/src/components/react/StyleLab.jsx
+@@ -38,12 +38,15 @@ const postsByStyle = {
+       type: "Ca khúc · Hạo Thiên",
+       seal: "86K",
+       body: [
+-        "Em biết không, một ngày có 86.400 giây. Nếu nỗi nhớ biết đếm, có lẽ em đã gọi tên anh trong từng giây như thế.",
+-        "Anh chưa từng nghĩ mình sẽ trở thành nỗi nhớ của một người. Người ta thường mượn con số để chứng minh lòng mình, nhưng tình cảm đâu phải thứ cứ đếm nhiều là thành thật.",
+-        "Nếu thật lòng muốn trở về, em không cần gấp đủ 1.000 chiếc máy bay. Chỉ cần quay về. Người muốn ở lại cũng không cần một lý do thật lớn; chỉ cần đừng biến rời đi thành câu trả lời đầu tiên.",
+-        "“Anh là điều may mắn em không tính trước.\nLà phút mềm lòng giữa những ngày tỉnh táo,\nlà ngoại lệ em tự nguyện giữ lại.”",
+-        "Anh từng nghĩ chờ đợi là cách tỏ tình bền bỉ nhất. Sau cùng mới hiểu: nó chỉ có ý nghĩa khi ở phía bên kia cũng có một người đang bước về phía mình.",
+-        "Chân thành khiến một tình cảm trở nên đẹp. Còn tình yêu đẹp nhất không nằm ở lời hứa sẽ chẳng bao giờ rời đi, mà ở việc sau mỗi lần chông chênh, cả hai vẫn chọn ngồi lại cùng nhau."
++        "\"8 vạn 6 ngàn 400 lần nhớ em\".",
++        "Em biết không, 86400 cũng là số giây trong một ngày..",
++        "Anh chưa từng nghĩ, sẽ có ai đó nhung nhớ anh nhiều đến vậy. Thật tình, người ta hay lấy con số ra để đong đếm phải không?",
++        "Nhưng người muốn trở về, đâu cần đủ 1000 cái máy bay rồi mới trở về đâu, phải không?",
++        "\"Anh là may mắn của em.\"",
++        "\"Là sự không lãnh đạm, không lí trí, và là ngoại lệ của em.\"",
++        "Chờ đợi, là lời tỏ tình dài nhất, và cũng là lời tỏ tình chân thành nhất. Anh chợt nhận ra rằng, nó chỉ đáng giá nếu như hai người thực sự hướng về nhau.",
++        "Tình cảm đẹp nhất, là khi cả hai đều chân thành với nhau.",
++        "\"Còn tình yêu đẹp nhất, là khi không ai có ý định rời đi, cho dù thế nào đi chăng nữa.\""
+       ],
+       readMore: false
+     },

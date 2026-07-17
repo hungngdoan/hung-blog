@@ -1,0 +1,72 @@
+diff --git a/src/components/react/StyleLab.jsx b/src/components/react/StyleLab.jsx
+--- a/src/components/react/StyleLab.jsx
++++ b/src/components/react/StyleLab.jsx
+@@ -49,6 +49,13 @@ const postsByStyle = {
+         "Tình cảm đẹp nhất, là khi cả hai đều chân thành với nhau.",
+         "\"Còn tình yêu đẹp nhất, là khi không ai có ý định rời đi, cho dù thế nào đi chăng nữa.\""
+       ],
++      mediaLink: {
++        href: "https://youtu.be/33i7ym_gI3k?si=IsA86470ecvHCRxg",
++        title: "8 Vạn 6 Ngàn Thương · AIR Remix",
++        artist: "Hạo Thiên · Air Remix",
++        eyebrow: "Nhạc khuya · YouTube",
++        thumbnail: "https://i.ytimg.com/vi/33i7ym_gI3k/hqdefault.jpg"
++      },
+       readMore: false
+     },
+     {
+@@ -1189,6 +1196,48 @@ export default function VietnameseBlogStyleLab() {
+                         )}
+                         <div>
+                           <h3 className={`font-serif ${post.small ? "text-base font-normal leading-6" : "text-2xl font-black sm:text-3xl"}`}>{post.title}</h3>
++                          {post.mediaLink && (
++                            <a
++                              className="group mt-4 grid max-w-3xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 overflow-hidden border p-2.5 transition duration-200 hover:-translate-y-0.5 sm:grid-cols-[88px_minmax(0,1fr)_auto]"
++                              style={{
++                                borderColor: style.sealBorder,
++                                background: style.btnBg,
++                                boxShadow: style.btnShadow
++                              }}
++                              href={post.mediaLink.href}
++                              target="_blank"
++                              rel="noopener noreferrer"
++                              aria-label={`Nghe ${post.mediaLink.title} trên YouTube, mở trong tab mới`}
++                            >
++                              <img
++                                className="hidden h-[66px] w-[88px] object-cover opacity-80 transition duration-200 group-hover:opacity-100 sm:block"
++                                src={post.mediaLink.thumbnail}
++                                alt=""
++                                width="88"
++                                height="66"
++                                loading="lazy"
++                                decoding="async"
++                              />
++                              <span className="min-w-0">
++                                <span
++                                  className="block text-[9px] font-bold uppercase tracking-[0.2em]"
++                                  style={{ color: style.textMuted }}
++                                >
++                                  {post.mediaLink.eyebrow}
++                                </span>
++                                <strong
++                                  className="mt-1 block truncate font-serif text-sm leading-5 sm:text-base"
++                                  style={{ color: style.text }}
++                                >
++                                  {post.mediaLink.title}
++                                </strong>
++                                <span className="mt-0.5 block text-xs" style={{ color: style.textSoft }}>
++                                  {post.mediaLink.artist}
++                                </span>
++                              </span>
++                              <span
++                                className="grid h-9 w-9 place-items-center border text-xs"
++                                style={{ borderColor: style.accent, color: style.accent, background: style.accentSoft }}
++                                aria-hidden="true"
++                              >
++                                &#9654;
++                              </span>
++                            </a>
++                          )}
+                           {post.experience === "monkey-paradox" && (
+                             <MonkeyParadoxExperience theme={style} />
+                           )}

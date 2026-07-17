@@ -1,0 +1,21 @@
+diff --git a/src/components/react/StyleLab.jsx b/src/components/react/StyleLab.jsx
+--- a/src/components/react/StyleLab.jsx
++++ b/src/components/react/StyleLab.jsx
+@@ -1239,13 +1239,16 @@ export default function VietnameseBlogStyleLab() {
+                                 </span>
+                               </span>
+                               <span
+-                                className="grid h-9 w-9 place-items-center border text-xs"
+-                                style={{ borderColor: style.accent, color: style.accent, background: style.accentSoft }}
++                                className="flex h-9 items-center gap-1.5 border px-3 text-[10px] font-black uppercase tracking-[0.16em] transition duration-200 group-hover:brightness-110"
++                                style={{ borderColor: style.accent, color: style.pageBg, background: style.accent }}
+                                 aria-hidden="true"
+                               >
+-                                <svg className="ml-0.5 h-3.5 w-3.5" viewBox="0 0 16 16" fill="currentColor">
++                                <svg className="h-3 w-3 shrink-0" viewBox="0 0 16 16" fill="currentColor">
+                                   <path d="M4.5 2.75v10.5L13 8 4.5 2.75Z" />
+                                 </svg>
++                                <span>Nghe</span>
+                               </span>
+                             </a>
+                           )}

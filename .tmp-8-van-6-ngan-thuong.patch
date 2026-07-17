@@ -1,0 +1,194 @@
+diff --git a/src/components/react/StyleLab.jsx b/src/components/react/StyleLab.jsx
+index 59e8716..b517ba4 100644
+--- a/src/components/react/StyleLab.jsx
++++ b/src/components/react/StyleLab.jsx
+@@ -31,6 +31,30 @@ const postsByStyle = {
+   ],
+   sap_bao_dem: [
++    {
++      title: "8 Vạn 6 Ngàn Thương",
++      date: "15/7/2026",
++      type: "Ca khúc · Hạo Thiên",
++      seal: "86K",
++      songNumber: {
++        lead:
++          "Có những con số để đếm. Có những con số chỉ để biết lòng mình đã thương quá nhiều.",
++        fact:
++          "“Vạn” là mười ngàn: 8 vạn là 80.000; cộng 6 ngàn thành 86.000. Con số nằm trong tựa phát hành và câu chốt của điệp khúc. Tôi chưa tìm thấy lời giải thích công khai từ Hạo Thiên về việc vì sao chọn đúng 86.000.",
++        interpretation:
++          "Một ngày có 86.400 giây. Vì vậy, 86.000 gợi tôi nghĩ đến gần trọn một ngày: gần như mỗi giây trôi qua là một lần thương. Đây là cách tôi nghe con số ấy, không phải lời giải của tác giả."
++      },
++      body: [
++        "Điều đắt nhất không nằm ở số 86.000, mà ở chữ “thương”. “Yêu” có thể dừng khi hai người rẽ lối. “Thương” dai hơn: vừa còn tình, vừa xót cho điều đã mất, vừa biết không thể quay về mà vẫn chưa nỡ trách nhau.",
++        "Ca khúc kể một cuộc tình đã chia hướng. Con số càng lớn, sự bất lực càng rõ: thương nhiều đến mấy cũng không đổi được kết cục."
++      ],
++      pullQuote: "86.000 lần thương, vẫn không đổi được một lần người ở lại.",
++      mood: "Nghe lúc: đêm đã khuya · người đã xa · lòng chưa kịp yên",
++      tags: ["#8Vạn6NgànThương", "#HạoThiên", "#NhạcKhuya"],
++      link: {
++        label: "Nghe ca khúc trên Apple Music",
++        href: "https://music.apple.com/vn/song/8-v%E1%BA%A1n-6-ng%C3%A0n-th%C6%B0%C6%A1ng/1787829245?l=vi"
++      },
++      readMore: false
++    },
+     {
+       title: "Mạnh Bà",
+       centered: true,
+@@ -771,6 +795,80 @@ function MusicWave({ bars = 4 }) {
+   );
+ }
+ 
++function SongNumberStory({ style, story }) {
++  return (
++    <section
++      className="mt-4 overflow-hidden border"
++      style={{
++        borderColor: style.panelSoftBorder,
++        background: `linear-gradient(135deg, ${style.accentSoft}, transparent 70%)`
++      }}
++      aria-label="Giải thích con số 86.000 trong tựa bài hát"
++    >
++      <div className="p-3 sm:p-4">
++        <p className="font-serif text-lg leading-7" style={{ color: style.text }}>
++          {story.lead}
++        </p>
++        <div className="mt-4 text-[10px] font-bold uppercase tracking-[0.24em]" style={{ color: style.accent }}>
++          Vì sao là 86.000?
++        </div>
++        <div
++          className="mt-2 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-2 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_minmax(0,1.45fr)]"
++          role="img"
++          aria-label="Tám vạn, tức tám mươi nghìn, cộng sáu nghìn, bằng tám mươi sáu nghìn lần thương"
++        >
++          <div className="border px-2 py-3 text-center" style={{ borderColor: style.sealBorder, background: style.btnBg }}>
++            <div className="font-serif text-3xl font-black leading-none" style={{ color: style.text }}>
++              8 <span className="text-base">vạn</span>
++            </div>
++            <div className="mt-1 text-[10px] uppercase tracking-[0.16em]" style={{ color: style.textMuted }}>
++              80.000
++            </div>
++          </div>
++          <div className="grid place-items-center font-serif text-2xl" style={{ color: style.textMuted }}>+</div>
++          <div className="border px-2 py-3 text-center" style={{ borderColor: style.sealBorder, background: style.btnBg }}>
++            <div className="font-serif text-3xl font-black leading-none" style={{ color: style.text }}>
++              6 <span className="text-base">ngàn</span>
++            </div>
++            <div className="mt-1 text-[10px] uppercase tracking-[0.16em]" style={{ color: style.textMuted }}>
++              6.000
++            </div>
++          </div>
++          <div
++            className="col-span-3 flex min-w-0 items-center justify-center gap-2 border px-3 py-3 text-center sm:col-span-1"
++            style={{ borderColor: style.accent, background: style.accentSoft }}
++          >
++            <span className="font-serif text-xl" style={{ color: style.textMuted }}>=</span>
++            <span>
++              <strong className="block font-serif text-3xl leading-none" style={{ color: style.accent }}>86.000</strong>
++              <small className="mt-1 block text-[9px] font-bold uppercase tracking-[0.18em]" style={{ color: style.textSoft }}>
++                lần thương
++              </small>
++            </span>
++          </div>
++        </div>
++        <div className="mt-4 grid gap-3 border-t pt-4 sm:grid-cols-2" style={{ borderColor: style.panelSoftBorder }}>
++          <div className="border-l-2 pl-3" style={{ borderColor: style.accent }}>
++            <div className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: style.accent }}>
++              Phần chắc chắn
++            </div>
++            <p className="mt-1 text-sm leading-6" style={{ color: style.textSoft }}>{story.fact}</p>
++          </div>
++          <div className="border-l-2 pl-3" style={{ borderColor: style.textMuted }}>
++            <div className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: style.textMuted }}>
++              Cách Hùng nghe
++            </div>
++            <p className="mt-1 text-sm leading-6" style={{ color: style.textSoft }}>{story.interpretation}</p>
++          </div>
++        </div>
++      </div>
++    </section>
++  );
++}
++
+ function OrderedColumns({ contentFirst, content, sidebar }) {
+   return (
+     <section className="mt-6 grid gap-5 lg:grid-cols-[260px_1fr] 2xl:grid-cols-[320px_1fr] 2xl:gap-8">
+@@ -834,6 +932,10 @@ export default function VietnameseBlogStyleLab() {
+       ? "linear-gradient(90deg, #ff69b4, #00ffff, #ffd700)"
+       : style.accent;
+ 
++  // Deep-linked reading tabs should show their article before the utility
++  // sidebar on phones, while the desktop grid keeps the sidebar on the left.
++  const contentFirstOnMobile = style.id === "den_dau" || style.id === "sap_bao_dem";
++
+   const renderTab = (item) => {
+     const isActive = item.id === style.id;
+     return (
+@@ -1080,10 +1182,10 @@ export default function VietnameseBlogStyleLab() {
+             <MusicPlayer portalTarget={musicSlot} theme={style} colorful={style.id === "den_dau"} />
+ 
+             <OrderedColumns
+-              contentFirst={style.id === "den_dau"}
++              contentFirst={contentFirstOnMobile}
+               content={(
+-              <section className={`min-w-0 ${style.id === "den_dau" ? "order-1 lg:order-2" : ""}`}>
++              <section className={`min-w-0 ${contentFirstOnMobile ? "order-1 lg:order-2" : ""}`}>
+                 {style.id === "muc_than" ? (
+                   <div className="mx-auto w-full max-w-[1080px]">
+                     <ThirtySixKe />
+@@ -1191,6 +1293,9 @@ export default function VietnameseBlogStyleLab() {
+                           {post.experience === "monkey-paradox" && (
+                             <MonkeyParadoxExperience theme={style} />
+                           )}
++                          {post.songNumber && (
++                            <SongNumberStory style={style} story={post.songNumber} />
++                          )}
+                           {bodyBlocks.length > 0 && (
+                           <div className={`mt-3 max-w-3xl space-y-3 text-base leading-8 ${post.centered ? "mx-auto" : ""}`} style={{ color: style.textSoft }}>
+                             {bodyBlocks.map((paragraph) => (
+@@ -1205,6 +1310,14 @@ export default function VietnameseBlogStyleLab() {
+                             ))}
+                           </div>
+                           )}
++                          {post.pullQuote && (
++                            <blockquote
++                              className="my-4 max-w-3xl border-y py-4 text-center font-serif text-lg italic leading-8"
++                              style={{ borderColor: style.panelSoftBorder, color: style.text }}
++                            >
++                              “{post.pullQuote}”
++                            </blockquote>
++                          )}
+                           {post.lesson && (
+                             <>
+                               <div className="my-4 flex items-center gap-3 opacity-70">
+@@ -1235,6 +1348,20 @@ export default function VietnameseBlogStyleLab() {
+                               ))}
+                             </div>
+                           )}
++                          {post.link && (
++                            <a
++                              className="mt-4 inline-flex items-center border px-4 py-2 text-sm font-bold transition hover:translate-x-0.5"
++                              style={{
++                                borderColor: style.accent,
++                                color: style.accent,
++                                background: style.btnBg,
++                                boxShadow: style.btnShadow
++                              }}
++                              href={post.link.href}
++                              target="_blank"
++                              rel="noopener noreferrer"
++                            >
++                              {post.link.label} <span className="ml-2" aria-hidden="true">↗</span>
++                            </a>
++                          )}
+                           {post.readMore !== false && (
+                             <button
+                               className="mt-4 border px-4 py-2 text-sm font-bold transition hover:translate-x-0.5"
+@@ -1250,7 +1377,7 @@ export default function VietnameseBlogStyleLab() {
+               </section>
+               )}
+               sidebar={(
+-              <aside className={`space-y-5 ${style.id === "den_dau" ? "order-2 lg:order-1" : ""}`}>
++              <aside className={`space-y-5 ${contentFirstOnMobile ? "order-2 lg:order-1" : ""}`}>
+                 <section
+                   className="border p-3 hb-box"
+                   style={{

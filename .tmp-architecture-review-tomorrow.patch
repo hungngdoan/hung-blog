@@ -1,0 +1,130 @@
+diff --git a/ARCHITECTURE_REVIEW_TOMORROW.md b/ARCHITECTURE_REVIEW_TOMORROW.md
+new file mode 100644
+--- /dev/null
++++ b/ARCHITECTURE_REVIEW_TOMORROW.md
+@@ -0,0 +1,111 @@
++# Tomorrow: Architecture Review and Restructuring Plan
++
++Act as a senior frontend architect reviewing this repository.
++
++Your task is to inspect the actual codebase, critique its current architecture, and produce an incremental restructuring plan. Do not modify any files yet.
++
++## Context
++
++- The project uses Astro and React.
++- src/pages/index.astro currently mounts most of the homepage through StyleLab.jsx using client:load.
++- StyleLab.jsx has grown beyond 1,600 lines.
++- It mixes homepage layout, theme definitions, navigation, article data, rendering logic, sidebar content, media cards and interactive behavior.
++- I plan to keep adding articles, especially under “Nhạc Khuya”.
++- I want article content to be easy to edit without touching JSX.
++- Existing visual design, responsive behavior, theme switching, hash navigation, music playback and Vietnamese content must be preserved.
++- Avoid a full rewrite or unnecessary abstractions.
++
++## Inspect first
++
++- AGENTS.md
++- package.json
++- src/pages/index.astro
++- src/components/react/StyleLab.jsx
++- src/components/react/MusicPlayer.jsx
++- Theme-specific components
++- Routing and hash-navigation logic
++- Existing content, media and asset organization
++- Build configuration
++
++## Evaluate
++
++1. Why StyleLab became the production homepage.
++2. Which responsibilities are incorrectly coupled.
++3. Whether the entire homepage needs to remain one hydrated React root.
++4. Which parts can become Astro-rendered content or smaller React islands.
++5. The best content model for future articles:
++   - JavaScript or TypeScript data modules
++   - Markdown with Astro Content Collections
++   - MDX
++6. How theme configuration should be separated without duplicating layouts.
++7. How shared article cards, media cards and metadata should be modeled.
++8. Risks involving hydration, audio state, theme switching, URL hashes, SEO, accessibility and bundle size.
++
++## Required output
++
++### 1. Executive verdict
++
++- State whether to keep, incrementally refactor, or replace the current architecture.
++- Give the three most important reasons.
++
++### 2. Current architecture map
++
++- Show the main files, responsibilities and dependencies.
++- Support conclusions with exact file and line references.
++
++### 3. Problems ranked by impact
++
++- Tag each issue as Fatal, Major or Minor.
++- Include a concrete failure scenario for every Fatal or Major issue.
++
++### 4. Recommended target architecture
++
++- Provide a proposed directory tree.
++- Clearly separate:
++  - Page entry
++  - Homepage layout
++  - Theme configuration
++  - Content
++  - Shared presentation components
++  - Interactive React components
++  - Audio and media data
++
++### 5. Content recommendation
++
++- Compare JavaScript data modules, Markdown Content Collections and MDX.
++- Recommend one based on this repository, not general preference.
++- Include a small example of one “Nhạc Khuya” article file and its metadata schema.
++
++### 6. Incremental migration plan
++
++- Divide the work into small, reviewable phases or pull requests.
++- For each phase list:
++  - Files to create
++  - Files to modify
++  - Responsibilities being moved
++  - Expected behavior that must remain unchanged
++  - Verification steps
++  - Rollback strategy
++- Keep every phase buildable.
++
++### 7. Final file-by-file plan
++
++- Explain what should remain in StyleLab.jsx.
++- Explain what should move elsewhere.
++- State whether StyleLab.jsx should be renamed, reduced to a theme shell, or removed.
++
++### 8. Validation checklist
++
++Cover:
++
++- Build
++- Desktop and mobile layout
++- Theme switching
++- Direct hash navigation
++- Browser back and forward navigation
++- Music playback persistence
++- YouTube links
++- Article rendering
++- Accessibility
++- SEO and static HTML output
++
++## Constraints
++
++- Analysis and planning only. Do not edit files during the review.
++- Preserve all existing content word for word.
++- Preserve the current visual design unless identifying a separate defect.
++- Do not recommend changing frameworks without strong repository-specific evidence.
++- Prefer an incremental refactor over a rewrite.
++- Do not invent requirements or estimates.
++- Explicitly identify assumptions and unresolved decisions.
++- Be candid about weak architecture, but avoid manufacturing complexity.
++
++After presenting the plan, stop and wait for approval before implementing anything.
++
++**FINAL CLEANUP: Delete this Markdown file after the architecture review and restructuring work are fully complete.**

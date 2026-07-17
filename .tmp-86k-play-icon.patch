@@ -1,0 +1,14 @@
+diff --git a/src/components/react/StyleLab.jsx b/src/components/react/StyleLab.jsx
+--- a/src/components/react/StyleLab.jsx
++++ b/src/components/react/StyleLab.jsx
+@@ -1237,7 +1237,9 @@ export default function VietnameseBlogStyleLab() {
+                                 style={{ borderColor: style.accent, color: style.accent, background: style.accentSoft }}
+                                 aria-hidden="true"
+                               >
+-                                &#9654;
++                                <svg className="ml-0.5 h-3.5 w-3.5" viewBox="0 0 16 16" fill="currentColor">
++                                  <path d="M4.5 2.75v10.5L13 8 4.5 2.75Z" />
++                                </svg>
+                               </span>
+                             </a>
+                           )}
