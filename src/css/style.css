@@ -2266,6 +2266,140 @@ body.story-noscroll {
   transform: translate(2px, -2px);
 }
 
+/* Newspaper clipping: centerpiece of the Just Fix It post (renders on Home
+   via the post card too, so it lives in the global sheet). The analog paper
+   artifact is docked in a CRT viewer window (same system-bar anatomy as the
+   warp zone: cyan structure chrome, pixel display font) so it reads as a
+   scan the machine keeps, not a foreign object. Inert: no hover chrome,
+   no animation. */
+.clipping-scan {
+  margin: 20px 0 22px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 3px;
+  background: rgba(0, 0, 40, 0.6);
+}
+
+.clipping-scan-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 12px;
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.18);
+  background: rgba(0, 255, 255, 0.035);
+  font-family: var(--font-display);
+  font-size: 7px;
+  letter-spacing: 1px;
+}
+
+.clipping-scan-name {
+  color: var(--accent-cyan);
+  white-space: nowrap;
+}
+
+.clipping-scan-meta {
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.clipping {
+  position: relative;
+  width: min(540px, calc(100% - 32px));
+  margin: 22px auto 20px;
+  padding: 16px 22px 12px;
+  background:
+    linear-gradient(180deg, rgba(60, 40, 10, 0.06), transparent 14%),
+    linear-gradient(0deg, rgba(60, 40, 10, 0.08), transparent 10%),
+    #f0e7d3;
+  color: #2b2318;
+  font-family: Georgia, "Times New Roman", serif;
+  transform: rotate(-1.4deg);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.35),
+    0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+/* Scanlines over the paper: the clipping is being displayed, not pasted */
+.clipping::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    rgba(26, 10, 46, 0.045) 3px 4px
+  );
+  pointer-events: none;
+}
+
+/* Two bits of aged tape holding the clipping to the page */
+.clipping-tape {
+  position: absolute;
+  top: -9px;
+  width: 72px;
+  height: 22px;
+  background: rgba(255, 255, 250, 0.28);
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+  border-right: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.clipping-tape-left {
+  left: 14px;
+  transform: rotate(-38deg);
+}
+
+.clipping-tape-right {
+  right: 14px;
+  transform: rotate(37deg);
+}
+
+.clipping-kicker {
+  padding: 3px 0;
+  border-top: 1.5px solid #2b2318;
+  border-bottom: 1px solid #2b2318;
+  color: #6b5c42;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.clipping-headline {
+  margin: 12px 0 10px;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.4px;
+  text-align: center;
+}
+
+.clipping-body {
+  margin: 0 0 9px;
+  font-size: 17px;
+  line-height: 1.55;
+  text-align: justify;
+}
+
+.clipping-body:first-of-type::first-letter {
+  float: left;
+  padding: 3px 7px 0 0;
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 0.8;
+}
+
+.clipping-body em {
+  font-style: italic;
+  font-weight: 700;
+}
+
+.clipping-note {
+  text-align: center;
+}
+
 /* Guestbook */
 .guestbook-area {
   background: var(--bg-panel);

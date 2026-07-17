@@ -9,6 +9,7 @@ src/music/*.mp3
 
 # Local working files (image sources, prototypes, scratch) -- never published
 assets-work/
+.tmp-*.patch
 movies.sqlite
 .pytest_cache/
 .ruff_cache/
