@@ -2521,7 +2521,12 @@ body.story-noscroll {
 }
 /* Additional shared styles for split-out pages. These do not affect the original homepage shell. */
 .footer-counter {
+  display: none;
   margin-top: 4px;
+}
+
+body.has-counter .footer-counter {
+  display: block;
 }
 
 .footer-note {

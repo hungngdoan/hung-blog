@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="/css/style.css" />
     <script src="/js/site.js" defer></script>
   </head>
-  <body class="{% if navActive == 'index.html' %}is-home{% else %}is-inner{% endif %}">
+  <body class="{% if navActive == 'index.html' %}is-home{% else %}is-inner{% endif %}{% if showVisitorCounter %} has-counter{% endif %}">
     {% include "partials/marquee.njk" %}
     <div class="page-wrapper">
       {% include "partials/header.njk" %}
