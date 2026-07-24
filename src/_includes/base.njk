@@ -31,19 +31,20 @@
     <link rel="stylesheet" href="/css/style.css" />
     <script src="/js/site.js" defer></script>
   </head>
-  <body class="{% if navActive == 'index.html' %}is-home{% else %}is-inner{% endif %}">
+  <body class="{% if navActive == 'index.html' %}is-home{% else %}is-inner{% endif %}{% if showVisitorCounter %} has-counter{% endif %}">
     {% include "partials/marquee.njk" %}
     <div class="page-wrapper">
       {% include "partials/header.njk" %}
       {% include "partials/nav.njk" %}
       <div class="content-grid">
         {% include "partials/sidebar.njk" %}
-        <main class="main-content{% if pageClass %} {{ pageClass }}{% endif %}">
+        <main class="main-content{% if pageClass %} {{ pageClass }}{% endif %}" tabindex="-1">
           {{ content | safe }}
         </main>
       </div>
       {% include "partials/footer.njk" %}
     </div>
+    <div id="pjax-announcer" class="visually-hidden" aria-live="polite"></div>
     <div class="scroll-jump-controls" aria-label="Page scroll controls">
       <button
         type="button"

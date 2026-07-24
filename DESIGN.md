@@ -1,7 +1,7 @@
 # Design Doc: Hung Blog
 
 **Author:** Hung Doan  
-**Last updated:** 2026-07-12
+**Last updated:** 2026-07-17
 **Status:** Current application reference
 
 ---
@@ -29,7 +29,7 @@ The site is not a product dashboard or CMS. It is a personal web space with a re
 - Posts publish at stable `/posts/<slug>/` URLs through a shared post layout.
 - Home is capped at the newest 10 posts; `archive.html` lists the full collection.
 - Internal URLs are root-relative and rewritten for `/hung-blog/` by `HtmlBasePlugin`.
-- `pearls.html` and `guestbook.html` are intentionally built but hidden from the top nav.
+- `guestbook.html` is intentionally built but hidden from the top nav.
 - Static assets are copied through from `src/css`, `src/js`, `src/img`, and `src/music`.
 - GitHub Actions builds and deploys `_site/` to GitHub Pages on pushes to `main`.
 - The old `plan_sample/` prototype is no longer required by the built app and has been moved to the gitignored `assets-work/plan_sample/`. The 36 Ke experience now lives in `src/36ke.njk` with its image in `src/img/chineseDragon1.jpg`.
@@ -112,7 +112,7 @@ assets-work/                       # Local-only working files (gitignored)
 
 ## Pages
 
-### Visible top-nav pages
+### Visible top-level pages
 
 | URL | Source | Purpose |
 |---|---|---|
@@ -120,13 +120,21 @@ assets-work/                       # Local-only working files (gitignored)
 | `about.html` | `src/about.njk` | Bio and personal context |
 | `roadmap.html` | `src/roadmap.njk` | Goals and progress |
 | `quotes.html` | `src/quotes.njk` | Quote collection |
-| `taothao.html` | `src/taothao.njk` | Interactive Tao Thao card deck |
-| `36ke.html` | `src/36ke.njk` | Native 36 Ke strategy page |
+| `reddington.html` | `src/reddington.njk` | Raymond Reddington quote collection |
 | `books.html` | `src/books.njk` | Book notes and reading list |
 | `music.html` | `src/music.njk` | Music notes and current rotation |
 | `games.html` | `src/games.njk` | Games page |
 | `smooth.html` | `src/smooth.njk` | Pickup lines, puns, and dad jokes: a slot-machine and a filterable card grid |
+
+### Visible Misc pages
+
+| URL | Source | Purpose |
+|---|---|---|
+| `taothao.html` | `src/taothao.njk` | Interactive Tao Thao card deck |
+| `36ke.html` | `src/36ke.njk` | Native 36 Kế strategy page |
+| `pearls.html` | `src/pearls.njk` | Pearl/gem color reference matching the Tào Tháo card gems |
 | `archive.html` | `src/archive.njk` | Complete journal archive grouped by month |
+| `page-styles.html` | `src/page-styles.njk` | Public Style Lab for comparing typography and page treatments |
 | `links.html` | `src/links.njk` | Links and references |
 
 Every file in `src/posts/` also publishes at `/posts/<slug>/`, with the date
@@ -136,7 +144,6 @@ prefix removed from the source filename.
 
 | URL | Source | Purpose |
 |---|---|---|
-| `pearls.html` | `src/pearls.njk` | Pearl/gem color reference matching the Tao Thao card gems |
 | `guestbook.html` | `src/guestbook.njk` | Decorative guestbook page |
 
 Hidden pages should not be added to `src/_data/nav.json`. Link to them directly from relevant content when needed.
@@ -319,7 +326,7 @@ Source:
 
 Behavior:
 
-- Built as `pearls.html` but hidden from the top nav.
+- Built as `pearls.html` and visible through the Misc menu.
 - Uses the same pearl/gem visual format as the Tao Thao card gems.
 - Annotates each pearl with a color name and the primary inner hex code.
 - Acts as the reference page for expanding or adjusting card gem colors.
@@ -335,6 +342,7 @@ Behavior:
 
 - Built as `36ke.html` and visible in the top nav.
 - Contains six chapters and all 36 strategies.
+- The Quotes page's Trịnh Ngọc Hòa stratagem section and this classical 36 Kế page are deliberately separate content surfaces and must not be deduplicated.
 - Uses a compact hero so the page can fit naturally inside the main blog layout.
 - Shows one strategy per long row, with the short sentence on the row.
 - Uses native `<details>` and `<summary>` for expandable explanations and examples.

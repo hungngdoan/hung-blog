@@ -27,6 +27,18 @@
   box-sizing: border-box;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 html {
   /* keep page width stable when the scrollbar appears or disappears */
   scrollbar-gutter: stable;
@@ -1470,6 +1482,10 @@ body.story-noscroll {
   transition: opacity 0.18s ease;
 }
 
+.main-content:focus {
+  outline: none;
+}
+
 .main-content.pjax-hidden {
   opacity: 0;
 }
@@ -2521,7 +2537,12 @@ body.story-noscroll {
 }
 /* Additional shared styles for split-out pages. These do not affect the original homepage shell. */
 .footer-counter {
+  display: none;
   margin-top: 4px;
+}
+
+body.has-counter .footer-counter {
+  display: block;
 }
 
 .footer-note {
