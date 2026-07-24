@@ -144,6 +144,10 @@
 
         swapMain(results[0]);
         if (pushHistory) window.scrollTo(0, 0);
+        var newMain = document.querySelector(".main-content");
+        var announcer = document.getElementById("pjax-announcer");
+        newMain.focus({ preventScroll: true });
+        announcer.textContent = document.title;
         setActiveNav(url);
         if (pushHistory) history.pushState(null, "", url);
         completePjax();

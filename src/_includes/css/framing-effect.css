@@ -1,0 +1,345 @@
+/* Framing Effect: a static decision terminal that presents identical outcome
+   data with opposite emphasis. Scoped because post CSS is inlined on Home. */
+.framing-effect-post {
+  border-color: rgba(0, 255, 255, 0.38);
+  box-shadow:
+    0 0 24px rgba(0, 255, 255, 0.07),
+    inset 0 0 34px rgba(0, 255, 255, 0.02);
+}
+
+.framing-effect-post:hover {
+  border-color: rgba(0, 255, 255, 0.62);
+}
+
+.framing-effect-post .post-header {
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.12), transparent 48%),
+    linear-gradient(135deg, rgba(255, 215, 0, 0.07), rgba(0, 255, 255, 0.08));
+}
+
+.framing-effect-post .framing-terminal {
+  --framing-positive: #7fff00;
+  --framing-negative: #ff5c68;
+
+  position: relative;
+  isolation: isolate;
+  margin: 20px 0 24px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 255, 0.55);
+  border-radius: 5px;
+  background:
+    radial-gradient(circle at 25% 35%, rgba(127, 255, 0, 0.07), transparent 32%),
+    radial-gradient(circle at 75% 35%, rgba(255, 92, 104, 0.08), transparent 32%),
+    linear-gradient(145deg, #090922, #070719);
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.38),
+    0 0 22px rgba(0, 255, 255, 0.1),
+    inset 0 0 28px rgba(0, 255, 255, 0.025);
+}
+
+.framing-effect-post .framing-terminal::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    rgba(255, 255, 255, 0.017) 3px 4px
+  );
+  pointer-events: none;
+}
+
+.framing-effect-post .framing-terminal::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 7px;
+  border:
+    1px solid rgba(0, 255, 255, 0.08);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.framing-effect-post .framing-terminal-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.28);
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.15), rgba(255, 215, 0, 0.05)),
+    #0b0b27;
+  color: var(--accent-cyan);
+  font-family: var(--font-display);
+  font-size: 8px;
+  line-height: 1.5;
+  letter-spacing: 1px;
+}
+
+.framing-effect-post .framing-terminal-bar > span:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--framing-positive);
+  box-shadow: 0 0 8px rgba(127, 255, 0, 0.75);
+  vertical-align: 1px;
+}
+
+.framing-effect-post .framing-terminal-status {
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  letter-spacing: 0.6px;
+}
+
+.framing-effect-post .framing-terminal-prompt {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 16px 16px 4px;
+  color: var(--accent-gold);
+  font-family: var(--font-display);
+  font-size: 9px;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  text-align: center;
+  text-shadow: 0 0 9px rgba(255, 215, 0, 0.3);
+}
+
+.framing-effect-post .framing-terminal-views {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 38px minmax(0, 1fr);
+  align-items: center;
+  padding: 12px 16px 16px;
+}
+
+.framing-effect-post .framing-panel {
+  min-width: 0;
+  padding: 13px;
+  overflow: hidden;
+  border: 1px solid;
+  border-radius: 3px;
+  background: rgba(7, 7, 25, 0.78);
+}
+
+.framing-effect-post .framing-panel-survival {
+  border-color: rgba(127, 255, 0, 0.42);
+  box-shadow:
+    inset 0 0 20px rgba(127, 255, 0, 0.035),
+    0 0 14px rgba(127, 255, 0, 0.06);
+}
+
+.framing-effect-post .framing-panel-mortality {
+  border-color: rgba(255, 92, 104, 0.46);
+  box-shadow:
+    inset 0 0 20px rgba(255, 92, 104, 0.04),
+    0 0 14px rgba(255, 92, 104, 0.07);
+}
+
+.framing-effect-post .framing-panel-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 7px;
+  border-bottom: 1px dashed rgba(153, 136, 187, 0.25);
+  color: var(--text-dim);
+  font-family: var(--font-display);
+  font-size: 7px;
+  line-height: 1.5;
+  letter-spacing: 0.8px;
+}
+
+.framing-effect-post .framing-panel-survival .framing-panel-label span:last-child {
+  color: var(--framing-positive);
+}
+
+.framing-effect-post .framing-panel-mortality .framing-panel-label span:last-child {
+  color: var(--framing-negative);
+}
+
+.framing-effect-post .framing-panel h3 {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 12px 0 10px;
+  font-family: var(--font-pixel);
+  font-weight: normal;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.framing-effect-post .framing-panel h3 strong {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 5.5vw, 48px);
+  line-height: 1.25;
+}
+
+.framing-effect-post .framing-panel h3 span {
+  font-size: 18px;
+  letter-spacing: 0.7px;
+}
+
+.framing-effect-post .framing-panel-survival h3 strong,
+.framing-effect-post .framing-panel-survival h3 span {
+  color: var(--framing-positive);
+  text-shadow: 0 0 12px rgba(127, 255, 0, 0.28);
+}
+
+.framing-effect-post .framing-panel-mortality h3 strong,
+.framing-effect-post .framing-panel-mortality h3 span {
+  color: var(--framing-negative);
+  text-shadow: 0 0 12px rgba(255, 92, 104, 0.3);
+}
+
+.framing-effect-post .framing-outcomes {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(3px, 1fr));
+  gap: 4px;
+  margin: 5px 0 9px;
+}
+
+.framing-effect-post .framing-outcome {
+  height: 9px;
+  border: 1px solid transparent;
+  border-radius: 1px;
+}
+
+.framing-effect-post
+  .framing-panel-survival
+  .framing-outcome-survival {
+  border-color: rgba(127, 255, 0, 0.82);
+  background: var(--framing-positive);
+  box-shadow: 0 0 5px rgba(127, 255, 0, 0.4);
+}
+
+.framing-effect-post
+  .framing-panel-survival
+  .framing-outcome-mortality {
+  border-color: rgba(255, 92, 104, 0.3);
+  background: rgba(255, 92, 104, 0.12);
+}
+
+.framing-effect-post
+  .framing-panel-mortality
+  .framing-outcome-survival {
+  border-color: rgba(127, 255, 0, 0.2);
+  background: rgba(127, 255, 0, 0.08);
+}
+
+.framing-effect-post
+  .framing-panel-mortality
+  .framing-outcome-mortality {
+  border-color: var(--framing-negative);
+  background: var(--framing-negative);
+  box-shadow: 0 0 7px rgba(255, 92, 104, 0.55);
+}
+
+.framing-effect-post .framing-panel > p {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.framing-effect-post .framing-panel > p strong {
+  font-weight: normal;
+}
+
+.framing-effect-post .framing-panel-survival > p strong {
+  color: var(--framing-positive);
+}
+
+.framing-effect-post .framing-panel-mortality > p strong {
+  color: var(--framing-negative);
+}
+
+.framing-effect-post .framing-equals {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  border-radius: 50%;
+  background: #0b0b27;
+  color: var(--accent-gold);
+  font-family: var(--font-display);
+  font-size: 16px;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.13);
+}
+
+.framing-effect-post .framing-source {
+  margin: 12px 0 0;
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: right;
+}
+
+@media (max-width: 620px) {
+  .framing-effect-post .framing-terminal-views {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 12px;
+  }
+
+  .framing-effect-post .framing-equals {
+    margin: -5px auto;
+  }
+
+  .framing-effect-post .framing-panel {
+    padding: 12px;
+  }
+
+  .framing-effect-post .framing-panel h3 {
+    align-items: baseline;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .framing-effect-post .framing-panel h3 strong {
+    font-size: clamp(30px, 12vw, 44px);
+  }
+}
+
+@media (max-width: 390px) {
+  .framing-effect-post .framing-terminal-bar,
+  .framing-effect-post .framing-panel-label,
+  .framing-effect-post .framing-panel > p {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .framing-effect-post .framing-terminal-status {
+    font-size: 12px;
+  }
+
+  .framing-effect-post .framing-terminal-prompt {
+    padding-inline: 12px;
+    font-size: 8px;
+  }
+
+  .framing-effect-post .framing-panel h3 span {
+    font-size: 16px;
+  }
+
+  .framing-effect-post .framing-outcomes {
+    gap: 3px;
+  }
+}

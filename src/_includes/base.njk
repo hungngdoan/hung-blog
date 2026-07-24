@@ -38,12 +38,13 @@
       {% include "partials/nav.njk" %}
       <div class="content-grid">
         {% include "partials/sidebar.njk" %}
-        <main class="main-content{% if pageClass %} {{ pageClass }}{% endif %}">
+        <main class="main-content{% if pageClass %} {{ pageClass }}{% endif %}" tabindex="-1">
           {{ content | safe }}
         </main>
       </div>
       {% include "partials/footer.njk" %}
     </div>
+    <div id="pjax-announcer" class="visually-hidden" aria-live="polite"></div>
     <div class="scroll-jump-controls" aria-label="Page scroll controls">
       <button
         type="button"
