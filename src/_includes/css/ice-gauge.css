@@ -1,0 +1,345 @@
+/* Ice Cube (gauge variant): one chart carrying two signals at once. The flat
+   dashed line is what an observer can see; the rising bars are the heat the
+   cube has already absorbed. Scoped to .ice-gauge-post because post CSS is
+   inlined on Home alongside nine other posts. */
+.ice-gauge-post {
+  border-color: rgba(0, 255, 255, 0.38);
+  box-shadow:
+    0 0 24px rgba(0, 255, 255, 0.07),
+    inset 0 0 34px rgba(0, 255, 255, 0.02);
+}
+
+.ice-gauge-post:hover {
+  border-color: rgba(0, 255, 255, 0.62);
+}
+
+.ice-gauge-post .post-header {
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.12), transparent 48%),
+    linear-gradient(135deg, rgba(255, 215, 0, 0.07), rgba(0, 255, 255, 0.08));
+}
+
+.ice-gauge-post .gauge-rig {
+  --gauge-ice: #7ff0ff;
+  --gauge-plot-height: 132px;
+
+  position: relative;
+  isolation: isolate;
+  margin: 20px 0 24px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 255, 0.55);
+  border-radius: 5px;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(0, 255, 255, 0.07), transparent 38%),
+    radial-gradient(circle at 88% 90%, rgba(255, 215, 0, 0.06), transparent 34%),
+    linear-gradient(145deg, #090922, #070719);
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.38),
+    0 0 22px rgba(0, 255, 255, 0.1),
+    inset 0 0 28px rgba(0, 255, 255, 0.025);
+}
+
+/* Scanline wash, kept under the content and out of the accessibility tree. */
+.ice-gauge-post .gauge-rig::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    rgba(255, 255, 255, 0.017) 3px 4px
+  );
+  pointer-events: none;
+}
+
+.ice-gauge-post .gauge-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.28);
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.15), rgba(255, 215, 0, 0.05)),
+    #0b0b27;
+  color: var(--accent-cyan);
+  font-family: var(--font-display);
+  font-size: 8px;
+  line-height: 1.5;
+  letter-spacing: 1px;
+}
+
+.ice-gauge-post .gauge-bar > span:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--accent-lime);
+  box-shadow: 0 0 8px rgba(127, 255, 0, 0.75);
+  vertical-align: 1px;
+}
+
+.ice-gauge-post .gauge-bar-status {
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  letter-spacing: 0.6px;
+}
+
+.ice-gauge-post .gauge-plotwrap {
+  position: relative;
+  z-index: 1;
+  padding: 18px 16px 12px;
+}
+
+.ice-gauge-post .gauge-plot {
+  position: relative;
+  height: var(--gauge-plot-height);
+  border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+/* The lie: a dead-flat reading stretched across every degree of work. Drawn
+   over the bars like a chart reference line; the legend below names it, so no
+   label sits inside the plot where it would overprint the short bars. */
+.ice-gauge-post .gauge-flat {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 6px;
+  left: 0;
+  border-top: 1px dashed rgba(153, 136, 187, 0.9);
+}
+
+.ice-gauge-post .gauge-bars,
+.ice-gauge-post .gauge-axis {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.ice-gauge-post .gauge-bars {
+  height: 100%;
+  align-items: end;
+}
+
+.ice-gauge-post .gauge-cell {
+  display: flex;
+  align-items: flex-end;
+  min-width: 0;
+  height: 100%;
+}
+
+.ice-gauge-post .gauge-fill {
+  width: 100%;
+  border: 1px solid rgba(0, 255, 255, 0.55);
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(
+    180deg,
+    rgba(127, 240, 255, 0.55),
+    rgba(0, 255, 255, 0.12)
+  );
+  box-shadow: inset 0 0 12px rgba(0, 255, 255, 0.14);
+}
+
+/* Absorbed heat climbs a fixed 2.09 J per gram per degree: five even steps. */
+.ice-gauge-post .gauge-cell:nth-child(1) .gauge-fill {
+  height: 17%;
+}
+
+.ice-gauge-post .gauge-cell:nth-child(2) .gauge-fill {
+  height: 34%;
+}
+
+.ice-gauge-post .gauge-cell:nth-child(3) .gauge-fill {
+  height: 51%;
+}
+
+.ice-gauge-post .gauge-cell:nth-child(4) .gauge-fill {
+  height: 68%;
+}
+
+.ice-gauge-post .gauge-cell:nth-child(5) .gauge-fill {
+  height: 85%;
+}
+
+/* The payoff column: the only place the two signals finally agree. */
+.ice-gauge-post .gauge-cell:nth-child(6) .gauge-fill {
+  height: 100%;
+  border-color: rgba(255, 215, 0, 0.8);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 215, 0, 0.6),
+    rgba(255, 215, 0, 0.1)
+  );
+  box-shadow:
+    0 0 14px rgba(255, 215, 0, 0.28),
+    inset 0 0 12px rgba(255, 215, 0, 0.16);
+  animation: gauge-thaw 2.8s ease-in-out infinite;
+}
+
+@keyframes gauge-thaw {
+  0%,
+  100% {
+    box-shadow:
+      0 0 12px rgba(255, 215, 0, 0.22),
+      inset 0 0 12px rgba(255, 215, 0, 0.14);
+  }
+  50% {
+    box-shadow:
+      0 0 22px rgba(255, 215, 0, 0.42),
+      inset 0 0 16px rgba(255, 215, 0, 0.22);
+  }
+}
+
+.ice-gauge-post .gauge-axis {
+  padding-top: 8px;
+}
+
+.ice-gauge-post .gauge-step {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  text-align: center;
+}
+
+.ice-gauge-post .gauge-step b {
+  color: var(--accent-cyan);
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: normal;
+  line-height: 1.4;
+}
+
+.ice-gauge-post .gauge-step i {
+  overflow: hidden;
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  font-style: normal;
+  letter-spacing: 0.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ice-gauge-post .gauge-step-zero b {
+  color: var(--accent-gold);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+.ice-gauge-post .gauge-step-zero i {
+  color: var(--accent-lime);
+}
+
+.ice-gauge-post .gauge-keys {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  padding: 0 16px 4px;
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.ice-gauge-post .gauge-key::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 8px;
+  margin-right: 8px;
+  vertical-align: 1px;
+}
+
+.ice-gauge-post .gauge-key-flat::before {
+  height: 0;
+  border-top: 1px dashed rgba(153, 136, 187, 0.9);
+  vertical-align: 5px;
+}
+
+.ice-gauge-post .gauge-key-bar::before {
+  border: 1px solid rgba(0, 255, 255, 0.55);
+  background: linear-gradient(
+    180deg,
+    rgba(127, 240, 255, 0.5),
+    rgba(0, 255, 255, 0.1)
+  );
+}
+
+.ice-gauge-post .gauge-cap {
+  position: relative;
+  z-index: 1;
+  padding: 10px 16px 14px;
+  border-top: 1px dashed rgba(0, 255, 255, 0.18);
+  color: var(--text-main);
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.ice-gauge-post .gauge-cap strong {
+  color: var(--accent-gold);
+  font-weight: normal;
+}
+
+@media (max-width: 620px) {
+  .ice-gauge-post .gauge-rig {
+    --gauge-plot-height: 104px;
+  }
+
+  .ice-gauge-post .gauge-plotwrap {
+    padding: 16px 12px 10px;
+  }
+
+  .ice-gauge-post .gauge-bars,
+  .ice-gauge-post .gauge-axis {
+    gap: 4px;
+  }
+
+  .ice-gauge-post .gauge-step b {
+    font-size: 7px;
+  }
+
+  .ice-gauge-post .gauge-step i {
+    font-size: 12px;
+  }
+
+  .ice-gauge-post .gauge-keys,
+  .ice-gauge-post .gauge-cap {
+    padding-inline: 12px;
+  }
+}
+
+/* Below this width the per-column state words cannot stay on one line, so the
+   axis drops to temperatures only and the states move into the caption. */
+@media (max-width: 400px) {
+  .ice-gauge-post .gauge-bar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* Five repeats of SOLID do not fit and do not add anything; the payoff word
+     stays so the axis still lands on MELTING. */
+  .ice-gauge-post .gauge-step:not(.gauge-step-zero) i {
+    display: none;
+  }
+
+  .ice-gauge-post .gauge-cap {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ice-gauge-post .gauge-cell:nth-child(6) .gauge-fill {
+    animation: none;
+  }
+}

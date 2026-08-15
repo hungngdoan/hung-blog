@@ -1,0 +1,312 @@
+/* Ice Cube receipt variant: a static thermal-paper ledger. The full visual is
+   scoped because this stylesheet is inlined anywhere the post card appears. */
+.ice-receipt-post {
+  border-color: rgba(255, 215, 0, 0.46);
+  box-shadow:
+    0 0 24px rgba(0, 255, 255, 0.06),
+    inset 0 0 32px rgba(255, 215, 0, 0.025);
+}
+
+.ice-receipt-post:hover {
+  border-color: rgba(255, 215, 0, 0.72);
+}
+
+.ice-receipt-post .post-header {
+  background:
+    linear-gradient(90deg, rgba(255, 215, 0, 0.13), transparent 52%),
+    linear-gradient(135deg, rgba(0, 255, 255, 0.08), rgba(255, 215, 0, 0.05));
+}
+
+.ice-receipt-post .ice-receipt {
+  --receipt-ink: #1b1b25;
+  --receipt-faint: #67636a;
+  --receipt-paper: #f1ecd9;
+  --receipt-rule: rgba(27, 27, 37, 0.38);
+
+  width: min(100%, 570px);
+  min-width: 0;
+  margin: 22px auto 24px;
+  color: var(--receipt-ink);
+  font-family: var(--font-pixel);
+  line-height: 1.25;
+}
+
+.ice-receipt-post .ice-receipt-paper {
+  position: relative;
+  min-width: 0;
+  padding: 28px clamp(16px, 5vw, 34px) 25px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(20, 18, 30, 0.026) 0 1px,
+      transparent 1px 4px
+    ),
+    radial-gradient(circle, rgba(25, 22, 34, 0.055) 0 0.7px, transparent 0.9px)
+      1px 1px / 5px 5px,
+    var(--receipt-paper);
+  box-shadow:
+    0 18px 32px rgba(0, 0, 0, 0.44),
+    0 2px 0 rgba(255, 255, 255, 0.16) inset;
+}
+
+/* Repeated half-circle cutouts suggest torn feed paper without an image. */
+.ice-receipt-post .ice-receipt-paper::before,
+.ice-receipt-post .ice-receipt-paper::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  left: 0;
+  height: 8px;
+  pointer-events: none;
+}
+
+.ice-receipt-post .ice-receipt-paper::before {
+  top: -1px;
+  background: radial-gradient(
+      circle at 6px 0,
+      var(--bg-panel) 0 5px,
+      transparent 5.5px
+    )
+    0 0 / 12px 8px repeat-x;
+}
+
+.ice-receipt-post .ice-receipt-paper::after {
+  bottom: -1px;
+  background: radial-gradient(
+      circle at 6px 8px,
+      var(--bg-panel) 0 5px,
+      transparent 5.5px
+    )
+    0 0 / 12px 8px repeat-x;
+}
+
+.ice-receipt-post .ice-receipt-meta,
+.ice-receipt-post .ice-receipt-columns,
+.ice-receipt-post .ice-receipt-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ice-receipt-post .ice-receipt-meta {
+  color: var(--receipt-faint);
+  font-size: 14px;
+  letter-spacing: 0.8px;
+}
+
+.ice-receipt-post .ice-receipt-head {
+  text-align: center;
+}
+
+.ice-receipt-post .ice-receipt-head h3 {
+  margin: 16px 0 8px;
+  color: var(--receipt-ink);
+  font-family: var(--font-display);
+  font-size: clamp(12px, 3.3vw, 17px);
+  line-height: 1.55;
+  letter-spacing: 1px;
+}
+
+.ice-receipt-post .ice-receipt-head p {
+  margin: 0;
+  color: var(--receipt-faint);
+  font-size: 16px;
+  letter-spacing: 1.1px;
+}
+
+.ice-receipt-post .ice-receipt-rule {
+  height: 5px;
+  margin: 15px 0 10px;
+  border-top: 1px dashed var(--receipt-rule);
+  border-bottom: 1px dashed var(--receipt-rule);
+}
+
+.ice-receipt-post .ice-receipt-columns {
+  padding: 0 3px 7px;
+  color: var(--receipt-faint);
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.ice-receipt-post .ice-receipt-ledger {
+  margin: 0;
+}
+
+.ice-receipt-post .ice-receipt-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  min-width: 0;
+  padding: 11px 3px;
+  border-top: 1px dotted rgba(27, 27, 37, 0.27);
+}
+
+.ice-receipt-post .ice-receipt-row dt,
+.ice-receipt-post .ice-receipt-row dd {
+  min-width: 0;
+  margin: 0;
+}
+
+.ice-receipt-post .ice-receipt-row dt {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ice-receipt-post .ice-receipt-row dt strong {
+  overflow-wrap: anywhere;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: normal;
+  line-height: 1.55;
+}
+
+.ice-receipt-post .ice-receipt-row dt span {
+  color: var(--receipt-faint);
+  font-size: 16px;
+}
+
+.ice-receipt-post .ice-receipt-row dd {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 5px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.ice-receipt-post .ice-receipt-row dd strong {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.ice-receipt-post .ice-receipt-row dd span {
+  color: var(--receipt-faint);
+  font-size: 15px;
+}
+
+.ice-receipt-post .ice-receipt-total {
+  padding: 3px;
+  font-family: var(--font-display);
+  font-size: 9px;
+  line-height: 1.55;
+}
+
+.ice-receipt-post .ice-receipt-total span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ice-receipt-post .ice-receipt-total strong {
+  flex: 0 0 auto;
+  padding: 4px 6px;
+  border: 2px solid var(--receipt-ink);
+  font-weight: normal;
+  letter-spacing: 0.5px;
+}
+
+.ice-receipt-post .ice-receipt-stamp {
+  width: fit-content;
+  max-width: 100%;
+  margin: 18px auto 14px;
+  padding: 7px 10px 5px;
+  border: 3px double rgba(110, 38, 46, 0.72);
+  color: rgba(110, 38, 46, 0.78);
+  font-family: var(--font-display);
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  text-align: center;
+  transform: rotate(-1.5deg);
+}
+
+.ice-receipt-post .ice-receipt-barcode {
+  width: min(78%, 300px);
+  height: 34px;
+  margin: 0 auto 7px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--receipt-ink) 0 2px,
+    transparent 2px 5px,
+    var(--receipt-ink) 5px 6px,
+    transparent 6px 10px
+  );
+  opacity: 0.78;
+}
+
+.ice-receipt-post .ice-receipt-code {
+  margin: 0;
+  color: var(--receipt-faint);
+  font-size: 14px;
+  letter-spacing: 0.8px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.ice-receipt-post .ice-receipt-caption {
+  margin: 13px 8px 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--accent-gold);
+  color: var(--text-dim);
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.ice-receipt-post .ice-receipt-caption strong {
+  color: var(--accent-gold);
+  font-weight: normal;
+}
+
+@media (max-width: 420px) {
+  .ice-receipt-post .ice-receipt-paper {
+    padding: 25px 14px 23px;
+  }
+
+  .ice-receipt-post .ice-receipt-meta,
+  .ice-receipt-post .ice-receipt-columns {
+    font-size: 13px;
+  }
+
+  .ice-receipt-post .ice-receipt-row {
+    gap: 8px;
+  }
+
+  .ice-receipt-post .ice-receipt-row dt strong,
+  .ice-receipt-post .ice-receipt-total {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 350px) {
+  .ice-receipt-post .ice-receipt-meta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .ice-receipt-post .ice-receipt-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+  }
+
+  .ice-receipt-post .ice-receipt-row dd {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .ice-receipt-post .ice-receipt-total {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ice-receipt-post {
+    transition: none;
+  }
+}

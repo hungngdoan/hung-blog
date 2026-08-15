@@ -1,0 +1,751 @@
+---
+layout: base.njk
+title: "Ice Cube Lab ~ Hung's Journal"
+description: "A throwaway comparison page for six visual treatments of the ice cube post."
+permalink: ice-cube-lab.html
+pageClass: ice-lab-page
+---
+{#
+  TEMPORARY PAGE. Not in nav.json, not in collections.post, not in the random
+  index, so it costs the live site nothing while it exists.
+
+  It renders each candidate inside partials/post-card.njk, the same shell Home
+  and /posts/<slug>/ use, so what you see here is what ships.
+
+  The prose is defined once below and reused by all six, so you are choosing
+  the visual, not the writing.
+
+  To ship one: copy the block inside its "set variantX" tag into
+  src/posts/2026-08-15-ice-cube.njk with the front matter shown under the
+  candidate, then delete this file and the five CSS files you did not pick.
+#}
+<style>
+  .ice-lab-page .lab-head {
+    margin-bottom: 22px;
+    padding: 14px 16px;
+    border: 1px dashed var(--accent-pink);
+    border-radius: 4px;
+    background: rgba(255, 105, 180, 0.05);
+  }
+  .ice-lab-page .lab-head h1 {
+    margin-bottom: 8px;
+    color: var(--accent-pink);
+    font-family: var(--font-display);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .ice-lab-page .lab-head p {
+    color: var(--text-dim);
+    font-family: var(--font-pixel);
+    font-size: 18px;
+    line-height: 1.45;
+  }
+  .ice-lab-page .lab-slot {
+    margin-bottom: 34px;
+  }
+  .ice-lab-page .lab-slot-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: var(--accent-gold);
+    font-family: var(--font-display);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .ice-lab-page .lab-slot-note {
+    color: var(--text-dim);
+    font-family: var(--font-pixel);
+    font-size: 17px;
+    letter-spacing: 0.4px;
+  }
+  .ice-lab-page .lab-ship {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(13, 13, 43, 0.6);
+  }
+  .ice-lab-page .lab-ship summary {
+    color: var(--accent-cyan);
+    cursor: pointer;
+    font-family: var(--font-pixel);
+    font-size: 17px;
+    letter-spacing: 0.5px;
+  }
+  .ice-lab-page .lab-ship pre {
+    overflow-x: auto;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 3px;
+    background: #07071a;
+    color: var(--text-main);
+    font-family: var(--font-pixel);
+    font-size: 16px;
+    line-height: 1.45;
+  }
+</style>
+
+<div class="lab-head">
+  <h1>ICE CUBE &mdash; 6 CANDIDATES</h1>
+  <p>
+    Same post, same words, six visuals. Each card below is rendered through
+    the real post shell, so the borders, spacing and mobile behaviour are the
+    live ones. Pick one, promote it into src/posts/, delete this page and the
+    five CSS files you did not keep.
+    <a href="/index.html">&lt;&lt; back to home</a>
+  </p>
+</div>
+
+{% set iceIntro %}
+<p>
+  <span class="post-opener"
+    >An ice cube sits at -5&deg;C. You turn the heat on. At -4, its shape
+    does not change. At -3, -2, -1, still the same cube, the same silhouette,
+    the same silence.</span
+  >
+  But unchanged is not untouched. Each degree is energy already absorbed.
+  Then the cube reaches 0&deg;C and the phase change begins.
+</p>
+{% endset %}
+
+{% set iceOutro %}
+<p>
+  It is easy to look at that climb and call it wasted. Nothing melted. Nothing
+  moved. Nothing worth showing anyone. Yet warming each gram of ice through
+  those five degrees absorbed about 10.5 joules. The threshold did not create
+  that energy. It revealed where it had been going.
+</p>
+<p>
+  Here is the better part of the story. Melting that same gram takes about 334
+  more joules, roughly 32 times the entire climb from -5&deg;C to 0&deg;C. In a
+  simple lab model, the temperature stays near 0&deg;C while the phase change
+  continues. The reading can go flat precisely when the deepest transformation
+  begins.
+</p>
+<p>
+  Progress can look like that. The reps, drafts, applications, and awkward
+  first attempts may leave no result anyone can point to. But the metaphor has
+  a limit: effort is not heat. Bad reps do not become mastery just because you
+  repeat them.
+</p>
+<hr class="post-divider" />
+<p>
+  So check the direction. Listen to the feedback. Fix the process. Then, if
+  the work is sound, do not mistake a flat reading for wasted effort. The
+  breakthrough was never one magic degree. It was every degree before it, plus
+  the long transformation after. Keep the heat on.
+</p>
+<p>
+  <small>
+    Inspired by James Clear&rsquo;s
+    <a
+      href="https://jamesclear.com/quotes/complaining-about-not-achieving-success-despite-working-hard-is-like-complaining-about-an-ice-cube-not-melting-when-you-heated-it-from-twenty-five-to-thirty-one-degrees-your-work-was-not-was"
+      target="_blank"
+      rel="noopener noreferrer"
+      >ice-cube analogy</a
+    >. The simplified model assumes reasonably pure ice near ordinary
+    pressure. Thermal values are rounded from
+    <a
+      href="https://www.chem.tamu.edu/class/fyp/chem101-portfolio/classroomwork.html"
+      target="_blank"
+      rel="noopener noreferrer"
+      >Texas A&amp;M chemistry tables</a
+    >.
+  </small>
+</p>
+{% endset %}
+
+{# ---------------------------------------------------------------- A ---- #}
+<section id="candidate-a" class="lab-slot">
+  <h2 class="lab-slot-title">
+    CANDIDATE A &mdash; INVISIBLE PROGRESS BAR
+    <span class="lab-slot-note">one chart, two signals &middot; ice-gauge.css</span>
+  </h2>
+
+  {% set variantA %}
+<style>
+{% include "css/ice-gauge.css" %}
+</style>
+
+{{ iceIntro | safe }}
+
+<figure class="gauge-rig">
+  <div class="gauge-bar" aria-hidden="true">
+    <span>THERMAL LOG</span>
+    <span class="gauge-bar-status">SUBJECT: ONE ICE CUBE</span>
+  </div>
+
+  <div
+    class="gauge-plotwrap"
+    role="img"
+    aria-label="A chart of one ice cube warming from minus five to zero degrees. The visible progress line stays flat at zero percent the whole way, while the absorbed-energy bars rise one step for every degree, until the phase change begins at zero."
+  >
+    <div class="gauge-plot">
+      <span class="gauge-flat"></span>
+      <div class="gauge-bars">
+        <span class="gauge-cell"><span class="gauge-fill"></span></span>
+        <span class="gauge-cell"><span class="gauge-fill"></span></span>
+        <span class="gauge-cell"><span class="gauge-fill"></span></span>
+        <span class="gauge-cell"><span class="gauge-fill"></span></span>
+        <span class="gauge-cell"><span class="gauge-fill"></span></span>
+        <span class="gauge-cell"><span class="gauge-fill"></span></span>
+      </div>
+    </div>
+
+    <div class="gauge-axis">
+      <span class="gauge-step"><b>-5&deg;</b><i>SOLID</i></span>
+      <span class="gauge-step"><b>-4&deg;</b><i>SOLID</i></span>
+      <span class="gauge-step"><b>-3&deg;</b><i>SOLID</i></span>
+      <span class="gauge-step"><b>-2&deg;</b><i>SOLID</i></span>
+      <span class="gauge-step"><b>-1&deg;</b><i>SOLID</i></span>
+      <span class="gauge-step gauge-step-zero"><b>0&deg;</b><i>MELTING</i></span>
+    </div>
+  </div>
+
+  <div class="gauge-keys" aria-hidden="true">
+    <span class="gauge-key gauge-key-flat">flat line = what anyone can see</span>
+    <span class="gauge-key gauge-key-bar">bars = heat already absorbed</span>
+  </div>
+
+  <figcaption class="gauge-cap">
+    Five degrees of absorbed energy. <strong>Zero</strong> visible change.
+    Then the longer phase change begins.
+  </figcaption>
+</figure>
+
+{{ iceOutro | safe }}
+  {% endset %}
+
+  {% set postTitleHtml = "&#129482; Ice Cube" %}
+  {% set postDisplayDate = "Aug 15th 2026" %}
+  {% set postDateIso = "2026-08-15" %}
+  {% set postMoodHtml = "Mood: Patient | Quest: Keep the Heat On" %}
+  {% set postTags = ["#patience","#progress","#discipline","#compounding"] %}
+  {% set postClass = "ice-gauge-post" %}
+  {% set postUrl = "/ice-cube-lab.html" %}
+  {% set postContent = variantA %}
+  {% set postHeadingLink = false %}
+  {% set showArchiveLink = false %}
+  {% include "partials/post-card.njk" %}
+
+  <details class="lab-ship">
+    <summary>ship this one</summary>
+    <pre>{% raw %}src/posts/2026-08-15-ice-cube.njk
+---
+title: "Ice Cube"
+date: 2026-08-15T12:00:00Z
+description: "Nothing seems to happen between -5 and 0 degrees. Everything that matters does."
+titleHtml: "&#129482; Ice Cube"
+displayDate: "Aug 15th 2026"
+moodHtml: "Mood: Patient | Quest: Keep the Heat On"
+postTags: ["#patience","#progress","#discipline","#compounding"]
+postClass: "ice-gauge-post"
+---
+&lt;style&gt;
+{% include "css/ice-gauge.css" %}&lt;/style&gt;
+
+... paste the body of {% set variantA %} here, with the prose expanded ...
+
+keep: src/_includes/css/ice-gauge.css
+delete: ice-cards.css, ice-column.css, ice-receipt.css, ice-type.css,
+        ice-specimen.css, src/ice-cube-lab.njk{% endraw %}</pre>
+  </details>
+</section>
+
+{# ---------------------------------------------------------------- B ---- #}
+<section id="candidate-b" class="lab-slot">
+  <h2 class="lab-slot-title">
+    CANDIDATE B &mdash; SIX CARDS
+    <span class="lab-slot-note">grid on desktop, swipe on phones &middot; ice-cards.css</span>
+  </h2>
+
+  {% set variantB %}
+<style>
+{% include "css/ice-cards.css" %}
+</style>
+
+{{ iceIntro | safe }}
+
+<div
+  class="icecard-deck"
+  tabindex="0"
+  role="group"
+  aria-label="Six cards, one for every degree from minus five to zero"
+>
+  <ol class="icecard-strip">
+    <li class="icecard">
+      <div class="icecard-top">
+        <span class="icecard-index">01 / 06</span>
+        <span class="icecard-chip">NOTHING</span>
+      </div>
+      <p class="icecard-temp">-5&deg;C</p>
+      <div class="icecard-cube" aria-hidden="true">
+        <span class="icecard-cube-body"></span>
+      </div>
+      <p class="icecard-line">You turn the heat on. Nothing happens.</p>
+    </li>
+
+    <li class="icecard">
+      <div class="icecard-top">
+        <span class="icecard-index">02 / 06</span>
+        <span class="icecard-chip">NOTHING</span>
+      </div>
+      <p class="icecard-temp">-4&deg;C</p>
+      <div class="icecard-cube" aria-hidden="true">
+        <span class="icecard-cube-body"></span>
+      </div>
+      <p class="icecard-line">Still ice. Still cold. Still nothing to show.</p>
+    </li>
+
+    <li class="icecard">
+      <div class="icecard-top">
+        <span class="icecard-index">03 / 06</span>
+        <span class="icecard-chip">NOTHING</span>
+      </div>
+      <p class="icecard-temp">-3&deg;C</p>
+      <div class="icecard-cube" aria-hidden="true">
+        <span class="icecard-cube-body"></span>
+      </div>
+      <p class="icecard-line">This is where most people quit and call it a waste.</p>
+    </li>
+
+    <li class="icecard">
+      <div class="icecard-top">
+        <span class="icecard-index">04 / 06</span>
+        <span class="icecard-chip">NOTHING</span>
+      </div>
+      <p class="icecard-temp">-2&deg;C</p>
+      <div class="icecard-cube" aria-hidden="true">
+        <span class="icecard-cube-body"></span>
+      </div>
+      <p class="icecard-line">Nobody watching could tell the difference.</p>
+    </li>
+
+    <li class="icecard">
+      <div class="icecard-top">
+        <span class="icecard-index">05 / 06</span>
+        <span class="icecard-chip">NOTHING</span>
+      </div>
+      <p class="icecard-temp">-1&deg;C</p>
+      <div class="icecard-cube" aria-hidden="true">
+        <span class="icecard-cube-body"></span>
+      </div>
+      <p class="icecard-line">One degree from everything. Looks exactly like zero.</p>
+    </li>
+
+    <li class="icecard icecard-final">
+      <div class="icecard-top">
+        <span class="icecard-index">06 / 06</span>
+        <span class="icecard-chip">MELTING</span>
+      </div>
+      <p class="icecard-temp">0&deg;C</p>
+      <div class="icecard-cube" aria-hidden="true">
+        <span class="icecard-cube-body"></span>
+      </div>
+      <p class="icecard-line">It starts to melt. The threshold is a beginning.</p>
+    </li>
+  </ol>
+</div>
+
+<p class="icecard-hint">
+  Five of those cards are identical on purpose. That is the whole trick.
+</p>
+
+{{ iceOutro | safe }}
+  {% endset %}
+
+  {% set postClass = "ice-cards-post" %}
+  {% set postContent = variantB %}
+  {% include "partials/post-card.njk" %}
+
+  <details class="lab-ship">
+    <summary>ship this one</summary>
+    <pre>{% raw %}same front matter as A, except:
+postClass: "ice-cards-post"
+
+&lt;style&gt;
+{% include "css/ice-cards.css" %}&lt;/style&gt;
+
+keep: src/_includes/css/ice-cards.css
+delete: ice-gauge.css, ice-column.css, ice-receipt.css, ice-type.css,
+        ice-specimen.css, src/ice-cube-lab.njk{% endraw %}</pre>
+  </details>
+</section>
+
+{# ---------------------------------------------------------------- C ---- #}
+<section id="candidate-c" class="lab-slot">
+  <h2 class="lab-slot-title">
+    CANDIDATE C &mdash; THE PLATEAU
+    <span class="lab-slot-note">thermometer, ledger and the 334 J/g fact &middot; ice-column.css</span>
+  </h2>
+
+  {% set variantC %}
+<style>
+{% include "css/ice-column.css" %}
+</style>
+
+{{ iceIntro | safe }}
+
+<figure class="icetube-rig">
+  <div class="icetube-bar" aria-hidden="true">
+    <span>PHASE LOG</span>
+    <span class="icetube-bar-status">-5&deg;C &rarr; 0&deg;C &middot; ONE CUBE</span>
+  </div>
+
+  <div class="icetube-body">
+    <div
+      class="icetube-tube"
+      role="img"
+      aria-label="A thermometer filled from minus five degrees all the way up to zero"
+    >
+      <span class="icetube-mercury"></span>
+    </div>
+
+    <ol class="icetube-rungs">
+      <li class="icetube-rung">
+        <b>-5&deg;</b>
+        <span class="icetube-observed">You turn the heat on.</span>
+        <span class="icetube-stored">+2.1 J/g</span>
+      </li>
+      <li class="icetube-rung">
+        <b>-4&deg;</b>
+        <span class="icetube-observed">Looks identical to -5.</span>
+        <span class="icetube-stored">+2.1 J/g</span>
+      </li>
+      <li class="icetube-rung">
+        <b>-3&deg;</b>
+        <span class="icetube-observed">Nothing worth showing anyone.</span>
+        <span class="icetube-stored">+2.1 J/g</span>
+      </li>
+      <li class="icetube-rung">
+        <b>-2&deg;</b>
+        <span class="icetube-observed">Still one solid block.</span>
+        <span class="icetube-stored">+2.1 J/g</span>
+      </li>
+      <li class="icetube-rung">
+        <b>-1&deg;</b>
+        <span class="icetube-observed">One degree out. Still nothing.</span>
+        <span class="icetube-stored">+2.1 J/g</span>
+      </li>
+      <li class="icetube-rung icetube-rung-zero">
+        <b>0&deg;</b>
+        <span class="icetube-observed">It melts.</span>
+        <span class="icetube-stored">+334 J/g</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="icetube-plateau">
+    <div class="icetube-plateau-figure">
+      32&times;
+      <span>plateau vs climb</span>
+    </div>
+    <p>
+      The five silent degrees absorb about <strong>10.5 J/g</strong>. The melt
+      takes about <strong>334</strong> more. In the simple model, the reading
+      holds near zero while the phase change continues.
+    </p>
+  </div>
+</figure>
+
+{{ iceOutro | safe }}
+  {% endset %}
+
+  {% set postClass = "ice-column-post" %}
+  {% set postContent = variantC %}
+  {% include "partials/post-card.njk" %}
+
+  <details class="lab-ship">
+    <summary>ship this one</summary>
+    <pre>{% raw %}same front matter as A, except:
+postClass: "ice-column-post"
+
+&lt;style&gt;
+{% include "css/ice-column.css" %}&lt;/style&gt;
+
+keep: src/_includes/css/ice-column.css
+delete: ice-gauge.css, ice-cards.css, ice-receipt.css, ice-type.css,
+        ice-specimen.css, src/ice-cube-lab.njk{% endraw %}</pre>
+  </details>
+</section>
+
+{# ---------------------------------------------------------------- D ---- #}
+<section id="candidate-d" class="lab-slot">
+  <h2 class="lab-slot-title">
+    CANDIDATE D &mdash; THERMAL RECEIPT
+    <span class="lab-slot-note">an itemized bill for invisible energy &middot; ice-receipt.css</span>
+  </h2>
+
+  {% set variantD %}
+<style>
+{% include "css/ice-receipt.css" %}
+</style>
+
+{{ iceIntro | safe }}
+
+<figure
+  class="ice-receipt"
+  aria-label="Thermal energy receipt for warming and melting one gram of ice"
+>
+  <div class="ice-receipt-paper">
+    <header class="ice-receipt-head">
+      <div class="ice-receipt-meta">
+        <span>THERMAL LEDGER / 01</span>
+        <span>PRESSURE: 1 ATM</span>
+      </div>
+      <h3>ENERGY RECEIPT</h3>
+      <p>SUBJECT: 1 g H<sub>2</sub>O &middot; START: SOLID</p>
+    </header>
+
+    <div class="ice-receipt-rule" aria-hidden="true"></div>
+    <div class="ice-receipt-columns" aria-hidden="true">
+      <span>LINE ITEM / OBSERVATION</span>
+      <span>READING</span>
+    </div>
+
+    <dl class="ice-receipt-ledger">
+      <div class="ice-receipt-row">
+        <dt>
+          <strong>01 &middot; WARM SOLID</strong>
+          <span>&minus;5&deg;C &rarr; 0&deg;C</span>
+        </dt>
+        <dd><strong>&asymp;10.5</strong><span>J/g</span></dd>
+      </div>
+      <div class="ice-receipt-row">
+        <dt>
+          <strong>02 &middot; CHANGE PHASE</strong>
+          <span>ice &rarr; water at 0&deg;C</span>
+        </dt>
+        <dd><strong>&asymp;334</strong><span>J/g</span></dd>
+      </div>
+      <div class="ice-receipt-row">
+        <dt>
+          <strong>03 &middot; TEMPERATURE DELTA</strong>
+          <span>during the entire melt</span>
+        </dt>
+        <dd><strong>0&deg;C</strong></dd>
+      </div>
+    </dl>
+
+    <div class="ice-receipt-rule" aria-hidden="true"></div>
+    <p class="ice-receipt-total">
+      <span>VERDICT</span>
+      <strong>FLAT != IDLE</strong>
+    </p>
+    <p class="ice-receipt-stamp">WORK RECEIVED</p>
+    <div class="ice-receipt-barcode" aria-hidden="true"></div>
+    <p class="ice-receipt-code">KEEP-THE-HEAT-ON / TRANSFORMATION-PENDING</p>
+  </div>
+  <figcaption class="ice-receipt-caption">
+    The first charge raises the reading. The larger one changes the state while
+    the reading stays at zero.
+    <strong>A flat gauge can still carry the biggest bill.</strong>
+  </figcaption>
+</figure>
+
+{{ iceOutro | safe }}
+  {% endset %}
+
+  {% set postClass = "ice-receipt-post" %}
+  {% set postContent = variantD %}
+  {% include "partials/post-card.njk" %}
+
+  <details class="lab-ship">
+    <summary>ship this one</summary>
+    <pre>{% raw %}same front matter as A, except:
+postClass: "ice-receipt-post"
+
+&lt;style&gt;
+{% include "css/ice-receipt.css" %}&lt;/style&gt;
+
+keep: src/_includes/css/ice-receipt.css
+delete: ice-gauge.css, ice-cards.css, ice-column.css, ice-type.css,
+        ice-specimen.css, src/ice-cube-lab.njk{% endraw %}</pre>
+  </details>
+</section>
+
+{# ---------------------------------------------------------------- E ---- #}
+<section id="candidate-e" class="lab-slot">
+  <h2 class="lab-slot-title">
+    CANDIDATE E &mdash; FROSTED SPECIMEN
+    <span class="lab-slot-note">one object, an X-ray and a phase cutaway &middot; ice-specimen.css</span>
+  </h2>
+
+  {% set variantE %}
+<style>
+{% include "css/ice-specimen.css" %}
+</style>
+
+{{ iceIntro | safe }}
+
+<figure
+  class="ice-specimen"
+  aria-label="Conceptual ice specimen showing visible shape and absorbed energy"
+>
+  <div class="ice-specimen-bar">
+    <span>SPECIMEN 00 &middot; ICE / ENERGY</span>
+    <span class="ice-specimen-status">DIAGRAM &middot; NOT TO SCALE</span>
+  </div>
+
+  <div class="ice-specimen-stage">
+    <div class="ice-specimen-vitrine" aria-hidden="true">
+      <span class="ice-specimen-vitrine-label">OUTER VIEW: VISIBLY UNCHANGED</span>
+      <span class="ice-specimen-probe-label">ENERGY ABSORBED &middot; DIAGRAM</span>
+      <div class="ice-specimen-cube">
+        <div class="ice-specimen-energy-field">
+          <span class="ice-specimen-energy ice-specimen-energy-a"></span>
+          <span class="ice-specimen-energy ice-specimen-energy-b"></span>
+          <span class="ice-specimen-energy ice-specimen-energy-c"></span>
+          <span class="ice-specimen-energy ice-specimen-energy-d"></span>
+          <span class="ice-specimen-energy ice-specimen-energy-e"></span>
+        </div>
+        <span class="ice-specimen-cube-tag">SAME SHAPE &middot; DIFFERENT ENERGY</span>
+      </div>
+    </div>
+
+    <div class="ice-specimen-cutaway">
+      <p class="ice-specimen-cutaway-kicker">0&deg;C CUTAWAY</p>
+      <div class="ice-specimen-lens" aria-hidden="true">
+        <span class="ice-specimen-mini-cube"></span>
+        <span class="ice-specimen-puddle"></span>
+      </div>
+      <p class="ice-specimen-phase">
+        <strong>PHASE CHANGE</strong>
+        <span>Temperature holds. The structure changes.</span>
+      </p>
+    </div>
+  </div>
+
+  <dl class="ice-specimen-readout">
+    <div>
+      <dt>OUTER VIEW</dt>
+      <dd>No visible shape change from &minus;5&deg;C to 0&deg;C.</dd>
+    </div>
+    <div>
+      <dt>ENERGY VIEW</dt>
+      <dd>About 10.5 J/g is absorbed while the ice warms.</dd>
+    </div>
+    <div>
+      <dt>0&deg;C CUTAWAY</dt>
+      <dd>About 334 J/g more melts it fully while the reading holds.</dd>
+    </div>
+  </dl>
+
+  <figcaption class="ice-specimen-caption">
+    <strong>Conceptual diagram, not a thermal cross-section.</strong>
+    The markers make absorbed energy visible; they are not literal layers
+    inside the ice.
+  </figcaption>
+</figure>
+
+{{ iceOutro | safe }}
+  {% endset %}
+
+  {% set postClass = "ice-specimen-post" %}
+  {% set postContent = variantE %}
+  {% include "partials/post-card.njk" %}
+
+  <details class="lab-ship">
+    <summary>ship this one</summary>
+    <pre>{% raw %}same front matter as A, except:
+postClass: "ice-specimen-post"
+
+&lt;style&gt;
+{% include "css/ice-specimen.css" %}&lt;/style&gt;
+
+keep: src/_includes/css/ice-specimen.css
+delete: ice-gauge.css, ice-cards.css, ice-column.css, ice-receipt.css,
+        ice-type.css, src/ice-cube-lab.njk{% endraw %}</pre>
+  </details>
+</section>
+
+{# ---------------------------------------------------------------- F ---- #}
+<section id="candidate-f" class="lab-slot">
+  <h2 class="lab-slot-title">
+    CANDIDATE F &mdash; CONCRETE POEM
+    <span class="lab-slot-note">the words become the cube and the puddle &middot; ice-type.css</span>
+  </h2>
+
+  {% set variantF %}
+<style>
+{% include "css/ice-type.css" %}
+</style>
+
+{{ iceIntro | safe }}
+
+<figure
+  class="phase-poem"
+  aria-label="Concrete poem about an ice cube absorbing energy and melting"
+>
+  <div class="phase-poem-art" aria-hidden="true">
+    <p class="phase-poem-label">
+      <span>PHASE STUDY / ONE CUBE</span>
+      <span>&minus;5&deg;C &rarr; 0&deg;C</span>
+    </p>
+
+    <div class="phase-poem-stage">
+      <span class="phase-poem-zero">0&deg;</span>
+
+      <div class="phase-poem-cube">
+        <span>NOTHING</span>
+        <span>NOTHING</span>
+        <span>NOTHING</span>
+        <span>NOTHING</span>
+        <span>NOTHING</span>
+        <span>NOTHING</span>
+        <span>NOTHING</span>
+      </div>
+
+      <div class="phase-poem-drift">
+        <span>N</span>
+        <span>O</span>
+        <span>T</span>
+        <span>H</span>
+        <span>I</span>
+        <span>N</span>
+        <span>G</span>
+      </div>
+
+      <div class="phase-poem-puddle">
+        <span>THE WORK</span>
+        <span>WAS HAPPENING</span>
+        <span>ALL ALONG</span>
+      </div>
+    </div>
+
+    <p class="phase-poem-readout">
+      <span>THE READING IS FLAT.</span>
+      <strong>THE STRUCTURE IS NOT.</strong>
+    </p>
+  </div>
+
+  <figcaption class="phase-poem-caption">
+    <strong>UNCHANGED IS NOT UNTOUCHED.</strong>
+    Under ordinary conditions, ice can look unchanged from &minus;5&deg;C to
+    0&deg;C while absorbing energy. During melting, the reading can stay near
+    0&deg;C while still more energy changes its structure.
+  </figcaption>
+</figure>
+
+{{ iceOutro | safe }}
+  {% endset %}
+
+  {% set postClass = "ice-type-post" %}
+  {% set postContent = variantF %}
+  {% include "partials/post-card.njk" %}
+
+  <details class="lab-ship">
+    <summary>ship this one</summary>
+    <pre>{% raw %}same front matter as A, except:
+postClass: "ice-type-post"
+
+&lt;style&gt;
+{% include "css/ice-type.css" %}&lt;/style&gt;
+
+keep: src/_includes/css/ice-type.css
+delete: ice-gauge.css, ice-cards.css, ice-column.css, ice-receipt.css,
+        ice-specimen.css, src/ice-cube-lab.njk{% endraw %}</pre>
+  </details>
+</section>
