@@ -1,7 +1,7 @@
 ---
 layout: base.njk
 title: "Ice Cube Lab ~ Hung's Journal"
-description: "A throwaway comparison page for six visual treatments of the ice cube post."
+description: "A throwaway comparison page for 10 candidate visual treatments of the ice cube post."
 permalink: ice-cube-lab.html
 pageClass: ice-lab-page
 ---
@@ -12,12 +12,12 @@ pageClass: ice-lab-page
   It renders each candidate inside partials/post-card.njk, the same shell Home
   and /posts/<slug>/ use, so what you see here is what ships.
 
-  The prose is defined once below and reused by all six, so you are choosing
-  the visual, not the writing.
+  Candidate I is live. Its canonical prose and body now live in
+  src/posts/2026-08-16-ice-cube.njk; this page renders that collection item
+  directly so the vault markup and CSS have one source of truth.
 
-  To ship one: copy the block inside its "set variantX" tag into
-  src/posts/2026-08-15-ice-cube.njk with the front matter shown under the
-  candidate, then delete this file and the five CSS files you did not pick.
+  The shared iceIntro and iceOutro blocks below remain comparison copy for
+  candidates A through H and J only.
 #}
 <style>
   .ice-lab-page .lab-head {
@@ -88,12 +88,11 @@ pageClass: ice-lab-page
 </style>
 
 <div class="lab-head">
-  <h1>ICE CUBE &mdash; 6 CANDIDATES</h1>
+  <h1>ICE CUBE &mdash; 10 CANDIDATES</h1>
   <p>
-    Same post, same words, six visuals. Each card below is rendered through
-    the real post shell, so the borders, spacing and mobile behaviour are the
-    live ones. Pick one, promote it into src/posts/, delete this page and the
-    five CSS files you did not keep.
+    Same post, same words, 10 candidate visuals. Candidate I is the live post;
+    the other nine remain previews. Every card is rendered through the real
+    post shell, so the borders, spacing and mobile behaviour are the live ones.
     <a href="/index.html">&lt;&lt; back to home</a>
   </p>
 </div>
@@ -219,8 +218,8 @@ pageClass: ice-lab-page
   {% endset %}
 
   {% set postTitleHtml = "&#129482; Ice Cube" %}
-  {% set postDisplayDate = "Aug 15th 2026" %}
-  {% set postDateIso = "2026-08-15" %}
+  {% set postDisplayDate = "Aug 16th 2026" %}
+  {% set postDateIso = "2026-08-16" %}
   {% set postMoodHtml = "Mood: Patient | Quest: Keep the Heat On" %}
   {% set postTags = ["#patience","#progress","#discipline","#compounding"] %}
   {% set postClass = "ice-gauge-post" %}
@@ -232,13 +231,13 @@ pageClass: ice-lab-page
 
   <details class="lab-ship">
     <summary>ship this one</summary>
-    <pre>{% raw %}src/posts/2026-08-15-ice-cube.njk
+    <pre>{% raw %}src/posts/2026-08-16-ice-cube.njk
 ---
 title: "Ice Cube"
-date: 2026-08-15T12:00:00Z
+date: 2026-08-16T12:00:00Z
 description: "Nothing seems to happen between -5 and 0 degrees. Everything that matters does."
 titleHtml: "&#129482; Ice Cube"
-displayDate: "Aug 15th 2026"
+displayDate: "Aug 16th 2026"
 moodHtml: "Mood: Patient | Quest: Keep the Heat On"
 postTags: ["#patience","#progress","#discipline","#compounding"]
 postClass: "ice-gauge-post"
@@ -249,12 +248,10 @@ postClass: "ice-gauge-post"
 ... paste the body of {% set variantA %} here, with the prose expanded ...
 
 keep: src/_includes/css/ice-gauge.css
-delete: ice-cards.css, ice-column.css, ice-receipt.css, ice-type.css,
-        ice-specimen.css, src/ice-cube-lab.njk{% endraw %}</pre>
+delete: the other nine ice-*.css files, src/ice-cube-lab.njk{% endraw %}</pre>
   </details>
 </section>
 
-{# ---------------------------------------------------------------- B ---- #}
 <section id="candidate-b" class="lab-slot">
   <h2 class="lab-slot-title">
     CANDIDATE B &mdash; SIX CARDS
@@ -369,8 +366,7 @@ postClass: "ice-cards-post"
 {% include "css/ice-cards.css" %}&lt;/style&gt;
 
 keep: src/_includes/css/ice-cards.css
-delete: ice-gauge.css, ice-column.css, ice-receipt.css, ice-type.css,
-        ice-specimen.css, src/ice-cube-lab.njk{% endraw %}</pre>
+delete: the other nine ice-*.css files, src/ice-cube-lab.njk{% endraw %}</pre>
   </details>
 </section>
 
@@ -466,8 +462,7 @@ postClass: "ice-column-post"
 {% include "css/ice-column.css" %}&lt;/style&gt;
 
 keep: src/_includes/css/ice-column.css
-delete: ice-gauge.css, ice-cards.css, ice-receipt.css, ice-type.css,
-        ice-specimen.css, src/ice-cube-lab.njk{% endraw %}</pre>
+delete: the other nine ice-*.css files, src/ice-cube-lab.njk{% endraw %}</pre>
   </details>
 </section>
 
@@ -561,8 +556,7 @@ postClass: "ice-receipt-post"
 {% include "css/ice-receipt.css" %}&lt;/style&gt;
 
 keep: src/_includes/css/ice-receipt.css
-delete: ice-gauge.css, ice-cards.css, ice-column.css, ice-type.css,
-        ice-specimen.css, src/ice-cube-lab.njk{% endraw %}</pre>
+delete: the other nine ice-*.css files, src/ice-cube-lab.njk{% endraw %}</pre>
   </details>
 </section>
 
@@ -656,8 +650,7 @@ postClass: "ice-specimen-post"
 {% include "css/ice-specimen.css" %}&lt;/style&gt;
 
 keep: src/_includes/css/ice-specimen.css
-delete: ice-gauge.css, ice-cards.css, ice-column.css, ice-receipt.css,
-        ice-type.css, src/ice-cube-lab.njk{% endraw %}</pre>
+delete: the other nine ice-*.css files, src/ice-cube-lab.njk{% endraw %}</pre>
   </details>
 </section>
 
@@ -745,7 +738,335 @@ postClass: "ice-type-post"
 {% include "css/ice-type.css" %}&lt;/style&gt;
 
 keep: src/_includes/css/ice-type.css
-delete: ice-gauge.css, ice-cards.css, ice-column.css, ice-receipt.css,
-        ice-specimen.css, src/ice-cube-lab.njk{% endraw %}</pre>
+delete: the other nine ice-*.css files, src/ice-cube-lab.njk{% endraw %}</pre>
+  </details>
+</section>
+
+{# ---------------------------------------------------------------- G ---- #}
+<section id="candidate-g" class="lab-slot">
+  <h2 class="lab-slot-title">
+    CANDIDATE G &mdash; REAL TIME
+    <span class="lab-slot-note">a 15 second loop, 10 of them boring on purpose &middot; ice-realtime.css</span>
+  </h2>
+
+  {% set variantG %}
+<style>
+{% include "css/ice-realtime.css" %}
+</style>
+
+{{ iceIntro | safe }}
+
+<figure class="melt-rig">
+  <div class="melt-bar" aria-hidden="true">
+    <span><span class="melt-rec"></span>LIVE FEED</span>
+    <span class="melt-bar-status">ONE CUBE &middot; REAL TIME</span>
+  </div>
+
+  <div class="melt-stage" aria-hidden="true">
+    <div class="melt-cube">
+      <span class="melt-cube-body"></span>
+      <span class="melt-puddle"></span>
+    </div>
+
+    <div class="melt-panel">
+      <p class="melt-kicker">TEMPERATURE</p>
+      <span class="melt-window">
+        <span class="melt-reel">
+          <b>&minus;5&deg;</b>
+          <b>&minus;4&deg;</b>
+          <b>&minus;3&deg;</b>
+          <b>&minus;2&deg;</b>
+          <b>&minus;1&deg;</b>
+          <b>0&deg;</b>
+        </span>
+      </span>
+
+      <p class="melt-kicker melt-kicker-second">HEAT ABSORBED</p>
+      <span class="melt-meter"><span class="melt-meter-fill"></span></span>
+
+      <p class="melt-state">
+        <span class="melt-state-wait">NO VISIBLE CHANGE</span>
+        <span class="melt-state-go">PHASE CHANGE</span>
+      </p>
+    </div>
+  </div>
+
+  <figcaption class="melt-cap">
+    Give it ten seconds. The number climbs the entire time and the cube does
+    nothing whatsoever, until it does <strong>everything at once</strong>.
+    <span class="melt-static-note"
+      >Motion is switched off, so this shows the final frame.</span
+    >
+  </figcaption>
+</figure>
+
+{{ iceOutro | safe }}
+  {% endset %}
+
+  {% set postClass = "ice-realtime-post" %}
+  {% set postContent = variantG %}
+  {% include "partials/post-card.njk" %}
+
+  <details class="lab-ship">
+    <summary>ship this one</summary>
+    <pre>{% raw %}same front matter as A, except:
+postClass: "ice-realtime-post"
+
+&lt;style&gt;
+{% include "css/ice-realtime.css" %}&lt;/style&gt;
+
+keep: src/_includes/css/ice-realtime.css
+delete: the other nine ice-*.css files, src/ice-cube-lab.njk{% endraw %}</pre>
+  </details>
+</section>
+
+{# ---------------------------------------------------------------- H ---- #}
+<section id="candidate-h" class="lab-slot">
+  <h2 class="lab-slot-title">
+    CANDIDATE H &mdash; CONTACT SHEET
+    <span class="lab-slot-note">a playhead crawls six frames; one differs &middot; ice-strip.css</span>
+  </h2>
+
+  {% set variantH %}
+<style>
+{% include "css/ice-strip.css" %}
+</style>
+
+{{ iceIntro | safe }}
+
+<figure class="strip-rig">
+  <div class="strip-bar" aria-hidden="true">
+    <span>CONTACT SHEET</span>
+    <span class="strip-bar-status">6 FRAMES &middot; 1 DEGREE APART</span>
+  </div>
+
+  <div class="strip-film" aria-hidden="true">
+    <span class="strip-perf"></span>
+
+    <ol class="strip-frames">
+      <li class="strip-frame">
+        <span class="strip-shot"><span class="strip-cube"></span></span>
+        <span class="strip-stamp">&minus;5&deg;</span>
+        <span class="strip-verdict">NO CHANGE</span>
+      </li>
+      <li class="strip-frame">
+        <span class="strip-shot"><span class="strip-cube"></span></span>
+        <span class="strip-stamp">&minus;4&deg;</span>
+        <span class="strip-verdict">NO CHANGE</span>
+      </li>
+      <li class="strip-frame">
+        <span class="strip-shot"><span class="strip-cube"></span></span>
+        <span class="strip-stamp">&minus;3&deg;</span>
+        <span class="strip-verdict">NO CHANGE</span>
+      </li>
+      <li class="strip-frame">
+        <span class="strip-shot"><span class="strip-cube"></span></span>
+        <span class="strip-stamp">&minus;2&deg;</span>
+        <span class="strip-verdict">NO CHANGE</span>
+      </li>
+      <li class="strip-frame">
+        <span class="strip-shot"><span class="strip-cube"></span></span>
+        <span class="strip-stamp">&minus;1&deg;</span>
+        <span class="strip-verdict">NO CHANGE</span>
+      </li>
+      <li class="strip-frame strip-frame-final">
+        <span class="strip-shot">
+          <span class="strip-cube"></span>
+          <span class="strip-pool"></span>
+        </span>
+        <span class="strip-stamp">0&deg;</span>
+        <span class="strip-verdict">MELTING</span>
+      </li>
+    </ol>
+
+    <span class="strip-perf"></span>
+  </div>
+
+  <figcaption class="strip-cap">
+    Six frames, one degree apart. Five of them are the same photograph. The
+    sixth is the only one anyone remembers, and it is
+    <strong>made out of the other five</strong>.
+    <span class="strip-static-note"
+      >Motion is switched off, so every frame is lit and the last one is shown
+      melted.</span
+    >
+  </figcaption>
+</figure>
+
+{{ iceOutro | safe }}
+  {% endset %}
+
+  {% set postClass = "ice-strip-post" %}
+  {% set postContent = variantH %}
+  {% include "partials/post-card.njk" %}
+
+  <details class="lab-ship">
+    <summary>ship this one</summary>
+    <pre>{% raw %}same front matter as A, except:
+postClass: "ice-strip-post"
+
+&lt;style&gt;
+{% include "css/ice-strip.css" %}&lt;/style&gt;
+
+keep: src/_includes/css/ice-strip.css
+delete: the other nine ice-*.css files, src/ice-cube-lab.njk{% endraw %}</pre>
+  </details>
+</section>
+
+{# ---------------------------------------------------------------- I ---- #}
+<section id="candidate-i" class="lab-slot">
+  <h2 class="lab-slot-title">
+    CANDIDATE I &mdash; ZERO-DEGREE VAULT &middot; LIVE
+    <span class="lab-slot-note">
+      canonical collection post &middot;
+      <a href="/posts/ice-cube/">view the shipped post</a>
+    </span>
+  </h2>
+
+  {%- for post in collections.post %}
+  {%- if post.fileSlug == "ice-cube" %}
+  {% set postTitleHtml = post.data.titleHtml %}
+  {% set postDisplayDate = post.data.displayDate %}
+  {% set postDateIso = post.data.date | isoDate %}
+  {% set postMoodHtml = post.data.moodHtml %}
+  {% set postTags = post.data.postTags %}
+  {% set postClass = post.data.postClass %}
+  {% set postUrl = post.url %}
+  {% set postContent = post.templateContent %}
+  {% set postHeadingLink = true %}
+  {% set showArchiveLink = false %}
+  {% include "partials/post-card.njk" %}
+  {%- endif %}
+  {%- endfor %}
+
+  {# Collection assignments leak in Nunjucks; restore preview metadata for J. #}
+  {% set postTitleHtml = "&#129482; Ice Cube" %}
+  {% set postDisplayDate = "Aug 16th 2026" %}
+  {% set postDateIso = "2026-08-16" %}
+  {% set postMoodHtml = "Mood: Patient | Quest: Keep the Heat On" %}
+  {% set postTags = ["#patience","#progress","#discipline","#compounding"] %}
+  {% set postUrl = "/ice-cube-lab.html" %}
+  {% set postHeadingLink = false %}
+  {% set showArchiveLink = false %}
+
+  <p class="lab-slot-note">
+    Shipped on 2026-08-16.
+    <a href="/posts/ice-cube/">Open the canonical post.</a>
+  </p>
+</section>
+
+{# ---------------------------------------------------------------- J ---- #}
+<section id="candidate-j" class="lab-slot">
+  <h2 class="lab-slot-title">
+    CANDIDATE J &mdash; REGISTRATION PROOF
+    <span class="lab-slot-note">five offset impressions resolve into one phase-change seal &middot; ice-register.css</span>
+  </h2>
+
+  {% set variantJ %}
+<style>
+{% include "css/ice-register.css" %}
+</style>
+
+{{ iceIntro | safe }}
+
+<figure class="icereg-proof">
+  <div class="icereg-bar" aria-hidden="true">
+    <span>REGISTRATION PROOF / FIVE PASSES</span>
+    <span class="icereg-statuses">
+      <span class="icereg-status-ready">READY</span>
+      <span class="icereg-status-running">REGISTERING</span>
+      <span class="icereg-status-done">REGISTERED</span>
+    </span>
+  </div>
+
+  <label class="icereg-control">
+    <input class="icereg-toggle" type="checkbox" autocomplete="off" />
+    <span class="icereg-switch" aria-hidden="true"></span>
+    <span class="icereg-control-copy">
+      <b class="icereg-control-run">ALIGN FIVE PASSES</b>
+      <b class="icereg-control-reset">RESET PROOF</b>
+      <small>Press once. Watch the work register.</small>
+    </span>
+  </label>
+
+  <div class="icereg-stage" aria-hidden="true">
+    <div class="icereg-sheet">
+      <p class="icereg-paper-meta">
+        <span>OPTICAL PROOF / 005</span>
+        <span>SAME SUBJECT / NEW ENERGY</span>
+      </p>
+
+      <span class="icereg-crop icereg-crop-nw"></span>
+      <span class="icereg-crop icereg-crop-ne"></span>
+      <span class="icereg-crop icereg-crop-sw"></span>
+      <span class="icereg-crop icereg-crop-se"></span>
+
+      <div class="icereg-fixed-proof">
+        <span class="icereg-fixed-label">FIXED PROOF / SAME CUBE</span>
+        <span class="icereg-cube"></span>
+        <span class="icereg-puddle"></span>
+      </div>
+
+      <span class="icereg-plate icereg-pass-01">
+        <span class="icereg-pass-label">PASS 01 / +2.1 J/g</span>
+      </span>
+      <span class="icereg-plate icereg-pass-02">
+        <span class="icereg-pass-label">PASS 02 / +2.1 J/g</span>
+      </span>
+      <span class="icereg-plate icereg-pass-03">
+        <span class="icereg-pass-label">PASS 03 / +2.1 J/g</span>
+      </span>
+      <span class="icereg-plate icereg-pass-04">
+        <span class="icereg-pass-label">PASS 04 / +2.1 J/g</span>
+      </span>
+      <span class="icereg-plate icereg-pass-05">
+        <span class="icereg-pass-label">PASS 05 / +2.1 J/g</span>
+      </span>
+
+      <span class="icereg-seal">
+        <span>0&deg;C</span>
+        <strong>PHASE CHANGE</strong>
+      </span>
+    </div>
+
+    <p class="icereg-readout">
+      <span>PASS ENERGY / +2.1 J/g &times; 5</span>
+      <strong>&asymp;10.5 J/g ABSORBED</strong>
+    </p>
+  </div>
+
+  <figcaption class="icereg-caption">
+    Five cyan passes represent the roughly 10.5 J/g absorbed while one gram of
+    ice warms from &minus;5&deg;C to 0&deg;C. The cube looks unchanged while
+    every pass lands. Only the completed registration reveals the gold
+    phase-change seal and puddle; fully melting that gram takes roughly
+    334 J/g more.
+    <strong>
+      This is a visual analogy for accumulated work, not a literal picture of
+      heat transfer or a literal printing process.
+    </strong>
+    <span class="icereg-static-note">
+      Motion is switched off, so the fully registered proof is shown.
+    </span>
+  </figcaption>
+</figure>
+
+{{ iceOutro | safe }}
+  {% endset %}
+
+  {% set postClass = "ice-register-post" %}
+  {% set postContent = variantJ %}
+  {% include "partials/post-card.njk" %}
+
+  <details class="lab-ship">
+    <summary>ship this one</summary>
+    <pre>{% raw %}same front matter as A, except:
+postClass: "ice-register-post"
+
+&lt;style&gt;
+{% include "css/ice-register.css" %}&lt;/style&gt;
+
+keep: src/_includes/css/ice-register.css
+delete: the other nine ice-*.css files, src/ice-cube-lab.njk{% endraw %}</pre>
   </details>
 </section>

@@ -1,0 +1,792 @@
+/* Checked five-frame contact sheet feeding a threshold vault. Fully scoped. */
+.ice-cube-post {
+  --vault-cycle: 18s;
+
+  border-color: rgba(0, 255, 255, 0.4);
+  box-shadow:
+    0 0 24px rgba(0, 255, 255, 0.07),
+    inset 0 0 34px rgba(0, 255, 255, 0.025);
+}
+
+.ice-cube-post:hover {
+  border-color: rgba(255, 105, 180, 0.72);
+}
+
+.ice-cube-post .post-header {
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.13), transparent 50%),
+    linear-gradient(135deg, rgba(255, 215, 0, 0.065), rgba(0, 255, 255, 0.08));
+}
+
+.ice-cube-post .ice-vault {
+  position: relative;
+  isolation: isolate;
+  margin: 20px 0 24px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 255, 0.55);
+  border-radius: 5px;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(0, 255, 255, 0.08), transparent 37%),
+    radial-gradient(circle at 84% 76%, rgba(255, 215, 0, 0.055), transparent 30%),
+    linear-gradient(145deg, #090922, #060617);
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.4),
+    0 0 22px rgba(0, 255, 255, 0.1),
+    inset 0 0 28px rgba(0, 255, 255, 0.025);
+}
+
+.ice-cube-post .ice-vault::before {
+  content: "";
+  position: absolute;
+  z-index: 8;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    rgba(255, 255, 255, 0.017) 3px 4px
+  );
+  pointer-events: none;
+}
+
+.ice-cube-post .ice-vault-bar {
+  position: relative;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.28);
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.15), rgba(255, 215, 0, 0.05)),
+    #0b0b27;
+  color: var(--accent-cyan);
+  font-family: var(--font-display);
+  font-size: 8px;
+  line-height: 1.5;
+  letter-spacing: 1px;
+}
+
+.ice-cube-post .ice-vault-bar-status {
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  letter-spacing: 0.6px;
+}
+
+.ice-cube-post .ice-vault-control {
+  position: relative;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  max-width: calc(100% - 24px);
+  margin: 12px auto 0;
+  padding: 8px 11px;
+  border: 1px solid rgba(255, 105, 180, 0.58);
+  border-radius: 3px;
+  background: rgba(255, 105, 180, 0.07);
+  color: var(--accent-pink);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 8px;
+  line-height: 1.55;
+  letter-spacing: 0.75px;
+}
+
+.ice-cube-post .ice-vault-control:hover {
+  border-color: var(--accent-pink);
+  background: rgba(255, 105, 180, 0.12);
+}
+
+.ice-cube-post .ice-vault-control:has(.ice-vault-toggle:focus-visible) {
+  outline: 2px solid var(--accent-pink);
+  outline-offset: 3px;
+}
+
+.ice-cube-post .ice-vault-toggle {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent-pink);
+  cursor: pointer;
+}
+
+.ice-cube-post .ice-vault-control-copy {
+  min-width: 0;
+}
+
+.ice-cube-post .ice-vault-control-reset,
+.ice-cube-post .ice-vault-control-motion-off {
+  display: none;
+}
+
+.ice-cube-post .ice-vault-toggle:checked + .ice-vault-control-copy .ice-vault-control-start {
+  display: none;
+}
+
+.ice-cube-post .ice-vault-toggle:checked + .ice-vault-control-copy .ice-vault-control-reset {
+  display: inline;
+}
+
+.ice-cube-post .ice-vault-stage {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: 12px 14px 14px;
+}
+
+.ice-cube-post .ice-vault-readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 14px;
+  margin: 0;
+  padding: 7px 9px;
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  border-radius: 2px;
+  background: rgba(5, 5, 23, 0.78);
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  line-height: 1.35;
+  letter-spacing: 0.45px;
+}
+
+.ice-cube-post .ice-vault-readout strong {
+  color: var(--accent-gold);
+  font-weight: normal;
+}
+
+.ice-cube-post .ice-vault-readout-input {
+  color: var(--accent-lime);
+}
+
+.ice-cube-post .ice-vault-machine {
+  position: relative;
+  height: clamp(240px, 58vw, 310px);
+  overflow: hidden;
+}
+
+.ice-cube-post .ice-vault-machine::before,
+.ice-cube-post .ice-vault-machine::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.24));
+}
+
+.ice-cube-post .ice-vault-machine::before {
+  right: 50%;
+  left: 0;
+}
+
+.ice-cube-post .ice-vault-machine::after {
+  right: 0;
+  left: 50%;
+  transform: scaleX(-1);
+}
+
+.ice-cube-post .ice-vault-backplate,
+.ice-cube-post .ice-vault-door {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(52%, 190px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+.ice-cube-post .ice-vault-backplate {
+  z-index: 1;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 9px;
+  background:
+    linear-gradient(135deg, rgba(0, 255, 255, 0.1), transparent 44%),
+    #060619;
+  box-shadow:
+    0 0 0 8px rgba(0, 255, 255, 0.025),
+    0 0 0 9px rgba(0, 255, 255, 0.12),
+    inset 0 0 28px rgba(0, 255, 255, 0.05);
+}
+
+.ice-cube-post .ice-vault-backplate::before,
+.ice-cube-post .ice-vault-backplate::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(0, 255, 255, 0.45);
+  border-radius: 50%;
+}
+
+.ice-cube-post .ice-vault-backplate::before {
+  top: 8px;
+  left: 8px;
+}
+
+.ice-cube-post .ice-vault-backplate::after {
+  top: 8px;
+  right: 8px;
+}
+
+.ice-cube-post .ice-vault-payoff {
+  position: absolute;
+  z-index: 2;
+  top: 45%;
+  left: 50%;
+  width: min(48%, 176px);
+  margin: 0;
+  color: var(--accent-gold);
+  font-family: var(--font-display);
+  font-size: clamp(12px, 3vw, 17px);
+  line-height: 1.55;
+  letter-spacing: 0.8px;
+  text-align: center;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.42);
+  opacity: 0;
+  transform: translate(-50%, -36%) scale(0.9);
+}
+
+.ice-cube-post .ice-vault-payoff strong,
+.ice-cube-post .ice-vault-payoff span {
+  display: block;
+}
+
+.ice-cube-post .ice-vault-payoff strong {
+  font-size: 1.65em;
+  font-weight: normal;
+}
+
+.ice-cube-post .ice-vault-payoff span {
+  color: var(--accent-lime);
+  font-family: var(--font-pixel);
+  font-size: 0.95em;
+  letter-spacing: 0.5px;
+}
+
+.ice-cube-post .ice-vault-puddle {
+  position: absolute;
+  z-index: 3;
+  bottom: 25px;
+  left: 50%;
+  width: min(58%, 220px);
+  height: 18px;
+  border: 1px solid rgba(255, 215, 0, 0.62);
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse, rgba(255, 215, 0, 0.31), rgba(0, 255, 255, 0.2) 60%, transparent 72%);
+  box-shadow: 0 0 22px rgba(255, 215, 0, 0.23);
+  opacity: 0;
+  transform: translateX(-50%) scaleX(0.18) scaleY(0.35);
+}
+
+.ice-cube-post .ice-vault-door {
+  z-index: 4;
+  overflow: hidden;
+  border: 1px solid rgba(127, 240, 255, 0.8);
+  border-radius: 7px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.27), transparent 22%),
+    linear-gradient(150deg, rgba(127, 240, 255, 0.46), rgba(0, 255, 255, 0.12) 60%, rgba(4, 30, 47, 0.88));
+  box-shadow:
+    0 0 24px rgba(0, 255, 255, 0.2),
+    inset 0 0 24px rgba(255, 255, 255, 0.11),
+    inset 0 0 0 7px rgba(7, 7, 26, 0.27);
+  transform-origin: 0 50%;
+}
+
+.ice-cube-post .ice-vault-door::before {
+  content: "ICE / THRESHOLD LOCK";
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  color: rgba(221, 252, 255, 0.82);
+  font-family: var(--font-display);
+  font-size: 6px;
+  line-height: 1.4;
+  letter-spacing: 0.7px;
+}
+
+.ice-cube-post .ice-vault-door::after {
+  content: "-5  -4  -3  -2  -1  0";
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
+  color: rgba(221, 252, 255, 0.68);
+  font-family: var(--font-pixel);
+  font-size: clamp(11px, 2.8vw, 14px);
+  line-height: 1.2;
+  letter-spacing: 0.3px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ice-cube-post .ice-vault-dial {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 46%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 215, 0, 0.76);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #080820 0 23%, transparent 24%),
+    repeating-conic-gradient(from 0deg, rgba(255, 215, 0, 0.68) 0 2deg, transparent 2deg 30deg),
+    radial-gradient(circle, rgba(0, 255, 255, 0.17), rgba(4, 4, 21, 0.85) 66%);
+  box-shadow:
+    0 0 0 5px rgba(7, 7, 26, 0.42),
+    0 0 0 6px rgba(0, 255, 255, 0.3),
+    0 0 18px rgba(255, 215, 0, 0.18);
+  transform: translate(-50%, -50%) rotate(-135deg);
+}
+
+.ice-cube-post .ice-vault-dial::before {
+  content: "";
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  width: 2px;
+  height: 31%;
+  border-radius: 2px;
+  background: var(--accent-gold);
+  box-shadow: 0 0 9px rgba(255, 215, 0, 0.7);
+  transform: translateX(-50%);
+}
+
+.ice-cube-post .ice-vault-dial::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 21%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(0, 255, 255, 0.75);
+  border-radius: 50%;
+  background: #07071b;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.25);
+  transform: translate(-50%, -50%);
+}
+
+.ice-cube-post .ice-vault-contact-label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 3px 12px;
+  margin: 0 0 7px;
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  line-height: 1.3;
+  letter-spacing: 0.4px;
+}
+
+.ice-cube-post .ice-vault-contact-label strong {
+  color: var(--accent-lime);
+  font-weight: normal;
+}
+
+.ice-cube-post .ice-vault-film {
+  min-width: 0;
+  overflow: hidden;
+  padding: 10px 10px 7px;
+  background: #060615;
+}
+
+.ice-cube-post .ice-vault-perf {
+  display: block;
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(153, 136, 187, 0.32) 0 7px,
+    transparent 7px 18px
+  );
+}
+
+.ice-cube-post .ice-vault-frames {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  min-width: 0;
+  margin: 9px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ice-cube-post .ice-vault-frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  overflow: hidden;
+  padding: 7px 6px 8px;
+  border: 1px solid rgba(0, 255, 255, 0.42);
+  border-radius: 3px;
+  background: rgba(10, 10, 34, 0.92);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.14);
+  opacity: 0.4;
+  transform: translateY(0) scale(1);
+}
+
+.ice-cube-post .ice-vault-frame::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 5px;
+  right: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-lime);
+  box-shadow: 0 0 7px rgba(127, 255, 0, 0.7);
+}
+
+.ice-cube-post .ice-vault-shot {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 52px;
+  overflow: hidden;
+  padding-bottom: 8px;
+  border-radius: 2px;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(0, 255, 255, 0.08), transparent 60%),
+    #07071a;
+}
+
+.ice-cube-post .ice-vault-mini-cube {
+  width: 27px;
+  height: 27px;
+  border: 1px solid rgba(127, 240, 255, 0.78);
+  border-radius: 3px;
+  background: linear-gradient(
+    150deg,
+    rgba(127, 240, 255, 0.44),
+    rgba(0, 255, 255, 0.11) 62%,
+    rgba(0, 255, 255, 0.04)
+  );
+  box-shadow: 0 0 11px rgba(0, 255, 255, 0.2);
+}
+
+.ice-cube-post .ice-vault-frame-stamp {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px 6px;
+  color: var(--accent-cyan);
+  font-family: var(--font-display);
+  font-size: 7px;
+  line-height: 1.45;
+}
+
+.ice-cube-post .ice-vault-frame-stamp strong {
+  color: var(--accent-cyan);
+  font-weight: normal;
+}
+
+.ice-cube-post .ice-vault-frame-stamp span {
+  color: var(--accent-gold);
+}
+
+.ice-cube-post .ice-vault-frame-verdict {
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  line-height: 1.05;
+}
+
+.ice-cube-post .ice-vault-equation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 14px;
+  margin: 9px 0 0;
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  line-height: 1.35;
+  letter-spacing: 0.35px;
+}
+
+.ice-cube-post .ice-vault-equation strong {
+  color: var(--accent-gold);
+  font-weight: normal;
+}
+
+.ice-cube-post .ice-vault-caption {
+  position: relative;
+  z-index: 9;
+  padding: 11px 14px 14px;
+  border-top: 1px dashed rgba(0, 255, 255, 0.2);
+  background: rgba(7, 7, 25, 0.7);
+  color: var(--text-main);
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  line-height: 1.42;
+}
+
+.ice-cube-post .ice-vault-caption strong {
+  color: var(--accent-gold);
+  font-weight: normal;
+}
+
+.ice-cube-post .ice-vault-static-note {
+  display: none;
+  margin-top: 6px;
+  color: var(--accent-lime);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+/* One checked master cycle drives every beat. */
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-dial {
+  animation: icevault-dial var(--vault-cycle) linear both;
+}
+
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame {
+  animation: icevault-frame-live calc(var(--vault-cycle) * 0.12) linear both;
+}
+
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame:nth-child(1) {
+  animation-delay: calc(var(--vault-cycle) * 0.07);
+}
+
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame:nth-child(2) {
+  animation-delay: calc(var(--vault-cycle) * 0.19);
+}
+
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame:nth-child(3) {
+  animation-delay: calc(var(--vault-cycle) * 0.31);
+}
+
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame:nth-child(4) {
+  animation-delay: calc(var(--vault-cycle) * 0.43);
+}
+
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame:nth-child(5) {
+  animation-delay: calc(var(--vault-cycle) * 0.55);
+}
+
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-door {
+  animation: icevault-door var(--vault-cycle) linear both;
+}
+
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-puddle {
+  animation: icevault-puddle var(--vault-cycle) linear both;
+}
+
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-payoff {
+  animation: icevault-payoff var(--vault-cycle) linear both;
+}
+
+@keyframes icevault-dial {
+  0% {
+    transform: translate(-50%, -50%) rotate(-135deg);
+  }
+  11% {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  23% {
+    transform: translate(-50%, -50%) rotate(-225deg);
+  }
+  35% {
+    transform: translate(-50%, -50%) rotate(135deg);
+  }
+  47% {
+    transform: translate(-50%, -50%) rotate(-315deg);
+  }
+  59% {
+    transform: translate(-50%, -50%) rotate(225deg);
+  }
+  68%,
+  100% {
+    transform: translate(-50%, -50%) rotate(315deg);
+  }
+}
+
+@keyframes icevault-frame-live {
+  0% {
+    opacity: 0.4;
+    transform: translateY(0) scale(1);
+  }
+  8%,
+  88% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.01);
+  }
+  100% {
+    opacity: 0.62;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes icevault-door {
+  0%,
+  68% {
+    opacity: 1;
+    transform: translate(-50%, -50%) perspective(650px) rotateY(0deg) translateX(0);
+  }
+  80%,
+  100% {
+    opacity: 0.18;
+    transform: translate(-50%, -50%) perspective(650px) rotateY(-84deg) translateX(-10%);
+  }
+}
+
+@keyframes icevault-puddle {
+  0%,
+  70% {
+    opacity: 0;
+    transform: translateX(-50%) scaleX(0.18) scaleY(0.35);
+  }
+  82%,
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1) scaleY(1);
+  }
+}
+
+@keyframes icevault-payoff {
+  0%,
+  72% {
+    opacity: 0;
+    transform: translate(-50%, -36%) scale(0.9);
+  }
+  84%,
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@media (max-width: 520px) {
+  .ice-cube-post .ice-vault-bar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .ice-cube-post .ice-vault-stage {
+    padding-inline: 10px;
+  }
+
+  .ice-cube-post .ice-vault-machine {
+    height: 250px;
+  }
+
+  .ice-cube-post .ice-vault-film {
+    padding: 8px 8px 6px;
+  }
+
+  .ice-cube-post .ice-vault-frames {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ice-cube-post .ice-vault-shot {
+    height: 48px;
+  }
+
+  .ice-cube-post .ice-vault-caption {
+    padding-inline: 12px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 400px) {
+  .ice-cube-post .ice-vault-control {
+    align-items: flex-start;
+    width: calc(100% - 20px);
+    max-width: none;
+    box-sizing: border-box;
+    margin-top: 10px;
+    padding-inline: 9px;
+  }
+
+  .ice-cube-post .ice-vault-readout,
+  .ice-cube-post .ice-vault-contact-label,
+  .ice-cube-post .ice-vault-equation {
+    display: grid;
+    gap: 2px;
+  }
+
+  .ice-cube-post .ice-vault-machine {
+    height: 230px;
+  }
+
+  .ice-cube-post .ice-vault-backplate,
+  .ice-cube-post .ice-vault-door {
+    width: min(58%, 165px);
+  }
+
+  .ice-cube-post .ice-vault-payoff {
+    width: 52%;
+    font-size: 11px;
+  }
+
+  .ice-cube-post .ice-vault-puddle {
+    bottom: 21px;
+  }
+
+  .ice-cube-post .ice-vault-frames {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ice-cube-post .ice-vault-frame-stamp {
+    font-size: 6px;
+  }
+}
+
+/* Reduced motion holds the unlocked end state. */
+@media (prefers-reduced-motion: reduce) {
+  .ice-cube-post .ice-vault-control-start,
+  .ice-cube-post .ice-vault-control-reset {
+    display: none !important;
+  }
+
+  .ice-cube-post .ice-vault-control-motion-off {
+    display: inline;
+  }
+
+  .ice-cube-post .ice-vault-dial,
+  .ice-cube-post .ice-vault-frame,
+  .ice-cube-post .ice-vault-door,
+  .ice-cube-post .ice-vault-puddle,
+  .ice-cube-post .ice-vault-payoff {
+    animation: none !important;
+  }
+
+  .ice-cube-post .ice-vault-dial {
+    transform: translate(-50%, -50%) rotate(315deg);
+  }
+
+  .ice-cube-post .ice-vault-frame {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .ice-cube-post .ice-vault-door {
+    opacity: 0.18;
+    transform: translate(-50%, -50%) perspective(650px) rotateY(-84deg) translateX(-10%);
+  }
+
+  .ice-cube-post .ice-vault-puddle {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1) scaleY(1);
+  }
+
+  .ice-cube-post .ice-vault-payoff {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .ice-cube-post .ice-vault-static-note {
+    display: block;
+  }
+}
