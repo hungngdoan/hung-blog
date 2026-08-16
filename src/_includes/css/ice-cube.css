@@ -379,9 +379,9 @@
   justify-content: space-between;
   gap: 3px 12px;
   margin: 0 0 7px;
-  color: var(--text-dim);
+  color: var(--text-main);
   font-family: var(--font-pixel);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.3;
   letter-spacing: 0.4px;
 }
@@ -393,9 +393,13 @@
 
 .ice-cube-post .ice-vault-film {
   min-width: 0;
-  overflow: hidden;
+  /* Visible so the live frame's lift and glow escape the strip; the grid's
+     minmax(0, 1fr) stops horizontal blowout and .ice-vault still clips. */
+  overflow: visible;
   padding: 10px 10px 7px;
-  background: #060615;
+  border: 1px solid rgba(0, 255, 255, 0.16);
+  border-radius: 3px;
+  background: #050512;
 }
 
 .ice-cube-post .ice-vault-perf {
@@ -403,7 +407,7 @@
   height: 8px;
   background: repeating-linear-gradient(
     90deg,
-    rgba(153, 136, 187, 0.32) 0 7px,
+    rgba(176, 160, 210, 0.55) 0 7px,
     transparent 7px 18px
   );
 }
@@ -419,32 +423,54 @@
 }
 
 .ice-cube-post .ice-vault-frame {
+  --frame-delay: 0s;
+
   position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 5px;
   min-width: 0;
   overflow: hidden;
   padding: 7px 6px 8px;
-  border: 1px solid rgba(0, 255, 255, 0.42);
+  border: 1px solid rgba(0, 255, 255, 0.55);
   border-radius: 3px;
-  background: rgba(10, 10, 34, 0.92);
+  background: #0f0f2e;
   box-shadow: 0 0 12px rgba(0, 255, 255, 0.14);
-  opacity: 0.4;
+  opacity: 0.72;
   transform: translateY(0) scale(1);
 }
 
+/* Three states, three hues: cold cyan (waiting), hot gold (live), lime (logged).
+   The instrument reacts; the cube inside never does. That is the whole point. */
 .ice-cube-post .ice-vault-frame::before {
   content: "";
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   top: 5px;
   right: 5px;
-  width: 5px;
-  height: 5px;
+  box-sizing: border-box;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(127, 255, 0, 0.45);
   border-radius: 50%;
-  background: var(--accent-lime);
-  box-shadow: 0 0 7px rgba(127, 255, 0, 0.7);
+  background-color: rgba(127, 255, 0, 0.12);
+  box-shadow: none;
+}
+
+/* Heat bar: only ever visible on the frame taking energy right now. */
+.ice-cube-post .ice-vault-frame::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-gold), rgba(255, 215, 0, 0.3));
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
 .ice-cube-post .ice-vault-shot {
@@ -482,8 +508,8 @@
   gap: 2px 6px;
   color: var(--accent-cyan);
   font-family: var(--font-display);
-  font-size: 7px;
-  line-height: 1.45;
+  font-size: 8px;
+  line-height: 1.5;
 }
 
 .ice-cube-post .ice-vault-frame-stamp strong {
@@ -496,10 +522,10 @@
 }
 
 .ice-cube-post .ice-vault-frame-verdict {
-  color: var(--text-dim);
+  color: var(--text-main);
   font-family: var(--font-pixel);
-  font-size: 13px;
-  line-height: 1.05;
+  font-size: 15px;
+  line-height: 1.1;
 }
 
 .ice-cube-post .ice-vault-equation {
@@ -508,9 +534,9 @@
   justify-content: space-between;
   gap: 4px 14px;
   margin: 9px 0 0;
-  color: var(--text-dim);
+  color: var(--text-main);
   font-family: var(--font-pixel);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.35;
   letter-spacing: 0.35px;
 }
@@ -550,28 +576,40 @@
   animation: icevault-dial var(--vault-cycle) linear both;
 }
 
+.ice-cube-post .ice-vault-frame:nth-child(1) {
+  --frame-delay: calc(var(--vault-cycle) * 0.07);
+}
+
+.ice-cube-post .ice-vault-frame:nth-child(2) {
+  --frame-delay: calc(var(--vault-cycle) * 0.19);
+}
+
+.ice-cube-post .ice-vault-frame:nth-child(3) {
+  --frame-delay: calc(var(--vault-cycle) * 0.31);
+}
+
+.ice-cube-post .ice-vault-frame:nth-child(4) {
+  --frame-delay: calc(var(--vault-cycle) * 0.43);
+}
+
+.ice-cube-post .ice-vault-frame:nth-child(5) {
+  --frame-delay: calc(var(--vault-cycle) * 0.55);
+}
+
 .ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame {
   animation: icevault-frame-live calc(var(--vault-cycle) * 0.12) linear both;
+  animation-delay: var(--frame-delay);
 }
 
-.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame:nth-child(1) {
-  animation-delay: calc(var(--vault-cycle) * 0.07);
+/* --frame-delay inherits into the pseudo-elements, so both fire in step. */
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame::before {
+  animation: icevault-led calc(var(--vault-cycle) * 0.12) linear both;
+  animation-delay: var(--frame-delay);
 }
 
-.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame:nth-child(2) {
-  animation-delay: calc(var(--vault-cycle) * 0.19);
-}
-
-.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame:nth-child(3) {
-  animation-delay: calc(var(--vault-cycle) * 0.31);
-}
-
-.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame:nth-child(4) {
-  animation-delay: calc(var(--vault-cycle) * 0.43);
-}
-
-.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame:nth-child(5) {
-  animation-delay: calc(var(--vault-cycle) * 0.55);
+.ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-frame::after {
+  animation: icevault-heat-bar calc(var(--vault-cycle) * 0.12) linear both;
+  animation-delay: var(--frame-delay);
 }
 
 .ice-cube-post .ice-vault:has(.ice-vault-toggle:checked) .ice-vault-door {
@@ -611,19 +649,70 @@
   }
 }
 
+/* z-index rides along so the live frame's glow is not clipped by the opaque
+   siblings that follow it in the grid. */
 @keyframes icevault-frame-live {
   0% {
-    opacity: 0.4;
+    z-index: 1;
+    opacity: 0.72;
+    border-color: rgba(0, 255, 255, 0.55);
+    background-color: #0f0f2e;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.14);
     transform: translateY(0) scale(1);
   }
   8%,
   88% {
+    z-index: 4;
     opacity: 1;
-    transform: translateY(-2px) scale(1.01);
+    border-color: var(--accent-gold);
+    background-color: #241a30;
+    box-shadow:
+      0 0 0 1px rgba(255, 215, 0, 0.45),
+      0 0 26px rgba(255, 215, 0, 0.4);
+    transform: translateY(-3px) scale(1.04);
   }
   100% {
-    opacity: 0.62;
+    z-index: 1;
+    opacity: 0.9;
+    border-color: rgba(127, 255, 0, 0.5);
+    background-color: #0f0f2e;
+    box-shadow: 0 0 12px rgba(127, 255, 0, 0.14);
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes icevault-led {
+  0% {
+    border-color: rgba(127, 255, 0, 0.45);
+    background-color: rgba(127, 255, 0, 0.12);
+    box-shadow: none;
+  }
+  8%,
+  88% {
+    border-color: var(--accent-gold);
+    background-color: var(--accent-gold);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.9);
+  }
+  100% {
+    border-color: var(--accent-lime);
+    background-color: var(--accent-lime);
+    box-shadow: 0 0 7px rgba(127, 255, 0, 0.7);
+  }
+}
+
+@keyframes icevault-heat-bar {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  8%,
+  88% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
   }
 }
 
@@ -739,7 +828,7 @@
   }
 
   .ice-cube-post .ice-vault-frame-stamp {
-    font-size: 6px;
+    font-size: 7px;
   }
 }
 
@@ -756,6 +845,8 @@
 
   .ice-cube-post .ice-vault-dial,
   .ice-cube-post .ice-vault-frame,
+  .ice-cube-post .ice-vault-frame::before,
+  .ice-cube-post .ice-vault-frame::after,
   .ice-cube-post .ice-vault-door,
   .ice-cube-post .ice-vault-puddle,
   .ice-cube-post .ice-vault-payoff {
@@ -767,8 +858,21 @@
   }
 
   .ice-cube-post .ice-vault-frame {
+    border-color: rgba(127, 255, 0, 0.5);
+    box-shadow: 0 0 12px rgba(127, 255, 0, 0.14);
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+
+  .ice-cube-post .ice-vault-frame::before {
+    border-color: var(--accent-lime);
+    background-color: var(--accent-lime);
+    box-shadow: 0 0 7px rgba(127, 255, 0, 0.7);
+  }
+
+  /* No frame is live in the static view, so no heat bar. */
+  .ice-cube-post .ice-vault-frame::after {
+    opacity: 0;
   }
 
   .ice-cube-post .ice-vault-door {
