@@ -1,0 +1,956 @@
+/* Ice Cube (registration-proof variant): five translucent printing passes
+   begin out of register, then converge on one fixed proof. The cube does not
+   change while the plates move; only the completed composite reveals the
+   phase-change impression. Scoped because post CSS is inlined on Home. */
+.ice-register-post {
+  --register-cycle: 14s;
+
+  border-color: rgba(0, 255, 255, 0.38);
+  box-shadow:
+    0 0 24px rgba(0, 255, 255, 0.07),
+    inset 0 0 34px rgba(0, 255, 255, 0.02);
+}
+
+.ice-register-post:hover {
+  border-color: rgba(255, 105, 180, 0.72);
+}
+
+.ice-register-post .post-header {
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.12), transparent 48%),
+    linear-gradient(135deg, rgba(255, 215, 0, 0.07), rgba(0, 255, 255, 0.08));
+}
+
+.ice-register-post .icereg-proof {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  margin: 20px 0 24px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 255, 0.5);
+  border-radius: 5px;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(0, 255, 255, 0.08), transparent 34%),
+    radial-gradient(circle at 84% 82%, rgba(255, 215, 0, 0.07), transparent 30%),
+    #070719;
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.4),
+    0 0 24px rgba(0, 255, 255, 0.09),
+    inset 0 0 30px rgba(0, 255, 255, 0.025);
+}
+
+.ice-register-post .icereg-proof::before {
+  content: "";
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    rgba(255, 255, 255, 0.017) 3px 4px
+  );
+  pointer-events: none;
+}
+
+.ice-register-post .icereg-bar {
+  position: relative;
+  z-index: 21;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.15), rgba(255, 215, 0, 0.05)),
+    #0b0b27;
+  color: var(--accent-cyan);
+  font-family: var(--font-display);
+  font-size: 8px;
+  line-height: 1.5;
+  letter-spacing: 1px;
+}
+
+.ice-register-post .icereg-statuses {
+  display: grid;
+  min-width: 108px;
+  color: var(--accent-lime);
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-align: right;
+}
+
+.ice-register-post .icereg-statuses span {
+  grid-area: 1 / 1;
+}
+
+.ice-register-post .icereg-status-ready {
+  color: var(--text-dim);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ice-register-post .icereg-status-running,
+.ice-register-post .icereg-status-done {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.ice-register-post .icereg-status-done {
+  color: var(--accent-lime);
+  text-shadow: 0 0 10px rgba(127, 255, 0, 0.45);
+}
+
+.ice-register-post .icereg-control {
+  position: relative;
+  z-index: 21;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 105, 180, 0.62);
+  border-radius: 3px;
+  background: rgba(255, 105, 180, 0.07);
+  color: var(--accent-pink);
+  cursor: pointer;
+}
+
+.ice-register-post .icereg-control:hover {
+  border-color: var(--accent-pink);
+  background: rgba(255, 105, 180, 0.12);
+  box-shadow: 0 0 14px rgba(255, 105, 180, 0.12);
+}
+
+.ice-register-post .icereg-toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.ice-register-post .icereg-control:has(.icereg-toggle:focus-visible) {
+  outline: 2px solid var(--accent-pink);
+  outline-offset: 3px;
+  box-shadow: 0 0 18px rgba(255, 105, 180, 0.3);
+}
+
+.ice-register-post .icereg-switch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 20px;
+  border: 1px solid rgba(255, 105, 180, 0.7);
+  border-radius: 999px;
+  background: rgba(255, 105, 180, 0.08);
+}
+
+.ice-register-post .icereg-switch::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-pink);
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.55);
+  transform: translateX(0);
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-switch::before {
+  background: var(--accent-lime);
+  box-shadow: 0 0 9px rgba(127, 255, 0, 0.65);
+  transform: translateX(18px);
+}
+
+.ice-register-post .icereg-control-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  min-width: 0;
+}
+
+.ice-register-post .icereg-control-copy b {
+  font-family: var(--font-display);
+  font-size: 8px;
+  font-weight: normal;
+  line-height: 1.5;
+  letter-spacing: 0.7px;
+}
+
+.ice-register-post .icereg-control-copy small {
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.ice-register-post .icereg-control-reset {
+  display: none;
+  color: var(--accent-pink);
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-control-run {
+  display: none;
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-control-reset {
+  display: inline;
+}
+
+.ice-register-post .icereg-stage {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: clamp(12px, 3.6vw, 26px);
+  border-top: 1px dashed rgba(0, 255, 255, 0.17);
+  border-bottom: 1px dashed rgba(0, 255, 255, 0.17);
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(0, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.ice-register-post .icereg-sheet {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 620px);
+  aspect-ratio: 4 / 3;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(229, 225, 210, 0.78);
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(13, 13, 43, 0.025) 0 1px,
+      transparent 1px 4px
+    ),
+    radial-gradient(circle at 24% 18%, #fffdf4, transparent 36%),
+    #e9e4d5;
+  box-shadow:
+    0 18px 32px rgba(0, 0, 0, 0.38),
+    8px 9px 0 rgba(153, 136, 187, 0.08);
+}
+
+.ice-register-post .icereg-paper-meta {
+  position: absolute;
+  z-index: 15;
+  top: 8px;
+  right: 10px;
+  left: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: rgba(13, 13, 43, 0.66);
+  font-family: var(--font-display);
+  font-size: clamp(6px, 1.4vw, 8px);
+  line-height: 1.5;
+  letter-spacing: 0.55px;
+}
+
+.ice-register-post .icereg-crop {
+  position: absolute;
+  z-index: 16;
+  width: 16px;
+  height: 16px;
+  opacity: 0.62;
+}
+
+.ice-register-post .icereg-crop::before,
+.ice-register-post .icereg-crop::after {
+  content: "";
+  position: absolute;
+  background: #0d0d2b;
+}
+
+.ice-register-post .icereg-crop::before {
+  top: 7px;
+  left: 0;
+  width: 16px;
+  height: 1px;
+}
+
+.ice-register-post .icereg-crop::after {
+  top: 0;
+  left: 7px;
+  width: 1px;
+  height: 16px;
+}
+
+.ice-register-post .icereg-crop-nw {
+  top: 27px;
+  left: 10px;
+}
+
+.ice-register-post .icereg-crop-ne {
+  top: 27px;
+  right: 10px;
+}
+
+.ice-register-post .icereg-crop-sw {
+  bottom: 28px;
+  left: 10px;
+}
+
+.ice-register-post .icereg-crop-se {
+  right: 10px;
+  bottom: 28px;
+}
+
+.ice-register-post .icereg-fixed-proof {
+  position: absolute;
+  z-index: 1;
+  inset: clamp(34px, 11%, 62px) clamp(30px, 10%, 58px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(13, 13, 43, 0.24);
+}
+
+.ice-register-post .icereg-fixed-proof::before,
+.ice-register-post .icereg-fixed-proof::after {
+  content: "";
+  position: absolute;
+  background: rgba(13, 13, 43, 0.17);
+}
+
+.ice-register-post .icereg-fixed-proof::before {
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 1px;
+}
+
+.ice-register-post .icereg-fixed-proof::after {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+}
+
+.ice-register-post .icereg-fixed-label {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  color: rgba(13, 13, 43, 0.52);
+  font-family: var(--font-pixel);
+  font-size: clamp(10px, 2.5vw, 14px);
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+
+.ice-register-post .icereg-cube {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: clamp(62px, 27%, 132px);
+  aspect-ratio: 1;
+  border: 2px solid rgba(0, 112, 126, 0.82);
+  border-radius: 3px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.76), transparent 34%),
+    linear-gradient(145deg, rgba(0, 255, 255, 0.34), rgba(0, 153, 170, 0.09));
+  box-shadow:
+    8px 9px 0 rgba(0, 164, 184, 0.12),
+    inset 0 0 18px rgba(255, 255, 255, 0.3);
+  transform: scale(1);
+  transform-origin: 50% 100%;
+  opacity: 1;
+}
+
+.ice-register-post .icereg-cube::before {
+  content: "";
+  position: absolute;
+  top: 12%;
+  left: 12%;
+  width: 28%;
+  height: 7%;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.ice-register-post .icereg-puddle {
+  position: absolute;
+  z-index: 3;
+  top: calc(50% + clamp(27px, 12%, 58px));
+  left: 50%;
+  display: block;
+  width: clamp(82px, 39%, 188px);
+  height: clamp(10px, 3.4vw, 19px);
+  border: 2px solid rgba(166, 128, 0, 0.76);
+  border-radius: 50%;
+  background: rgba(255, 215, 0, 0.36);
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.3);
+  opacity: 0;
+  transform: translate(-50%, 8px) scaleX(0.18);
+  transform-origin: 50% 50%;
+}
+
+.ice-register-post .icereg-plate {
+  position: absolute;
+  inset: clamp(34px, 11%, 62px) clamp(30px, 10%, 58px);
+  z-index: 4;
+  border: 1px solid rgba(0, 158, 177, 0.66);
+  background-color: rgba(0, 255, 255, 0.018);
+  box-shadow: inset 0 0 16px rgba(0, 255, 255, 0.05);
+  mix-blend-mode: multiply;
+  opacity: 0.42;
+  transform-origin: 50% 50%;
+}
+
+.ice-register-post .icereg-plate::before {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  border: 1px solid rgba(0, 117, 133, 0.68);
+  border-radius: 50%;
+}
+
+.ice-register-post .icereg-plate::after {
+  content: "";
+  position: absolute;
+  inset: 7%;
+  background:
+    linear-gradient(90deg, transparent 49.7%, rgba(0, 121, 137, 0.42) 50%, transparent 50.3%),
+    linear-gradient(transparent 49.7%, rgba(0, 121, 137, 0.42) 50%, transparent 50.3%);
+}
+
+.ice-register-post .icereg-pass-01 {
+  z-index: 4;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0 22px,
+    rgba(0, 137, 154, 0.2) 22px 23px
+  );
+  transform: translate(-7%, -5%) rotate(-3deg);
+}
+
+.ice-register-post .icereg-pass-02 {
+  z-index: 5;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0 19px,
+    rgba(0, 137, 154, 0.19) 19px 20px
+  );
+  transform: translate(8%, -4%) rotate(2.4deg);
+}
+
+.ice-register-post .icereg-pass-03 {
+  z-index: 6;
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    transparent 0 26%,
+    rgba(0, 137, 154, 0.2) 26.4% 27%,
+    transparent 27.4% 43%,
+    rgba(0, 137, 154, 0.17) 43.4% 44%,
+    transparent 44.4%
+  );
+  transform: translate(-8%, 1%) rotate(-1.5deg);
+}
+
+.ice-register-post .icereg-pass-04 {
+  z-index: 7;
+  background-image:
+    linear-gradient(32deg, transparent 49.7%, rgba(0, 137, 154, 0.18) 50%, transparent 50.3%),
+    linear-gradient(-32deg, transparent 49.7%, rgba(0, 137, 154, 0.18) 50%, transparent 50.3%);
+  transform: translate(7%, 6%) rotate(3deg);
+}
+
+.ice-register-post .icereg-pass-05 {
+  z-index: 8;
+  background-image:
+    linear-gradient(90deg, transparent 24.7%, rgba(0, 137, 154, 0.18) 25%, transparent 25.3%),
+    linear-gradient(90deg, transparent 74.7%, rgba(0, 137, 154, 0.18) 75%, transparent 75.3%),
+    linear-gradient(transparent 24.7%, rgba(0, 137, 154, 0.18) 25%, transparent 25.3%),
+    linear-gradient(transparent 74.7%, rgba(0, 137, 154, 0.18) 75%, transparent 75.3%);
+  transform: translate(-3%, 8%) rotate(-2.2deg);
+}
+
+.ice-register-post .icereg-pass-label {
+  position: absolute;
+  z-index: 2;
+  padding: 3px 4px;
+  border: 1px solid rgba(0, 117, 133, 0.6);
+  background: rgba(233, 228, 213, 0.92);
+  color: #075666;
+  font-family: var(--font-display);
+  font-size: clamp(5px, 1.15vw, 7px);
+  line-height: 1.55;
+  letter-spacing: 0.25px;
+  white-space: nowrap;
+}
+
+.ice-register-post .icereg-pass-01 .icereg-pass-label {
+  top: 4px;
+  left: 4px;
+}
+
+.ice-register-post .icereg-pass-02 .icereg-pass-label {
+  top: 4px;
+  right: 4px;
+}
+
+.ice-register-post .icereg-pass-03 .icereg-pass-label {
+  top: 50%;
+  right: 4px;
+  transform: translate(42%, -50%) rotate(90deg);
+}
+
+.ice-register-post .icereg-pass-04 .icereg-pass-label {
+  right: 4px;
+  bottom: 4px;
+}
+
+.ice-register-post .icereg-pass-05 .icereg-pass-label {
+  bottom: 4px;
+  left: 4px;
+}
+
+.ice-register-post .icereg-seal {
+  position: absolute;
+  z-index: 12;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: clamp(108px, 38%, 190px);
+  aspect-ratio: 1;
+  border: clamp(3px, 0.8vw, 6px) double rgba(166, 128, 0, 0.88);
+  border-radius: 50%;
+  background: rgba(255, 246, 186, 0.88);
+  color: #826300;
+  text-align: center;
+  box-shadow:
+    inset 0 0 0 5px rgba(255, 215, 0, 0.13),
+    0 0 22px rgba(255, 215, 0, 0.28);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.58) rotate(-16deg);
+}
+
+.ice-register-post .icereg-seal span {
+  display: block;
+  color: #705600;
+  font-family: var(--font-display);
+  font-size: clamp(14px, 4.6vw, 28px);
+  line-height: 1.2;
+}
+
+.ice-register-post .icereg-seal strong {
+  display: block;
+  max-width: 82%;
+  margin-top: 5px;
+  font-family: var(--font-display);
+  font-size: clamp(6px, 1.45vw, 9px);
+  font-weight: normal;
+  line-height: 1.6;
+  letter-spacing: 0.4px;
+}
+
+.ice-register-post .icereg-readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 5px 14px;
+  width: min(100%, 620px);
+  margin: 12px auto 0;
+  padding: 9px 10px;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  background: rgba(7, 7, 25, 0.82);
+}
+
+.ice-register-post .icereg-readout span {
+  color: var(--accent-cyan);
+  font-family: var(--font-display);
+  font-size: 7px;
+  line-height: 1.6;
+  letter-spacing: 0.55px;
+}
+
+.ice-register-post .icereg-readout strong {
+  color: var(--accent-gold);
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.1;
+  text-shadow: 0 0 11px rgba(255, 215, 0, 0.3);
+}
+
+.ice-register-post .icereg-caption {
+  padding: 12px 16px 14px;
+  color: var(--text-main);
+  font-family: var(--font-pixel);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.ice-register-post .icereg-caption strong {
+  color: var(--accent-gold);
+  font-weight: normal;
+}
+
+.ice-register-post .icereg-static-note {
+  display: none;
+  margin-top: 6px;
+  color: var(--text-dim);
+}
+
+/* Checking the native control applies every animation in one synchronized
+   print run. Unique keyframes encode each pass as a percentage of one cycle,
+   so changing --register-cycle retimes the complete proof. */
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-pass-01 {
+  animation: icereg-pass-01-align var(--register-cycle) linear forwards;
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-pass-02 {
+  animation: icereg-pass-02-align var(--register-cycle) linear forwards;
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-pass-03 {
+  animation: icereg-pass-03-align var(--register-cycle) linear forwards;
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-pass-04 {
+  animation: icereg-pass-04-align var(--register-cycle) linear forwards;
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-pass-05 {
+  animation: icereg-pass-05-align var(--register-cycle) linear forwards;
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-cube {
+  animation: icereg-cube-resolve var(--register-cycle) linear forwards;
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-puddle {
+  animation: icereg-puddle-reveal var(--register-cycle) linear forwards;
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-seal {
+  animation: icereg-seal-reveal var(--register-cycle) linear forwards;
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-status-ready {
+  animation: icereg-status-ready var(--register-cycle) step-end forwards;
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-status-running {
+  animation: icereg-status-running var(--register-cycle) step-end forwards;
+}
+
+.ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-status-done {
+  animation: icereg-status-done var(--register-cycle) step-end forwards;
+}
+
+@keyframes icereg-pass-01-align {
+  0%,
+  8% {
+    opacity: 0.42;
+    transform: translate(-7%, -5%) rotate(-3deg);
+  }
+  12% {
+    opacity: 0.68;
+    transform: translate(1%, 0) rotate(0.35deg);
+  }
+  15%,
+  100% {
+    opacity: 0.58;
+    transform: translate(0, 0) rotate(0);
+  }
+}
+
+@keyframes icereg-pass-02-align {
+  0%,
+  19% {
+    opacity: 0.42;
+    transform: translate(8%, -4%) rotate(2.4deg);
+  }
+  23% {
+    opacity: 0.68;
+    transform: translate(-1%, 0) rotate(-0.35deg);
+  }
+  26%,
+  100% {
+    opacity: 0.58;
+    transform: translate(0, 0) rotate(0);
+  }
+}
+
+@keyframes icereg-pass-03-align {
+  0%,
+  30% {
+    opacity: 0.42;
+    transform: translate(-8%, 1%) rotate(-1.5deg);
+  }
+  34% {
+    opacity: 0.68;
+    transform: translate(1%, -0.5%) rotate(0.3deg);
+  }
+  37%,
+  100% {
+    opacity: 0.58;
+    transform: translate(0, 0) rotate(0);
+  }
+}
+
+@keyframes icereg-pass-04-align {
+  0%,
+  41% {
+    opacity: 0.42;
+    transform: translate(7%, 6%) rotate(3deg);
+  }
+  45% {
+    opacity: 0.68;
+    transform: translate(-1%, -0.5%) rotate(-0.3deg);
+  }
+  48%,
+  100% {
+    opacity: 0.58;
+    transform: translate(0, 0) rotate(0);
+  }
+}
+
+@keyframes icereg-pass-05-align {
+  0%,
+  52% {
+    opacity: 0.42;
+    transform: translate(-3%, 8%) rotate(-2.2deg);
+  }
+  56% {
+    opacity: 0.72;
+    transform: translate(0.5%, -1%) rotate(0.25deg);
+  }
+  60%,
+  100% {
+    opacity: 0.62;
+    transform: translate(0, 0) rotate(0);
+  }
+}
+
+@keyframes icereg-cube-resolve {
+  0%,
+  66% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  76%,
+  100% {
+    opacity: 0.13;
+    transform: scaleX(1.18) scaleY(0.12);
+  }
+}
+
+@keyframes icereg-puddle-reveal {
+  0%,
+  68% {
+    opacity: 0;
+    transform: translate(-50%, 8px) scaleX(0.18);
+  }
+  78%,
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scaleX(1);
+  }
+}
+
+@keyframes icereg-seal-reveal {
+  0%,
+  72% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.58) rotate(-16deg);
+  }
+  79% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08) rotate(-7deg);
+  }
+  83%,
+  100% {
+    opacity: 0.96;
+    transform: translate(-50%, -50%) scale(1) rotate(-8deg);
+  }
+}
+
+@keyframes icereg-status-ready {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  1%,
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes icereg-status-running {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  1%,
+  69% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes icereg-status-done {
+  0%,
+  70% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  71%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 520px) {
+  .ice-register-post .icereg-bar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .ice-register-post .icereg-statuses {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .ice-register-post .icereg-control {
+    align-items: flex-start;
+  }
+
+  .ice-register-post .icereg-control-copy {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ice-register-post .icereg-stage {
+    padding: 12px;
+  }
+
+  .ice-register-post .icereg-sheet {
+    aspect-ratio: 4 / 3;
+  }
+
+  .ice-register-post .icereg-paper-meta {
+    top: 6px;
+    right: 7px;
+    left: 7px;
+  }
+
+  .ice-register-post .icereg-readout {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ice-register-post .icereg-caption {
+    padding-inline: 12px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 390px) {
+  .ice-register-post .icereg-control {
+    margin: 10px;
+    padding: 9px 10px;
+  }
+
+  .ice-register-post .icereg-switch {
+    width: 34px;
+  }
+
+  .ice-register-post .icereg-proof:has(.icereg-toggle:checked) .icereg-switch::before {
+    transform: translateX(14px);
+  }
+
+  .ice-register-post .icereg-pass-label {
+    padding: 2px 3px;
+    font-size: 5px;
+    letter-spacing: 0;
+  }
+
+  .ice-register-post .icereg-paper-meta span:last-child {
+    display: none;
+  }
+}
+
+/* Motion off: the control is unnecessary and the complete registered proof
+   is shown as one still. The caption and note preserve the full sequence. */
+@media (prefers-reduced-motion: reduce) {
+  .ice-register-post .icereg-control {
+    display: none;
+  }
+
+  .ice-register-post .icereg-pass-01,
+  .ice-register-post .icereg-pass-02,
+  .ice-register-post .icereg-pass-03,
+  .ice-register-post .icereg-pass-04,
+  .ice-register-post .icereg-pass-05,
+  .ice-register-post .icereg-cube,
+  .ice-register-post .icereg-puddle,
+  .ice-register-post .icereg-seal,
+  .ice-register-post .icereg-status-ready,
+  .ice-register-post .icereg-status-running,
+  .ice-register-post .icereg-status-done {
+    animation: none !important;
+  }
+
+  .ice-register-post .icereg-pass-01,
+  .ice-register-post .icereg-pass-02,
+  .ice-register-post .icereg-pass-03,
+  .ice-register-post .icereg-pass-04,
+  .ice-register-post .icereg-pass-05 {
+    opacity: 0.6;
+    transform: translate(0, 0) rotate(0);
+  }
+
+  .ice-register-post .icereg-cube {
+    opacity: 0.13;
+    transform: scaleX(1.18) scaleY(0.12);
+  }
+
+  .ice-register-post .icereg-puddle {
+    opacity: 1;
+    transform: translate(-50%, 0) scaleX(1);
+  }
+
+  .ice-register-post .icereg-seal {
+    opacity: 0.96;
+    transform: translate(-50%, -50%) scale(1) rotate(-8deg);
+  }
+
+  .ice-register-post .icereg-status-ready,
+  .ice-register-post .icereg-status-running {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  .ice-register-post .icereg-status-done {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ice-register-post .icereg-static-note {
+    display: block;
+  }
+}

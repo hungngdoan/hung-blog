@@ -1,0 +1,490 @@
+/* Ice Cube (real time variant): a 15 second loop that makes the reader wait.
+   For the first 10 seconds the cube is pixel-identical while the temperature
+   reel ticks and the heat meter fills, which is the proof that work is landing
+   somewhere. Then it melts in under two seconds. Every element shares the same
+   duration so they stay in sync from a single start.
+   Scoped to .ice-realtime-post because post CSS is inlined on Home. */
+.ice-realtime-post {
+  border-color: rgba(0, 255, 255, 0.38);
+  box-shadow:
+    0 0 24px rgba(0, 255, 255, 0.07),
+    inset 0 0 34px rgba(0, 255, 255, 0.02);
+}
+
+.ice-realtime-post:hover {
+  border-color: rgba(0, 255, 255, 0.62);
+}
+
+.ice-realtime-post .post-header {
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.12), transparent 48%),
+    linear-gradient(135deg, rgba(255, 215, 0, 0.07), rgba(0, 255, 255, 0.08));
+}
+
+.ice-realtime-post .melt-rig {
+  /* One knob for the whole piece. Every animation below reads it. */
+  --melt-cycle: 15s;
+  --melt-ice: #7ff0ff;
+
+  position: relative;
+  isolation: isolate;
+  margin: 20px 0 24px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 255, 0.55);
+  border-radius: 5px;
+  background:
+    radial-gradient(circle at 24% 30%, rgba(0, 255, 255, 0.07), transparent 40%),
+    radial-gradient(circle at 84% 78%, rgba(255, 215, 0, 0.06), transparent 36%),
+    linear-gradient(145deg, #090922, #070719);
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.38),
+    0 0 22px rgba(0, 255, 255, 0.1),
+    inset 0 0 28px rgba(0, 255, 255, 0.025);
+}
+
+.ice-realtime-post .melt-rig::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    rgba(255, 255, 255, 0.017) 3px 4px
+  );
+  pointer-events: none;
+}
+
+.ice-realtime-post .melt-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.28);
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.15), rgba(255, 215, 0, 0.05)),
+    #0b0b27;
+  color: var(--accent-cyan);
+  font-family: var(--font-display);
+  font-size: 8px;
+  line-height: 1.5;
+  letter-spacing: 1px;
+}
+
+/* The only motion outside the instruments. The cube itself must stay honest,
+   so the sign of life lives up here in the header. */
+.ice-realtime-post .melt-rec {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--accent-lime);
+  box-shadow: 0 0 8px rgba(127, 255, 0, 0.75);
+  vertical-align: 1px;
+  animation: melt-blink 1.1s steps(1, end) infinite;
+}
+
+@keyframes melt-blink {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+.ice-realtime-post .melt-bar-status {
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  letter-spacing: 0.6px;
+}
+
+.ice-realtime-post .melt-stage {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: 16px;
+  padding: 20px 16px 14px;
+}
+
+/* ---- the cube ---------------------------------------------------------- */
+
+.ice-realtime-post .melt-cube {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 132px;
+  padding-bottom: 16px;
+}
+
+.ice-realtime-post .melt-cube-body {
+  position: relative;
+  width: 74px;
+  height: 74px;
+  border: 1px solid rgba(127, 240, 255, 0.75);
+  border-radius: 4px;
+  background: linear-gradient(
+    150deg,
+    rgba(127, 240, 255, 0.42),
+    rgba(0, 255, 255, 0.1) 62%,
+    rgba(0, 255, 255, 0.04)
+  );
+  box-shadow:
+    0 0 18px rgba(0, 255, 255, 0.16),
+    inset 0 0 14px rgba(255, 255, 255, 0.1);
+  transform-origin: 50% 100%;
+  animation: melt-collapse var(--melt-cycle) linear infinite;
+}
+
+.ice-realtime-post .melt-cube-body::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: 9px;
+  width: 18px;
+  height: 6px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Nothing moves until 66.6% of the cycle, which is the whole argument. */
+@keyframes melt-collapse {
+  0%,
+  66.6% {
+    border-color: rgba(127, 240, 255, 0.75);
+    border-radius: 4px;
+    transform: scaleY(1) scaleX(1);
+  }
+  81% {
+    border-color: rgba(255, 215, 0, 0.7);
+    border-radius: 6px 6px 48% 48%;
+    transform: scaleY(0.16) scaleX(1.18);
+  }
+  97% {
+    border-color: rgba(255, 215, 0, 0.7);
+    border-radius: 6px 6px 48% 48%;
+    transform: scaleY(0.16) scaleX(1.18);
+  }
+  97.5%,
+  100% {
+    border-color: rgba(127, 240, 255, 0.75);
+    border-radius: 4px;
+    transform: scaleY(1) scaleX(1);
+  }
+}
+
+.ice-realtime-post .melt-puddle {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  width: 96px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.4);
+  opacity: 0;
+  transform: translateX(-50%) scaleX(0.2);
+  animation: melt-spread var(--melt-cycle) linear infinite;
+}
+
+@keyframes melt-spread {
+  0%,
+  66.6% {
+    opacity: 0;
+    transform: translateX(-50%) scaleX(0.2);
+  }
+  81%,
+  97% {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1);
+  }
+  97.5%,
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scaleX(0.2);
+  }
+}
+
+/* ---- the instruments --------------------------------------------------- */
+
+.ice-realtime-post .melt-panel {
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid rgba(0, 255, 255, 0.32);
+  border-radius: 3px;
+  background: rgba(7, 7, 25, 0.72);
+}
+
+.ice-realtime-post .melt-kicker {
+  margin: 0 0 6px;
+  color: var(--text-dim);
+  font-family: var(--font-display);
+  font-size: 7px;
+  letter-spacing: 0.8px;
+}
+
+.ice-realtime-post .melt-kicker-second {
+  margin-top: 14px;
+}
+
+/* Odometer. The window is exactly one cell tall and the reel steps between
+   fixed stops, so the number is always aligned with no JS and no rounding. */
+.ice-realtime-post .melt-window {
+  display: block;
+  height: 32px;
+  overflow: hidden;
+}
+
+.ice-realtime-post .melt-reel {
+  display: block;
+  animation: melt-climb var(--melt-cycle) step-end infinite;
+}
+
+.ice-realtime-post .melt-reel b {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  color: var(--melt-ice);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: normal;
+  text-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+}
+
+.ice-realtime-post .melt-reel b:last-child {
+  color: var(--accent-gold);
+  text-shadow: 0 0 14px rgba(255, 215, 0, 0.45);
+}
+
+@keyframes melt-climb {
+  0% {
+    transform: translateY(0);
+  }
+  13.3% {
+    transform: translateY(-16.666%);
+  }
+  26.6% {
+    transform: translateY(-33.333%);
+  }
+  40% {
+    transform: translateY(-50%);
+  }
+  53.3% {
+    transform: translateY(-66.666%);
+  }
+  66.6% {
+    transform: translateY(-83.333%);
+  }
+  97.5%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.ice-realtime-post .melt-meter {
+  display: block;
+  height: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  border-radius: 2px;
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.ice-realtime-post .melt-meter-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(127, 240, 255, 0.5),
+    rgba(0, 255, 255, 0.85)
+  );
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  animation: melt-fill var(--melt-cycle) linear infinite;
+}
+
+@keyframes melt-fill {
+  0% {
+    transform: scaleX(0);
+  }
+  66.6%,
+  97% {
+    transform: scaleX(1);
+  }
+  97.5%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+.ice-realtime-post .melt-state {
+  position: relative;
+  margin: 12px 0 0;
+  height: 20px;
+}
+
+.ice-realtime-post .melt-state span {
+  position: absolute;
+  inset: 0;
+  font-family: var(--font-pixel);
+  font-size: 17px;
+  letter-spacing: 0.5px;
+}
+
+.ice-realtime-post .melt-state-wait {
+  color: var(--text-dim);
+  animation: melt-wait-label var(--melt-cycle) step-end infinite;
+}
+
+.ice-realtime-post .melt-state-go {
+  color: var(--accent-lime);
+  opacity: 0;
+  text-shadow: 0 0 10px rgba(127, 255, 0, 0.4);
+  animation: melt-go-label var(--melt-cycle) step-end infinite;
+}
+
+@keyframes melt-wait-label {
+  0%,
+  66.5% {
+    opacity: 1;
+  }
+  66.6%,
+  97% {
+    opacity: 0;
+  }
+  97.5%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes melt-go-label {
+  0%,
+  66.5% {
+    opacity: 0;
+  }
+  66.6%,
+  97% {
+    opacity: 1;
+  }
+  97.5%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.ice-realtime-post .melt-cap {
+  position: relative;
+  z-index: 1;
+  padding: 10px 16px 14px;
+  border-top: 1px dashed rgba(0, 255, 255, 0.18);
+  color: var(--text-main);
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.ice-realtime-post .melt-cap strong {
+  color: var(--accent-gold);
+  font-weight: normal;
+}
+
+.ice-realtime-post .melt-static-note {
+  display: none;
+}
+
+@media (max-width: 620px) {
+  .ice-realtime-post .melt-stage {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px 12px 12px;
+  }
+
+  .ice-realtime-post .melt-cube {
+    height: 112px;
+  }
+
+  .ice-realtime-post .melt-cube-body {
+    width: 64px;
+    height: 64px;
+  }
+
+  .ice-realtime-post .melt-cap {
+    padding-inline: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .ice-realtime-post .melt-bar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ice-realtime-post .melt-reel b {
+    font-size: 13px;
+  }
+
+  .ice-realtime-post .melt-cap {
+    font-size: 16px;
+  }
+}
+
+/* Motion off: hold the final frame so the point survives without the wait. */
+@media (prefers-reduced-motion: reduce) {
+  .ice-realtime-post .melt-rec,
+  .ice-realtime-post .melt-cube-body,
+  .ice-realtime-post .melt-puddle,
+  .ice-realtime-post .melt-reel,
+  .ice-realtime-post .melt-meter-fill,
+  .ice-realtime-post .melt-state-wait,
+  .ice-realtime-post .melt-state-go {
+    animation: none;
+  }
+
+  .ice-realtime-post .melt-cube-body {
+    border-color: rgba(255, 215, 0, 0.7);
+    border-radius: 6px 6px 48% 48%;
+    transform: scaleY(0.16) scaleX(1.18);
+  }
+
+  .ice-realtime-post .melt-puddle {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1);
+  }
+
+  .ice-realtime-post .melt-reel {
+    transform: translateY(-83.333%);
+  }
+
+  .ice-realtime-post .melt-meter-fill {
+    transform: scaleX(1);
+  }
+
+  .ice-realtime-post .melt-state-wait {
+    opacity: 0;
+  }
+
+  .ice-realtime-post .melt-state-go {
+    opacity: 1;
+  }
+
+  .ice-realtime-post .melt-static-note {
+    display: block;
+    margin-top: 6px;
+    color: var(--text-dim);
+    font-family: var(--font-pixel);
+    font-size: 15px;
+    line-height: 1.35;
+  }
+}

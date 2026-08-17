@@ -1,0 +1,635 @@
+/* Ice Cube specimen variant. A static, diagrammatic X-ray pairs one unchanged
+   outer form with an inner-energy view and a separate 0 C phase cutaway.
+   Scoped because decorated-post CSS is inlined when the post appears on Home. */
+.ice-specimen-post {
+  border-color: rgba(0, 255, 255, 0.4);
+  box-shadow:
+    0 0 24px rgba(0, 255, 255, 0.07),
+    inset 0 0 34px rgba(0, 255, 255, 0.02);
+}
+
+.ice-specimen-post:hover {
+  border-color: rgba(0, 255, 255, 0.64);
+}
+
+.ice-specimen-post .post-header {
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.13), transparent 50%),
+    linear-gradient(135deg, rgba(255, 215, 0, 0.07), rgba(0, 255, 255, 0.08));
+}
+
+.ice-specimen-post .ice-specimen {
+  --specimen-ice: #9af7ff;
+  --specimen-energy: #ffd700;
+  --specimen-signal: #7fff00;
+
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  margin: 20px 0 24px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 255, 0.55);
+  border-radius: 5px;
+  background:
+    radial-gradient(circle at 25% 42%, rgba(0, 255, 255, 0.08), transparent 31%),
+    radial-gradient(circle at 82% 62%, rgba(127, 255, 0, 0.045), transparent 28%),
+    linear-gradient(145deg, #090922, #070719);
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.38),
+    0 0 22px rgba(0, 255, 255, 0.1),
+    inset 0 0 28px rgba(0, 255, 255, 0.025);
+}
+
+.ice-specimen-post .ice-specimen::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    rgba(255, 255, 255, 0.017) 3px 4px
+  );
+  pointer-events: none;
+}
+
+.ice-specimen-post .ice-specimen-bar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.28);
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.15), rgba(255, 215, 0, 0.05)),
+    #0b0b27;
+  color: var(--accent-cyan);
+  font-family: var(--font-display);
+  font-size: 8px;
+  line-height: 1.55;
+  letter-spacing: 1px;
+}
+
+.ice-specimen-post .ice-specimen-bar > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ice-specimen-post .ice-specimen-bar > span:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border: 1px solid var(--specimen-signal);
+  border-radius: 50%;
+  background: var(--specimen-signal);
+  box-shadow: 0 0 8px rgba(127, 255, 0, 0.7);
+  vertical-align: 1px;
+}
+
+.ice-specimen-post .ice-specimen-status {
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-align: right;
+}
+
+.ice-specimen-post .ice-specimen-stage {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(180px, 0.65fr);
+  min-width: 0;
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.ice-specimen-post .ice-specimen-vitrine {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 336px;
+  padding: 54px 24px 32px;
+  overflow: hidden;
+}
+
+.ice-specimen-post .ice-specimen-vitrine::before,
+.ice-specimen-post .ice-specimen-vitrine::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.ice-specimen-post .ice-specimen-vitrine::before {
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: min(88%, 390px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(0, 255, 255, 0.1);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 22px rgba(0, 255, 255, 0.018),
+    0 0 0 46px rgba(0, 255, 255, 0.012);
+  transform: translate(-50%, -50%);
+}
+
+.ice-specimen-post .ice-specimen-vitrine::after {
+  z-index: 1;
+  right: 10%;
+  bottom: 29%;
+  width: 22%;
+  border-top: 1px dashed rgba(255, 215, 0, 0.55);
+  transform: rotate(-18deg);
+  transform-origin: right;
+}
+
+.ice-specimen-post .ice-specimen-vitrine-label,
+.ice-specimen-post .ice-specimen-probe-label {
+  position: absolute;
+  z-index: 3;
+  max-width: 44%;
+  padding: 4px 7px;
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  background: rgba(7, 7, 25, 0.86);
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  line-height: 1.25;
+  letter-spacing: 0.55px;
+  overflow-wrap: anywhere;
+}
+
+.ice-specimen-post .ice-specimen-vitrine-label {
+  top: 18px;
+  left: 18px;
+}
+
+.ice-specimen-post .ice-specimen-probe-label {
+  right: 18px;
+  bottom: 22px;
+  border-color: rgba(255, 215, 0, 0.35);
+  color: var(--specimen-energy);
+  text-align: right;
+}
+
+.ice-specimen-post .ice-specimen-cube {
+  position: relative;
+  z-index: 2;
+  width: clamp(146px, 58%, 218px);
+  aspect-ratio: 1;
+  border: 2px solid rgba(154, 247, 255, 0.82);
+  border-radius: 18% 13% 17% 12%;
+  background:
+    radial-gradient(circle at 25% 20%, rgba(255, 255, 255, 0.28) 0 2px, transparent 3px),
+    radial-gradient(circle at 68% 28%, rgba(255, 255, 255, 0.18) 0 3px, transparent 4px),
+    radial-gradient(circle at 38% 72%, rgba(255, 255, 255, 0.16) 0 2px, transparent 3px),
+    linear-gradient(135deg, rgba(221, 252, 255, 0.2), rgba(0, 255, 255, 0.055) 58%, rgba(7, 7, 25, 0.2));
+  box-shadow:
+    10px 13px 0 rgba(0, 125, 160, 0.1),
+    16px 20px 30px rgba(0, 0, 0, 0.28),
+    0 0 26px rgba(0, 255, 255, 0.16),
+    inset 12px 12px 24px rgba(255, 255, 255, 0.07),
+    inset -13px -15px 26px rgba(0, 110, 165, 0.14);
+  transform: rotate(-2deg);
+}
+
+.ice-specimen-post .ice-specimen-cube::before,
+.ice-specimen-post .ice-specimen-cube::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.ice-specimen-post .ice-specimen-cube::before {
+  inset: 10%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 17% 12% 19% 14%;
+  box-shadow:
+    inset 0 0 22px rgba(0, 255, 255, 0.08),
+    0 0 18px rgba(0, 255, 255, 0.05);
+}
+
+.ice-specimen-post .ice-specimen-cube::after {
+  top: 8%;
+  right: 12%;
+  width: 34%;
+  height: 10%;
+  border-top: 2px solid rgba(255, 255, 255, 0.44);
+  border-radius: 50%;
+  transform: rotate(12deg);
+}
+
+.ice-specimen-post .ice-specimen-energy-field {
+  position: absolute;
+  inset: 19%;
+  border: 1px dashed rgba(255, 215, 0, 0.36);
+  border-radius: 44% 52% 47% 55%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent 68%);
+  box-shadow: 0 0 26px rgba(255, 215, 0, 0.08);
+}
+
+.ice-specimen-post .ice-specimen-energy {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--specimen-energy);
+  background: #090922;
+  box-shadow: 0 0 9px rgba(255, 215, 0, 0.65);
+  transform: rotate(45deg);
+}
+
+.ice-specimen-post .ice-specimen-energy::before,
+.ice-specimen-post .ice-specimen-energy::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--specimen-energy);
+  transform: translate(-50%, -50%);
+}
+
+.ice-specimen-post .ice-specimen-energy::before {
+  width: 15px;
+  height: 1px;
+}
+
+.ice-specimen-post .ice-specimen-energy::after {
+  width: 1px;
+  height: 15px;
+}
+
+.ice-specimen-post .ice-specimen-energy-a {
+  top: 17%;
+  left: 36%;
+}
+
+.ice-specimen-post .ice-specimen-energy-b {
+  top: 36%;
+  right: 17%;
+}
+
+.ice-specimen-post .ice-specimen-energy-c {
+  top: 52%;
+  left: 19%;
+}
+
+.ice-specimen-post .ice-specimen-energy-d {
+  right: 35%;
+  bottom: 16%;
+}
+
+.ice-specimen-post .ice-specimen-energy-e {
+  top: 44%;
+  left: 47%;
+  width: 12px;
+  height: 12px;
+}
+
+.ice-specimen-post .ice-specimen-cube-tag {
+  position: absolute;
+  right: 8%;
+  bottom: 7%;
+  max-width: 84%;
+  padding: 3px 6px;
+  border-left: 2px solid var(--specimen-ice);
+  background: rgba(7, 7, 25, 0.72);
+  color: var(--specimen-ice);
+  font-family: var(--font-display);
+  font-size: 7px;
+  line-height: 1.45;
+  letter-spacing: 0.5px;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.ice-specimen-post .ice-specimen-cutaway {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 22px 18px;
+  border-left: 1px solid rgba(0, 255, 255, 0.22);
+  background:
+    radial-gradient(circle at 50% 43%, rgba(0, 255, 255, 0.09), transparent 43%),
+    rgba(4, 4, 22, 0.28);
+  text-align: center;
+}
+
+.ice-specimen-post .ice-specimen-cutaway-kicker {
+  margin: 0;
+  padding: 3px 7px;
+  border: 1px solid rgba(127, 255, 0, 0.35);
+  color: var(--specimen-signal);
+  font-family: var(--font-display);
+  font-size: 7px;
+  line-height: 1.55;
+  letter-spacing: 0.8px;
+}
+
+.ice-specimen-post .ice-specimen-lens {
+  position: relative;
+  width: min(100%, 166px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 2px solid rgba(154, 247, 255, 0.75);
+  border-radius: 50%;
+  background:
+    linear-gradient(180deg, rgba(210, 250, 255, 0.11) 0 48%, rgba(0, 180, 220, 0.11) 49% 100%),
+    #090922;
+  box-shadow:
+    0 0 0 6px rgba(0, 255, 255, 0.04),
+    0 0 22px rgba(0, 255, 255, 0.13),
+    inset 0 0 28px rgba(0, 255, 255, 0.06);
+}
+
+.ice-specimen-post .ice-specimen-lens::before,
+.ice-specimen-post .ice-specimen-lens::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.ice-specimen-post .ice-specimen-lens::before {
+  top: 50%;
+  left: 8%;
+  width: 84%;
+  border-top: 1px dashed rgba(127, 255, 0, 0.56);
+}
+
+.ice-specimen-post .ice-specimen-lens::after {
+  content: "0\00b0 C";
+  top: calc(50% - 10px);
+  right: 11%;
+  padding: 0 3px;
+  background: #090922;
+  color: var(--specimen-signal);
+  font-family: var(--font-display);
+  font-size: 7px;
+  line-height: 1.5;
+}
+
+.ice-specimen-post .ice-specimen-mini-cube {
+  position: absolute;
+  top: 20%;
+  left: 32%;
+  width: 36%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(154, 247, 255, 0.8);
+  border-radius: 16% 12% 18% 12%;
+  background: rgba(154, 247, 255, 0.12);
+  box-shadow:
+    5px 6px 0 rgba(0, 130, 170, 0.11),
+    inset 4px 4px 10px rgba(255, 255, 255, 0.08);
+  transform: rotate(3deg);
+}
+
+.ice-specimen-post .ice-specimen-mini-cube::after {
+  content: "";
+  position: absolute;
+  right: 8%;
+  bottom: -20%;
+  width: 18%;
+  height: 27%;
+  border-radius: 40% 40% 55% 55%;
+  background: rgba(154, 247, 255, 0.68);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.34);
+}
+
+.ice-specimen-post .ice-specimen-puddle {
+  position: absolute;
+  bottom: 18%;
+  left: 14%;
+  width: 72%;
+  height: 17%;
+  border: 1px solid rgba(154, 247, 255, 0.82);
+  border-radius: 48% 55% 46% 58%;
+  background: rgba(0, 210, 245, 0.17);
+  box-shadow:
+    0 0 13px rgba(0, 255, 255, 0.2),
+    inset 0 3px 8px rgba(255, 255, 255, 0.09);
+  transform: rotate(-3deg);
+}
+
+.ice-specimen-post .ice-specimen-puddle::before,
+.ice-specimen-post .ice-specimen-puddle::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(154, 247, 255, 0.65);
+  border-radius: 50%;
+  background: #090922;
+}
+
+.ice-specimen-post .ice-specimen-puddle::before {
+  top: 20%;
+  left: 16%;
+  width: 15%;
+  height: 33%;
+}
+
+.ice-specimen-post .ice-specimen-puddle::after {
+  right: 18%;
+  bottom: 14%;
+  width: 9%;
+  height: 21%;
+}
+
+.ice-specimen-post .ice-specimen-phase {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.ice-specimen-post .ice-specimen-phase strong {
+  color: var(--specimen-signal);
+  font-family: var(--font-display);
+  font-size: 8px;
+  letter-spacing: 0.7px;
+}
+
+.ice-specimen-post .ice-specimen-phase span {
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.ice-specimen-post .ice-specimen-readout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-width: 0;
+  margin: 0;
+  border-top: 1px solid rgba(0, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(0, 255, 255, 0.14);
+  background: rgba(10, 10, 35, 0.8);
+}
+
+.ice-specimen-post .ice-specimen-readout > div {
+  min-width: 0;
+  padding: 10px 12px 11px;
+}
+
+.ice-specimen-post .ice-specimen-readout > div + div {
+  border-left: 1px solid rgba(0, 255, 255, 0.16);
+}
+
+.ice-specimen-post .ice-specimen-readout dt {
+  margin-bottom: 3px;
+  color: var(--accent-cyan);
+  font-family: var(--font-display);
+  font-size: 7px;
+  line-height: 1.5;
+  letter-spacing: 0.7px;
+  overflow-wrap: anywhere;
+}
+
+.ice-specimen-post .ice-specimen-readout dd {
+  margin: 0;
+  color: var(--text-main);
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+}
+
+.ice-specimen-post .ice-specimen-caption {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: 11px 13px 12px;
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.ice-specimen-post .ice-specimen-caption strong {
+  color: var(--specimen-energy);
+  font-weight: normal;
+}
+
+@media (max-width: 680px) {
+  .ice-specimen-post .ice-specimen-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ice-specimen-post .ice-specimen-vitrine {
+    min-height: 300px;
+    padding: 52px 18px 34px;
+  }
+
+  .ice-specimen-post .ice-specimen-cutaway {
+    display: grid;
+    grid-template-columns: minmax(90px, 128px) minmax(0, 1fr);
+    grid-template-areas:
+      "kicker phase"
+      "lens phase";
+    justify-items: center;
+    gap: 8px 14px;
+    padding: 15px 18px;
+    border-top: 1px solid rgba(0, 255, 255, 0.22);
+    border-left: 0;
+    text-align: left;
+  }
+
+  .ice-specimen-post .ice-specimen-cutaway-kicker {
+    grid-area: kicker;
+    align-self: end;
+  }
+
+  .ice-specimen-post .ice-specimen-lens {
+    grid-area: lens;
+  }
+
+  .ice-specimen-post .ice-specimen-phase {
+    grid-area: phase;
+    align-self: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .ice-specimen-post .ice-specimen-bar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .ice-specimen-post .ice-specimen-status {
+    text-align: left;
+  }
+
+  .ice-specimen-post .ice-specimen-readout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ice-specimen-post .ice-specimen-readout > div + div {
+    border-top: 1px solid rgba(0, 255, 255, 0.14);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 390px) {
+  .ice-specimen-post .ice-specimen-vitrine {
+    min-height: 262px;
+    padding: 50px 10px 37px;
+  }
+
+  .ice-specimen-post .ice-specimen-vitrine-label,
+  .ice-specimen-post .ice-specimen-probe-label {
+    max-width: 48%;
+    font-size: 12px;
+  }
+
+  .ice-specimen-post .ice-specimen-vitrine-label {
+    top: 14px;
+    left: 12px;
+  }
+
+  .ice-specimen-post .ice-specimen-probe-label {
+    right: 12px;
+    bottom: 14px;
+  }
+
+  .ice-specimen-post .ice-specimen-cube {
+    width: clamp(138px, 63%, 172px);
+  }
+
+  .ice-specimen-post .ice-specimen-cutaway {
+    grid-template-columns: minmax(80px, 100px) minmax(0, 1fr);
+    gap: 7px 11px;
+    padding: 13px 12px;
+  }
+
+  .ice-specimen-post .ice-specimen-phase strong {
+    font-size: 7px;
+  }
+
+  .ice-specimen-post .ice-specimen-phase span,
+  .ice-specimen-post .ice-specimen-readout dd,
+  .ice-specimen-post .ice-specimen-caption {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ice-specimen-post {
+    transition: none;
+  }
+}
