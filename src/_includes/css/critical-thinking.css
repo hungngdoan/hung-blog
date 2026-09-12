@@ -1,0 +1,181 @@
+/* Critical Thinking: one static chess seal. Scoped because decorated-post CSS
+   is inlined wherever the shared post card is rendered. */
+.critical-thinking-post {
+  border-color: rgba(183, 154, 98, 0.5);
+  background: #0d090c;
+  box-shadow:
+    0 0 24px rgba(183, 154, 98, 0.08),
+    inset 0 0 44px rgba(36, 20, 15, 0.2);
+}
+
+.critical-thinking-post:hover {
+  border-color: rgba(183, 154, 98, 0.72);
+}
+
+.critical-thinking-post .post-header {
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  border-bottom-color: rgba(183, 154, 98, 0.42);
+  background:
+    linear-gradient(90deg, rgba(90, 53, 37, 0.3), transparent 58%),
+    #130d0c;
+}
+
+.critical-thinking-post .post-title {
+  color: #d5c09a;
+}
+
+.critical-thinking-post .post-date {
+  margin-left: auto;
+}
+
+.critical-thinking-post .post-body {
+  padding: 0;
+}
+
+.critical-thinking-post .critical-thinking-mark {
+  display: flex;
+  min-height: 390px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
+  padding: 36px 20px 32px;
+  background-color: #0d090c;
+  background-image:
+    linear-gradient(45deg, rgba(90, 53, 37, 0.12) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(90, 53, 37, 0.12) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(90, 53, 37, 0.12) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(90, 53, 37, 0.12) 75%),
+    radial-gradient(circle at center, rgba(183, 154, 98, 0.08), transparent 58%);
+  background-position:
+    0 0,
+    0 24px,
+    24px -24px,
+    -24px 0,
+    0 0;
+  background-size:
+    48px 48px,
+    48px 48px,
+    48px 48px,
+    48px 48px,
+    auto;
+}
+
+.critical-thinking-post .critical-thinking-seal {
+  display: block;
+  width: min(250px, 76vw);
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.46));
+}
+
+.critical-thinking-post .seal-outer {
+  fill: #130d0c;
+  stroke: #b79a62;
+  stroke-width: 2;
+}
+
+.critical-thinking-post .seal-ring {
+  fill: none;
+  stroke: rgba(213, 192, 154, 0.56);
+  stroke-width: 1;
+}
+
+.critical-thinking-post .seal-board-base {
+  fill: #24140f;
+}
+
+.critical-thinking-post .seal-board-squares {
+  fill: #5a3525;
+}
+
+.critical-thinking-post .seal-board-mask {
+  fill: #130d0c;
+  fill-rule: evenodd;
+}
+
+.critical-thinking-post .seal-board {
+  fill: none;
+  stroke: #b79a62;
+  stroke-width: 1.5;
+}
+
+.critical-thinking-post .seal-board-shade {
+  fill: rgba(13, 9, 12, 0.34);
+}
+
+.critical-thinking-post .seal-ring-letter {
+  fill: #d5c09a;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.critical-thinking-post .seal-divider {
+  fill: #b79a62;
+}
+
+.critical-thinking-post .seal-knight {
+  fill: #eee5d2;
+  stroke: #24140f;
+  stroke-width: 0.8px;
+  paint-order: stroke fill;
+  font-family: "Times New Roman", Georgia, serif;
+  font-size: 90px;
+  font-weight: 400;
+}
+
+.critical-thinking-post .critical-thinking-words {
+  position: relative;
+  margin: 0;
+  padding-bottom: 13px;
+  color: #eee5d2;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 500;
+  letter-spacing: 0.075em;
+  line-height: 1.15;
+  text-align: center;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.55);
+}
+
+.critical-thinking-post .critical-thinking-words::after {
+  content: "";
+  position: absolute;
+  right: 15%;
+  bottom: 0;
+  left: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #b79a62, transparent);
+}
+
+@media (max-width: 520px) {
+  .critical-thinking-post .post-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .critical-thinking-post .post-date {
+    align-self: flex-start;
+    margin-left: 0;
+  }
+
+  .critical-thinking-post .critical-thinking-mark {
+    min-height: 350px;
+    gap: 16px;
+    padding: 28px 14px 26px;
+  }
+
+  .critical-thinking-post .critical-thinking-seal {
+    width: min(220px, 78vw);
+  }
+
+  .critical-thinking-post .critical-thinking-words {
+    font-size: clamp(23px, 7.5vw, 31px);
+    letter-spacing: 0.02em;
+  }
+}
